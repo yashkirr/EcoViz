@@ -29,8 +29,19 @@ public class UserView extends javax.swing.JFrame {
 
         pnlVizualizer = new javax.swing.JPanel();
         pnlControls = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        btnZoomIn = new javax.swing.JButton();
+        tabbedFilterPane = new javax.swing.JTabbedPane();
+        tabFilterSpecies = new javax.swing.JScrollPane();
+        listFilterSpecies = new javax.swing.JList<>();
+        tabFilterPlants = new javax.swing.JScrollPane();
+        listFilterPlants = new javax.swing.JList<>();
+        btnZoomOut = new javax.swing.JButton();
+        lblZoom = new javax.swing.JLabel();
+        lblFilter = new javax.swing.JLabel();
+        jSlider1 = new javax.swing.JSlider();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jSlider2 = new javax.swing.JSlider();
         menuBar = new javax.swing.JMenuBar();
         mbFIleOption = new javax.swing.JMenu();
         miLoadFIles = new javax.swing.JMenuItem();
@@ -52,32 +63,95 @@ public class UserView extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
+        pnlControls.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         pnlControls.setForeground(new java.awt.Color(56, 60, 74));
 
-        jButton1.setText("jButton1");
+        btnZoomIn.setText("+");
+
+        listFilterSpecies.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        tabFilterSpecies.setViewportView(listFilterSpecies);
+
+        tabbedFilterPane.addTab("Species", tabFilterSpecies);
+
+        listFilterPlants.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        tabFilterPlants.setViewportView(listFilterPlants);
+
+        tabbedFilterPane.addTab("Plants", tabFilterPlants);
+
+        btnZoomOut.setText("-");
+
+        lblZoom.setFont(new java.awt.Font("Ubuntu", 0, 24)); // NOI18N
+        lblZoom.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblZoom.setText("Zoom");
+
+        lblFilter.setFont(new java.awt.Font("Ubuntu", 0, 24)); // NOI18N
+        lblFilter.setText("Filter");
+
+        jLabel1.setText("Plant Height");
+
+        jLabel2.setText("Canopy Radius");
 
         javax.swing.GroupLayout pnlControlsLayout = new javax.swing.GroupLayout(pnlControls);
         pnlControls.setLayout(pnlControlsLayout);
         pnlControlsLayout.setHorizontalGroup(
             pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(tabbedFilterPane)
             .addGroup(pnlControlsLayout.createSequentialGroup()
-                .addGroup(pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlControlsLayout.createSequentialGroup()
-                        .addGap(87, 87, 87)
-                        .addComponent(jButton1))
-                    .addGroup(pnlControlsLayout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addGroup(pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnlControlsLayout.createSequentialGroup()
+                            .addGap(23, 23, 23)
+                            .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pnlControlsLayout.createSequentialGroup()
+                            .addGap(89, 89, 89)
+                            .addComponent(lblZoom))
+                        .addGroup(pnlControlsLayout.createSequentialGroup()
+                            .addGap(93, 93, 93)
+                            .addComponent(lblFilter))
+                        .addGroup(pnlControlsLayout.createSequentialGroup()
+                            .addGap(78, 78, 78)
+                            .addComponent(jLabel1))
+                        .addGroup(pnlControlsLayout.createSequentialGroup()
+                            .addGap(74, 74, 74)
+                            .addComponent(jLabel2))))
+                .addContainerGap(26, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlControlsLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnZoomIn, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnZoomOut, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38))
         );
         pnlControlsLayout.setVerticalGroup(
             pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlControlsLayout.createSequentialGroup()
-                .addGap(146, 146, 146)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 448, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
+                .addGap(291, 291, 291)
+                .addComponent(lblZoom)
+                .addGap(18, 18, 18)
+                .addGroup(pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnZoomIn)
+                    .addComponent(btnZoomOut))
+                .addGap(28, 28, 28)
+                .addComponent(lblFilter)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addComponent(tabbedFilterPane, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         mbFIleOption.setText("File");
@@ -168,8 +242,16 @@ public class UserView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JButton btnZoomIn;
+    private javax.swing.JButton btnZoomOut;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JSlider jSlider1;
+    private javax.swing.JSlider jSlider2;
+    private javax.swing.JLabel lblFilter;
+    private javax.swing.JLabel lblZoom;
+    private javax.swing.JList<String> listFilterPlants;
+    private javax.swing.JList<String> listFilterSpecies;
     private javax.swing.JMenu mbFIleOption;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem miExit;
@@ -177,5 +259,8 @@ public class UserView extends javax.swing.JFrame {
     private javax.swing.JMenuItem miRestart;
     private javax.swing.JPanel pnlControls;
     private javax.swing.JPanel pnlVizualizer;
+    private javax.swing.JScrollPane tabFilterPlants;
+    private javax.swing.JScrollPane tabFilterSpecies;
+    private javax.swing.JTabbedPane tabbedFilterPane;
     // End of variables declaration//GEN-END:variables
 }
