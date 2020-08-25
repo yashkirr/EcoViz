@@ -39,6 +39,9 @@ public class FileLoaderDialog extends javax.swing.JDialog {
         lblSpeciesInput = new javax.swing.JLabel();
         btnCancel = new javax.swing.JButton();
         btnLoadFiles = new javax.swing.JButton();
+        txtUndergrowth = new javax.swing.JTextField();
+        lblUndergrowth = new javax.swing.JLabel();
+        btnUndergrowthInput = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -65,7 +68,7 @@ public class FileLoaderDialog extends javax.swing.JDialog {
 
         lblElevationInput.setText("Elevation");
 
-        lblPlantInput.setText("Plant");
+        lblPlantInput.setText("Canopy");
 
         lblSpeciesInput.setText("Species");
 
@@ -83,37 +86,52 @@ public class FileLoaderDialog extends javax.swing.JDialog {
             }
         });
 
+        lblUndergrowth.setText("Undergrowth");
+
+        btnUndergrowthInput.setText("...");
+        btnUndergrowthInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUndergrowthInputActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblPlantInput)
-                    .addComponent(lblElevationInput)
-                    .addComponent(lblSpeciesInput))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtElevationInput, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnElevationInput, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtPlantInput, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnPlantsInput, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtSpeciesInput, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSpeciesInput, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(98, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnLoadFiles, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(99, 99, 99))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnLoadFiles, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblPlantInput)
+                            .addComponent(lblElevationInput)
+                            .addComponent(lblSpeciesInput)
+                            .addComponent(lblUndergrowth))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtElevationInput, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnElevationInput, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtPlantInput, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnPlantsInput, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtUndergrowth)
+                                    .addComponent(txtSpeciesInput, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnSpeciesInput, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                                    .addComponent(btnUndergrowthInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,16 +146,21 @@ public class FileLoaderDialog extends javax.swing.JDialog {
                     .addComponent(txtPlantInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPlantsInput, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblPlantInput))
-                .addGap(14, 14, 14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnUndergrowthInput, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtUndergrowth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblUndergrowth))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtSpeciesInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSpeciesInput, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSpeciesInput))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                    .addComponent(lblSpeciesInput)
+                    .addComponent(btnSpeciesInput, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCancel)
-                    .addComponent(btnLoadFiles))
-                .addGap(33, 33, 33))
+                    .addComponent(btnLoadFiles)
+                    .addComponent(btnCancel))
+                .addGap(22, 22, 22))
         );
 
         pack();
@@ -158,10 +181,15 @@ public class FileLoaderDialog extends javax.swing.JDialog {
     private void btnSpeciesInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSpeciesInputActionPerformed
         Controller.loadFile("Species files *.spc", "spc");        // TODO add your handling code here:
     }//GEN-LAST:event_btnSpeciesInputActionPerformed
-
+    
+    
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         dispose();    // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnUndergrowthInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUndergrowthInputActionPerformed
+         Controller.loadFile("Plant files *.pdb", "pdb");    // TODO add your handling code here:
+    }//GEN-LAST:event_btnUndergrowthInputActionPerformed
 
     /**
      * @param args the command line arguments
@@ -211,11 +239,14 @@ public class FileLoaderDialog extends javax.swing.JDialog {
     private javax.swing.JButton btnLoadFiles;
     private javax.swing.JButton btnPlantsInput;
     private javax.swing.JButton btnSpeciesInput;
+    private javax.swing.JButton btnUndergrowthInput;
     private javax.swing.JLabel lblElevationInput;
     private javax.swing.JLabel lblPlantInput;
     private javax.swing.JLabel lblSpeciesInput;
+    private javax.swing.JLabel lblUndergrowth;
     private javax.swing.JTextField txtElevationInput;
     private javax.swing.JTextField txtPlantInput;
     private javax.swing.JTextField txtSpeciesInput;
+    private javax.swing.JTextField txtUndergrowth;
     // End of variables declaration//GEN-END:variables
 }

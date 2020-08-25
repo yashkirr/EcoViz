@@ -24,38 +24,48 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="lblPlantInput" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblElevationInput" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblSpeciesInput" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="txtElevationInput" min="-2" pref="351" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="btnElevationInput" min="-2" pref="33" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="btnCancel" min="-2" pref="94" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="btnLoadFiles" min="-2" pref="94" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="txtPlantInput" min="-2" pref="351" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="btnPlantsInput" min="-2" pref="33" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <Component id="txtSpeciesInput" min="-2" pref="351" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="btnSpeciesInput" min="-2" pref="33" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="lblPlantInput" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblElevationInput" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblSpeciesInput" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblUndergrowth" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="txtElevationInput" min="-2" pref="351" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="btnElevationInput" min="-2" pref="33" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="txtPlantInput" min="-2" pref="351" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="btnPlantsInput" min="-2" pref="33" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="txtUndergrowth" max="32767" attributes="0"/>
+                                  <Component id="txtSpeciesInput" pref="351" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="btnSpeciesInput" pref="33" max="32767" attributes="0"/>
+                                  <Component id="btnUndergrowthInput" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="98" max="32767" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="btnCancel" min="-2" pref="94" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="btnLoadFiles" min="-2" pref="94" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="99" max="-2" attributes="0"/>
+              <EmptySpace pref="67" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -74,18 +84,24 @@
                   <Component id="btnPlantsInput" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                   <Component id="lblPlantInput" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnUndergrowthInput" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="txtUndergrowth" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblUndergrowth" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="17" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="txtSpeciesInput" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnSpeciesInput" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                   <Component id="lblSpeciesInput" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnSpeciesInput" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="54" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btnCancel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnLoadFiles" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnCancel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -128,7 +144,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblPlantInput">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Plant"/>
+        <Property name="text" type="java.lang.String" value="Canopy"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblSpeciesInput">
@@ -150,6 +166,21 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLoadFilesActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtUndergrowth">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblUndergrowth">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Undergrowth"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnUndergrowthInput">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="..."/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUndergrowthInputActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
