@@ -148,15 +148,15 @@ public class FileLoaderDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnLoadFilesActionPerformed
 
     private void btnElevationInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElevationInputActionPerformed
-        Controller.loadFile("Elevation files *.elv", ".elv");        // TODO add your handling code here:
+        Controller.loadFile("Elevation files *.elv", "elv");        // TODO add your handling code here:
     }//GEN-LAST:event_btnElevationInputActionPerformed
 
     private void btnPlantsInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlantsInputActionPerformed
-       Controller.loadFile("Plant files*.pdb", ".pdb");   // TODO add your handling code here:
+       Controller.loadFile("Plant files *.pdb", "pdb");   // TODO add your handling code here:
     }//GEN-LAST:event_btnPlantsInputActionPerformed
 
     private void btnSpeciesInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSpeciesInputActionPerformed
-        Controller.loadFile("Species files *.spc", ".spc");        // TODO add your handling code here:
+        Controller.loadFile("Species files *.spc", "spc");        // TODO add your handling code here:
     }//GEN-LAST:event_btnSpeciesInputActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed

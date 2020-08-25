@@ -30,6 +30,7 @@ public class UserView extends javax.swing.JFrame {
         pnlVizualizer = new javax.swing.JPanel();
         pnlControls = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         menuBar = new javax.swing.JMenuBar();
         mbFIleOption = new javax.swing.JMenu();
         miLoadFIles = new javax.swing.JMenuItem();
@@ -59,17 +60,24 @@ public class UserView extends javax.swing.JFrame {
         pnlControls.setLayout(pnlControlsLayout);
         pnlControlsLayout.setHorizontalGroup(
             pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlControlsLayout.createSequentialGroup()
-                .addContainerGap(103, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(78, 78, 78))
+            .addGroup(pnlControlsLayout.createSequentialGroup()
+                .addGroup(pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlControlsLayout.createSequentialGroup()
+                        .addGap(87, 87, 87)
+                        .addComponent(jButton1))
+                    .addGroup(pnlControlsLayout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
         pnlControlsLayout.setVerticalGroup(
             pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlControlsLayout.createSequentialGroup()
-                .addGap(144, 144, 144)
+                .addGap(146, 146, 146)
                 .addComponent(jButton1)
-                .addContainerGap(600, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 448, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32))
         );
 
         mbFIleOption.setText("File");
@@ -161,6 +169,7 @@ public class UserView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JMenu mbFIleOption;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem miExit;
