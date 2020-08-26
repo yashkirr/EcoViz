@@ -25,19 +25,7 @@ public class FileLoader {
     private static String[][] species;
 
     //plant parameters
-    private static int numCanopySpecies;
-    private static double minCanopyHeight;
-    private static double maxCanopyHeight;
-    private static double canopyRadiusToHeightRatio;
-    private static int numCanopyPlantsOfSpecies;
-    private static double[][] canopyPlantsVectors;
 
-    private static int numUndergrowthSpecies;
-    private static double minUndergrowthHeight;
-    private static double maxUndergrowthHeight;
-    private static double canopyRadiusToHeightRatioUndergrowth;
-    private static int numUndergrowthPlantsOfSpecies;
-    private static double[][] undergrowthPlantsVectors;
 
     public static void readFiles(String elv,String pdbCanopy,String pdbUndergrowth,String spc){
         try {
@@ -61,6 +49,8 @@ public class FileLoader {
 
         try {
             Scanner pdbCanopyScanner = new Scanner(new File(pdbCanopy));
+
+
         } catch (FileNotFoundException e) {
             System.out.println("canopy pdb file not found");
         }
