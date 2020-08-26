@@ -5,7 +5,7 @@
  */
 package com.team4.ecoviz;
 
-import javax.swing.JFileChooser;
+import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -14,14 +14,13 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class Controller {
     
-    public static String loadFile(String name, String fileType){
+    public static String loadFile(String name, String fileType) {
         JFileChooser fileDialog = new JFileChooser();
-        fileDialog.setFileFilter(new FileNameExtensionFilter(name, fileType)); 
+        fileDialog.setFileFilter(new FileNameExtensionFilter(name, fileType));
         int returnVal = fileDialog.showOpenDialog(null);
-        if (returnVal == JFileChooser.APPROVE_OPTION){
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
             return fileDialog.getSelectedFile().getAbsolutePath();
         }
         return "No File Selected";
-        }
-    
+    }
 }
