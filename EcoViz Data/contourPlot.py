@@ -47,7 +47,7 @@ for i in range(0,numSpecies):
         xTreeCoords.append(float(plantVectors[i][j][0]))
         yTreeCoords.append(float(plantVectors[i][j][1]))
 
-plt.plot(np.array(xTreeCoords),np.array(yTreeCoords),'ko',alpha = 0.1,ms=4)
+plt.plot(np.array(xTreeCoords)/float(gridSpace),np.array(yTreeCoords)/float(gridSpace),'ko',alpha = 0.1,ms=4)
 
 f = open('S6000-6000-256_canopy.pdb','r')
 numSpecies = int(f.readline())
@@ -72,8 +72,7 @@ for i in range(0,numSpecies):
 #print(xTreeCoords)
 #print()
 #print(yTreeCoords)
-plt.plot(np.array(xTreeCoords),np.array(yTreeCoords),'wo')
-
-
-
+plt.plot(np.array(xTreeCoords)/float(gridSpace),np.array(yTreeCoords)/float(gridSpace),'wo')
+#plt.gca()
+plt.colorbar()
 plt.show()
