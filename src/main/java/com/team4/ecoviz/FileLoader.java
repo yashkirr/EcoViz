@@ -15,11 +15,11 @@ import java.util.Scanner;
  */
 public class FileLoader {
     //elevation parameters
-    private static int elvDimX;
-    private static int elvDimY;
-    private static double elvGridSpacing;
-    private static double elvLatitude;
-    private static double[][] elevations;
+    private static int dimx;
+    private static int dimy;
+    private static double spacing;
+    private static double latitude;
+    private static float[][] terrain; //float since cheaper than double
 
     //species parameters
     private static String[][] species;
@@ -27,19 +27,39 @@ public class FileLoader {
     //plant parameters
 
 
+    public static void readELV(String elv){
+        try {
+            Scanner elvScanner = new Scanner(new File(elv));
+            dimx = elvScanner.nextInt();
+            dimy = elvScanner.nextInt();
+            spacing = elvScanner.nextFloat();
+            latitude = elvScanner.nextFloat();
+            terrain = new float[dimx][dimy];
+            while (elvScanner.hasNext()){
+                for (int y = 0;y<dimx;y++){
+                    for (int x = 0; x<dimy;x++){
+                        terrain[y][x] = elvScanner.nextFloat();
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("elv file not found");
+        }
+    }
+
     public static void readFiles(String elv,String pdbCanopy,String pdbUndergrowth,String spc){
         try {
             Scanner elvScanner = new Scanner(new File(elv));
-            elvDimX = elvScanner.nextInt();
-            elvDimY = elvScanner.nextInt();
-            elvGridSpacing = elvScanner.nextDouble();
-            elvLatitude = elvScanner.nextDouble();
-            elevations = new double[elvDimX][elvDimY];
+            dimx = elvScanner.nextInt();
+            dimy = elvScanner.nextInt();
+            spacing = elvScanner.nextDouble();
+            latitude = elvScanner.nextDouble();
+            terrain = new float[dimx][dimy];
             while (elvScanner.hasNext()){
-                for (int y = 0;y<elvDimX;y++){
+                for (int y = 0;y<dimx;y++){
                     String[] lineArr = elvScanner.nextLine().split(" ");
-                    for (int x = 0; x<elvDimY;x++){
-                        elevations[y][x] =Double.valueOf(lineArr[x]);
+                    for (int x = 0; x<dimy;x++){
+                        //terrain[y][x] =Double.valueOf(lineArr[x]);
                     }
                 }
             }

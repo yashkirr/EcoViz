@@ -175,6 +175,7 @@ public class FileLoaderDialog extends javax.swing.JDialog {
         Controller.loadFile("Elevation files *.elv", "elv");        // TODO add your handling code here:
     }//GEN-LAST:event_btnElevationInputActionPerformed
 
+    //plants or canopy?
     private void btnPlantsInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlantsInputActionPerformed
        Controller.loadFile("Plant files *.pdb", "pdb");   // TODO add your handling code here:
     }//GEN-LAST:event_btnPlantsInputActionPerformed
@@ -187,6 +188,7 @@ public class FileLoaderDialog extends javax.swing.JDialog {
         dispose();    // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelActionPerformed
 
+    //change name for consistency?
     private void btnUndergrowthInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUndergrowthInputActionPerformed
          Controller.loadFile("Plant files *.pdb", "pdb");    // TODO add your handling code here:
     }//GEN-LAST:event_btnUndergrowthInputActionPerformed
