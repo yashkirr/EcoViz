@@ -11,6 +11,11 @@ package com.team4.ecoviz;
  */
 public class FileLoaderDialog extends javax.swing.JDialog {
 
+    private String elv;
+    private String spc;
+    private String pdbCan;
+    private String pdbUnder;
+
     /**
      * Creates new form FileLoaderDialog
      */
@@ -169,19 +174,24 @@ public class FileLoaderDialog extends javax.swing.JDialog {
 
     private void btnLoadFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadFilesActionPerformed
         // TODO add your handling code here:
+        FileLoader.readELV(elv);
+        FileLoader.readSPC(spc);
+        FileLoader.readPdbCan(pdbCan);
+        FileLoader.readPdbUnder(pdbUnder);
     }//GEN-LAST:event_btnLoadFilesActionPerformed
 
     private void btnElevationInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElevationInputActionPerformed
-        Controller.loadFile("Elevation files *.elv", "elv");        // TODO add your handling code here:
+        elv = Controller.loadFile("Elevation files *.elv", "elv");        // TODO add your handling code here:
+
     }//GEN-LAST:event_btnElevationInputActionPerformed
 
     //plants or canopy?
     private void btnPlantsInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlantsInputActionPerformed
-       Controller.loadFile("Plant files *.pdb", "pdb");   // TODO add your handling code here:
+       pdbCan = Controller.loadFile("Plant files *.pdb", "pdb");   // TODO add your handling code here:
     }//GEN-LAST:event_btnPlantsInputActionPerformed
 
     private void btnSpeciesInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSpeciesInputActionPerformed
-        Controller.loadFile("Species files *.spc", "spc");        // TODO add your handling code here:
+        spc = Controller.loadFile("Species files *.spc", "spc");        // TODO add your handling code here:
     }//GEN-LAST:event_btnSpeciesInputActionPerformed
     
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -190,7 +200,7 @@ public class FileLoaderDialog extends javax.swing.JDialog {
 
     //change name for consistency?
     private void btnUndergrowthInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUndergrowthInputActionPerformed
-         Controller.loadFile("Plant files *.pdb", "pdb");    // TODO add your handling code here:
+         pdbUnder = Controller.loadFile("Plant files *.pdb", "pdb");    // TODO add your handling code here:
     }//GEN-LAST:event_btnUndergrowthInputActionPerformed
 
     /**

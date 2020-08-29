@@ -25,12 +25,15 @@ public class FileLoader {
     private static float[][] terrain; //float since cheaper than double
 
     //species parameters
-    //private static String[][] species;
+    private static Species[] speciesCan;  //used in pdb
+    private static Species[] speciesUnder;  //used in pdb
     public static String[][] spcKey;
 
     //plant parameters
-    private static int numSpecies;
-    public static Species[] [] species;
+    private static int numSpeciesCan;
+    private static int numSpeciesUnder;
+    private static ArrayList<ArrayList<Plant>> speciesListCan;
+    private static ArrayList<ArrayList<Plant>> speciesListUnder;
 
 
     public static void readELV(String elv){
@@ -68,23 +71,32 @@ public class FileLoader {
         }
     }
 
-    public static void readPDB(String pdb, boolean canopy){
+    public static void readPdbCan(String pdb){ // set canopy boolean?
         try {
             Scanner pdbScanner = new Scanner(new File(pdb));
-            // can use if to set color canopy vs undergrowth
-            numSpecies = pdbScanner.nextInt();
-            ArrayList<ArrayList<Plant> > speciesList = new ArrayList<ArrayList<Plant>>(16);
-            for (int i = 0; i < numSpecies; i++){
+            // can set color canopy
+            numSpeciesCan = pdbScanner.nextInt();
+            speciesCan = new Species[numSpeciesCan];
+
+            // create nested arraylist: Species > Plants
+
+            speciesListCan = new ArrayList<ArrayList<Plant>>(16);
+            for (int i = 0; i < numSpeciesCan; i++){
+                // species attributes
                 int ID = pdbScanner.nextInt();
                 float minH = pdbScanner.nextFloat();
                 float maxH = pdbScanner.nextFloat();
                 float avgCanHiRatio = pdbScanner.nextFloat();
                 int count = pdbScanner.nextInt();
+
+                // create species object and populate species array
                 Species s = new Species(ID, Color.GREEN, minH, maxH, avgCanHiRatio, count);
+                speciesCan[i] = s;  //NB this identifies which species each speciesList object is.
 
+                // create list of plants of species type to insert into speciesList
                 ArrayList<Plant> plantList = new ArrayList<Plant>();
-
                 for (int j = 0; j < count; j++){
+                    // plant attributes
                     float x = pdbScanner.nextFloat();
                     float y = pdbScanner.nextFloat();
                     float z = pdbScanner.nextFloat();
@@ -97,16 +109,60 @@ public class FileLoader {
                     Plant plant = new Plant(v, height, radToHi);
                     plantList.add(plant);
                 }
-                speciesList.add(plantList);
+                speciesListCan.add(plantList);
             }
-
-
-
         } catch (FileNotFoundException e) {
-            if(canopy) { System.out.println("canopy pdb file not found"); }
-            else { System.out.println("undergrowth pdb file not found"); }
+            System.out.println("canopy pdb file not found");
         }
     }
+
+
+    public static void readPdbUnder(String pdb){
+        try {
+            Scanner pdbScanner = new Scanner(new File(pdb));
+            // can set color canopy
+            numSpeciesUnder = pdbScanner.nextInt();
+            speciesUnder = new Species[numSpeciesUnder];
+
+            // create nested arraylist: Species > Plants
+
+            speciesListUnder = new ArrayList<ArrayList<Plant>>(16);
+            for (int i = 0; i < numSpeciesUnder; i++){
+                // species attributes
+                int ID = pdbScanner.nextInt();
+                float minH = pdbScanner.nextFloat();
+                float maxH = pdbScanner.nextFloat();
+                float avgCanHiRatio = pdbScanner.nextFloat();
+                int count = pdbScanner.nextInt();
+
+                // create species object and populate species array
+                Species s = new Species(ID, Color.GREEN, minH, maxH, avgCanHiRatio, count);
+                speciesUnder[i] = s;  //NB this identifies which species each speciesList object is.
+
+                // create list of plants of species type to insert into speciesList
+                ArrayList<Plant> plantList = new ArrayList<Plant>();
+                for (int j = 0; j < count; j++){
+                    // plant attributes
+                    float x = pdbScanner.nextFloat();
+                    float y = pdbScanner.nextFloat();
+                    float z = pdbScanner.nextFloat();
+                    Vector v = new Vector();
+                    v.add(x);
+                    v.add(y);
+                    v.add(z);
+                    float height = pdbScanner.nextFloat();
+                    float radToHi = pdbScanner.nextFloat();
+                    Plant plant = new Plant(v, height, radToHi);
+                    plantList.add(plant);
+                }
+                speciesListUnder.add(plantList);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("undergrowth pdb file not found");
+        }
+    }
+
+
 
     public static void readFiles(String elv,String pdbCanopy,String pdbUndergrowth,String spc){
         try {
