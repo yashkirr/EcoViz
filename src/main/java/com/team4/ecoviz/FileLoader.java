@@ -25,6 +25,7 @@ public class FileLoader {
     private static String[][] species;
 
     //plant parameters
+    private static int numSpecies;
 
 
     public static void readELV(String elv){
@@ -44,6 +45,35 @@ public class FileLoader {
             }
         } catch (FileNotFoundException e) {
             System.out.println("elv file not found");
+        }
+    }
+
+    public static void readSPC(String spc){
+        try {
+            Scanner spcScanner = new Scanner(new File(spc));
+            String[][] spcKey = new String[16][2];
+            int junk;
+            for (int i = 0; i<16; i++){          // could generalise line count
+                junk = spcScanner.nextInt();
+                spcKey[i][0] = spcScanner.next(); //English name
+                spcKey[i][1] = spcScanner.next(); //Latin name
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("spc file not found");
+        }
+    }
+
+    public static void readPDB(String pdb, boolean canopy){
+        try {
+            Scanner pdbScanner = new Scanner(new File(pdb));
+            numSpecies = pdbScanner.nextInt();
+
+
+
+
+        } catch (FileNotFoundException e) {
+            if(canopy) { System.out.println("canopy pdb file not found"); }
+            else { System.out.println("undergrowth pdb file not found"); }
         }
     }
 
