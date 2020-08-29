@@ -9,8 +9,11 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -20,8 +23,8 @@ public class FileLoader {
     //elevation parameters
     private static int dimx;
     private static int dimy;
-    private static double spacing;
-    private static double latitude;
+    private static float spacing;
+    private static float latitude;
     private static float[][] terrain; //float since cheaper than double
 
     //species parameters
@@ -37,6 +40,7 @@ public class FileLoader {
 
 
     public static void readELV(String elv){
+        Locale.setDefault(new Locale("en", "US")); // decimal should be point not comma
         try {
             Scanner elvScanner = new Scanner(new File(elv));
             dimx = elvScanner.nextInt();
@@ -60,11 +64,15 @@ public class FileLoader {
         try {
             Scanner spcScanner = new Scanner(new File(spc));
             spcKey = new String[16][2];
-            int junk;
-            for (int i = 0; i<16; i++){          // could generalise line count
-                junk = spcScanner.nextInt();
-                spcKey[i][0] = spcScanner.next(); //English name
-                spcKey[i][1] = spcScanner.next(); //Latin name
+            String junk;
+            for (int i = 0; i<16; i++) {          // could generalise line count
+                //junk = spcScanner.next();
+                //System.out.println(junk);
+                String[] line = spcScanner.nextLine().split("“");
+                spcKey[i][0] = line[1].split("”")[0]; //English name
+                System.out.println(spcKey[i][0]);
+                spcKey[i][1] = line[2].split("”")[0]; //Latin name
+                System.out.println(spcKey[i][1]);
             }
         } catch (FileNotFoundException e) {
             System.out.println("spc file not found");
@@ -72,6 +80,7 @@ public class FileLoader {
     }
 
     public static void readPdbCan(String pdb){ // set canopy boolean?
+        Locale.setDefault(new Locale("en", "US")); // decimal should be point not comma
         try {
             Scanner pdbScanner = new Scanner(new File(pdb));
             // can set color canopy
@@ -118,6 +127,7 @@ public class FileLoader {
 
 
     public static void readPdbUnder(String pdb){
+        Locale.setDefault(new Locale("en", "US")); // decimal should be point not comma
         try {
             Scanner pdbScanner = new Scanner(new File(pdb));
             // can set color canopy
@@ -163,7 +173,7 @@ public class FileLoader {
     }
 
 
-
+    /**
     public static void readFiles(String elv,String pdbCanopy,String pdbUndergrowth,String spc){
         try {
             Scanner elvScanner = new Scanner(new File(elv));
@@ -207,6 +217,6 @@ public class FileLoader {
         //elv
 
 
-    }
+    }*/
 }
 

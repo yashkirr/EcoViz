@@ -61,6 +61,10 @@ public class Plant extends Species {
         this.isBurnt = isBurnt;
     }
 
+    public Vector getPos(){
+        return this.pos;
+    }
+
     public void setPos(float x, float y, float z){
         //perhaps?
     }

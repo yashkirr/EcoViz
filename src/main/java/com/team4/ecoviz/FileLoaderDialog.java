@@ -200,7 +200,7 @@ public class FileLoaderDialog extends javax.swing.JDialog {
 
     //change name for consistency?
     private void btnUndergrowthInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUndergrowthInputActionPerformed
-         Controller.loadFile("Plant files *.pdb", "pdb");    // TODO add your handling code here:
+        Controller.loadFile("Plant files *.pdb", "pdb");    // TODO add your handling code here:
     }//GEN-LAST:event_btnUndergrowthInputActionPerformed
 
     /**
