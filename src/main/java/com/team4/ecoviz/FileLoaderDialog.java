@@ -181,17 +181,17 @@ public class FileLoaderDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnLoadFilesActionPerformed
 
     private void btnElevationInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElevationInputActionPerformed
-        elv = Controller.loadFile("Elevation files *.elv", "elv");        // TODO add your handling code here:
+        Controller.loadFile("Elevation files *.elv", "elv");        // TODO add your handling code here:
 
     }//GEN-LAST:event_btnElevationInputActionPerformed
 
     //plants or canopy?
     private void btnPlantsInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlantsInputActionPerformed
-       pdbCan = Controller.loadFile("Plant files *.pdb", "pdb");   // TODO add your handling code here:
+        Controller.loadFile("Plant files *.pdb", "pdb");   // TODO add your handling code here:
     }//GEN-LAST:event_btnPlantsInputActionPerformed
 
     private void btnSpeciesInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSpeciesInputActionPerformed
-        spc = Controller.loadFile("Species files *.spc", "spc");        // TODO add your handling code here:
+        Controller.loadFile("Species files *.spc", "spc");        // TODO add your handling code here:
     }//GEN-LAST:event_btnSpeciesInputActionPerformed
     
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -200,7 +200,7 @@ public class FileLoaderDialog extends javax.swing.JDialog {
 
     //change name for consistency?
     private void btnUndergrowthInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUndergrowthInputActionPerformed
-         pdbUnder = Controller.loadFile("Plant files *.pdb", "pdb");    // TODO add your handling code here:
+         Controller.loadFile("Plant files *.pdb", "pdb");    // TODO add your handling code here:
     }//GEN-LAST:event_btnUndergrowthInputActionPerformed
 
     /**
