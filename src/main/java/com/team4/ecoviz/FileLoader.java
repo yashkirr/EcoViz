@@ -5,9 +5,12 @@
  */
 package com.team4.ecoviz;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Vector;
 
 /**
  *
@@ -22,10 +25,12 @@ public class FileLoader {
     private static float[][] terrain; //float since cheaper than double
 
     //species parameters
-    private static String[][] species;
+    //private static String[][] species;
+    public static String[][] spcKey;
 
     //plant parameters
     private static int numSpecies;
+    public static Species[] [] species;
 
 
     public static void readELV(String elv){
@@ -51,7 +56,7 @@ public class FileLoader {
     public static void readSPC(String spc){
         try {
             Scanner spcScanner = new Scanner(new File(spc));
-            String[][] spcKey = new String[16][2];
+            spcKey = new String[16][2];
             int junk;
             for (int i = 0; i<16; i++){          // could generalise line count
                 junk = spcScanner.nextInt();
@@ -66,8 +71,34 @@ public class FileLoader {
     public static void readPDB(String pdb, boolean canopy){
         try {
             Scanner pdbScanner = new Scanner(new File(pdb));
+            // can use if to set color canopy vs undergrowth
             numSpecies = pdbScanner.nextInt();
+            ArrayList<ArrayList<Plant> > speciesList = new ArrayList<ArrayList<Plant>>(16);
+            for (int i = 0; i < numSpecies; i++){
+                int ID = pdbScanner.nextInt();
+                float minH = pdbScanner.nextFloat();
+                float maxH = pdbScanner.nextFloat();
+                float avgCanHiRatio = pdbScanner.nextFloat();
+                int count = pdbScanner.nextInt();
+                Species s = new Species(ID, Color.GREEN, minH, maxH, avgCanHiRatio, count);
 
+                ArrayList<Plant> plantList = new ArrayList<Plant>();
+
+                for (int j = 0; j < count; j++){
+                    float x = pdbScanner.nextFloat();
+                    float y = pdbScanner.nextFloat();
+                    float z = pdbScanner.nextFloat();
+                    Vector v = new Vector();
+                    v.add(x);
+                    v.add(y);
+                    v.add(z);
+                    float height = pdbScanner.nextFloat();
+                    float radToHi = pdbScanner.nextFloat();
+                    Plant plant = new Plant(v, height, radToHi);
+                    plantList.add(plant);
+                }
+                speciesList.add(plantList);
+            }
 
 
 
