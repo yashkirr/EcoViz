@@ -12,6 +12,11 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.Vector;
+<<<<<<< HEAD
+=======
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+>>>>>>> master
 
 /**
  *
@@ -172,6 +177,7 @@ public class FileLoader {
 
 
     /**
+<<<<<<< HEAD
      public static void readFiles(String elv,String pdbCanopy,String pdbUndergrowth,String spc){
      try {
      Scanner elvScanner = new Scanner(new File(elv));
@@ -216,4 +222,51 @@ public class FileLoader {
 
 
      }*/
+=======
+    public static void readFiles(String elv,String pdbCanopy,String pdbUndergrowth,String spc){
+        try {
+            Scanner elvScanner = new Scanner(new File(elv));
+            dimx = elvScanner.nextInt();
+            dimy = elvScanner.nextInt();
+            spacing = elvScanner.nextDouble();
+            latitude = elvScanner.nextDouble();
+            terrain = new float[dimx][dimy];
+            while (elvScanner.hasNext()){
+                for (int y = 0;y<dimx;y++){
+                    String[] lineArr = elvScanner.nextLine().split(" ");
+                    for (int x = 0; x<dimy;x++){
+                        //terrain[y][x] =Double.valueOf(lineArr[x]);
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("elv file not found");
+        }
+
+        try {
+            Scanner pdbCanopyScanner = new Scanner(new File(pdbCanopy));
+
+
+        } catch (FileNotFoundException e) {
+            System.out.println("canopy pdb file not found");
+        }
+
+        try {
+            Scanner pdbUndergrowthScanner = new Scanner(new File(pdbUndergrowth));
+        } catch (FileNotFoundException e) {
+            System.out.println("undergrowth pdb file not found");
+        }
+
+        try {
+            Scanner spcScanner = new Scanner(new File(spc));
+        } catch (FileNotFoundException e) {
+            System.out.println("spc file not found");
+        }
+
+        //elv
+
+
+    }*/
+>>>>>>> master
 }
+

@@ -13,7 +13,14 @@ import java.io.IOException;
  */
 public class FileLoaderDialog extends javax.swing.JDialog {
 
+<<<<<<< HEAD
     private java.awt.Frame parentFrame;
+=======
+    private String elv;
+    private String spc;
+    private String pdbCan;
+    private String pdbUnder;
+>>>>>>> master
 
     /**
      * Creates new form FileLoaderDialog
@@ -174,6 +181,7 @@ public class FileLoaderDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoadFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadFilesActionPerformed
+<<<<<<< HEAD
 
         dispose();
         try {
@@ -185,10 +193,27 @@ public class FileLoaderDialog extends javax.swing.JDialog {
 
     private void btnElevationInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElevationInputActionPerformed
         txtElevationInput.setText(Controller.selectFile("Elevation files *.elv", "elv"));
+=======
+        // TODO add your handling code here:
+        FileLoader.readELV(elv);
+        FileLoader.readSPC(spc);
+        FileLoader.readPdbCan(pdbCan);
+        FileLoader.readPdbUnder(pdbUnder);
+    }//GEN-LAST:event_btnLoadFilesActionPerformed
+
+    private void btnElevationInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElevationInputActionPerformed
+        Controller.loadFile("Elevation files *.elv", "elv");        // TODO add your handling code here:
+
+>>>>>>> master
     }//GEN-LAST:event_btnElevationInputActionPerformed
 
+    //plants or canopy?
     private void btnPlantsInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlantsInputActionPerformed
+<<<<<<< HEAD
         txtPlantInput.setText(Controller.selectFile("Plant files *.pdb", "pdb"));
+=======
+        Controller.loadFile("Plant files *.pdb", "pdb");   // TODO add your handling code here:
+>>>>>>> master
     }//GEN-LAST:event_btnPlantsInputActionPerformed
 
     private void btnSpeciesInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSpeciesInputActionPerformed
@@ -199,8 +224,13 @@ public class FileLoaderDialog extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
+    //change name for consistency?
     private void btnUndergrowthInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUndergrowthInputActionPerformed
+<<<<<<< HEAD
          txtUndergrowth.setText(Controller.selectFile("Plant files *.pdb", "pdb"));    // TODO add your handling code here:
+=======
+        Controller.loadFile("Plant files *.pdb", "pdb");    // TODO add your handling code here:
+>>>>>>> master
     }//GEN-LAST:event_btnUndergrowthInputActionPerformed
 
     /**
