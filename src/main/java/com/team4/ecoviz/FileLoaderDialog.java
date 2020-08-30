@@ -5,6 +5,8 @@
  */
 package com.team4.ecoviz;
 
+import java.io.IOException;
+
 /**
  *
  * @author yashkir
@@ -173,8 +175,12 @@ public class FileLoaderDialog extends javax.swing.JDialog {
 
     private void btnLoadFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadFilesActionPerformed
 
-        dispose();// TODO add your handling code here:
-        Controller.showLoadingScreen(parentFrame);
+        dispose();
+        try {
+            Controller.showLoadingScreen(parentFrame);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btnLoadFilesActionPerformed
 
     private void btnElevationInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElevationInputActionPerformed
