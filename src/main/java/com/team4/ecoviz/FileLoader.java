@@ -12,8 +12,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.Vector;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 /**
  *
@@ -30,7 +29,7 @@ public class FileLoader {
     //species parameters
     private static Species[] speciesCan;  //used in pdb
     private static Species[] speciesUnder;  //used in pdb
-    public static String[][] spcKey;
+    private static String[][] spcKey;
 
     //plant parameters
     private static int numSpeciesCan;
@@ -63,7 +62,7 @@ public class FileLoader {
     public static void readSPC(String spc){
         try {
             Scanner spcScanner = new Scanner(new File(spc));
-            spcKey = new String[16][2];
+            setSpcKey(new String[16][2]);
             String junk;
             for (int i = 0; i<16; i++) {          // could generalise line count
                 //junk = spcScanner.next();
@@ -172,8 +171,63 @@ public class FileLoader {
         }
     }
 
+    public static String[][] getSpcKey(String path) {
+        readSPC(path);
+        return spcKey;
+    }
+
+    public static void setSpcKey(String[][] spcKey) {
+        FileLoader.spcKey = spcKey;
+    }
+
 
     /**
+<<<<<<< HEAD
+     public static void readFiles(String elv,String pdbCanopy,String pdbUndergrowth,String spc){
+     try {
+     Scanner elvScanner = new Scanner(new File(elv));
+     dimx = elvScanner.nextInt();
+     dimy = elvScanner.nextInt();
+     spacing = elvScanner.nextDouble();
+     latitude = elvScanner.nextDouble();
+     terrain = new float[dimx][dimy];
+     while (elvScanner.hasNext()){
+     for (int y = 0;y<dimx;y++){
+     String[] lineArr = elvScanner.nextLine().split(" ");
+     for (int x = 0; x<dimy;x++){
+     //terrain[y][x] =Double.valueOf(lineArr[x]);
+     }
+     }
+     }
+     } catch (FileNotFoundException e) {
+     System.out.println("elv file not found");
+     }
+
+     try {
+     Scanner pdbCanopyScanner = new Scanner(new File(pdbCanopy));
+
+
+     } catch (FileNotFoundException e) {
+     System.out.println("canopy pdb file not found");
+     }
+
+     try {
+     Scanner pdbUndergrowthScanner = new Scanner(new File(pdbUndergrowth));
+     } catch (FileNotFoundException e) {
+     System.out.println("undergrowth pdb file not found");
+     }
+
+     try {
+     Scanner spcScanner = new Scanner(new File(spc));
+     } catch (FileNotFoundException e) {
+     System.out.println("spc file not found");
+     }
+
+     //elv
+
+
+     }
+
     public static void readFiles(String elv,String pdbCanopy,String pdbUndergrowth,String spc){
         try {
             Scanner elvScanner = new Scanner(new File(elv));
@@ -217,6 +271,8 @@ public class FileLoader {
         //elv
 
 
-    }*/
+    }
+    */
+
 }
 

@@ -5,7 +5,7 @@
  */
 package com.team4.ecoviz;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.HashMap;
 
 /**
@@ -19,7 +19,7 @@ public class Species {
     private double maxHeight;
     private double avgCanopyHeightRatio;
     private int count;
-    
+
     public Species(){
         ID=0;
         count = 0;
@@ -27,7 +27,7 @@ public class Species {
         minHeight=0.0;
         maxHeight=0.0;
         avgCanopyHeightRatio = 0.0;
-        
+
     }
 
     public Species(int ID, Color color, float minHeight, float maxHeight, float avgCanopyHeightRatio, int count) {
@@ -38,7 +38,7 @@ public class Species {
         this.avgCanopyHeightRatio = avgCanopyHeightRatio;
         this.count = count;
     }
-    
+
     public HashMap<String,Object> speciesDetail(){
         HashMap<String,Object> mapDetail = new HashMap<String,Object>();
         mapDetail.put("ID",ID);
@@ -47,9 +47,9 @@ public class Species {
         mapDetail.put("maxHeight",maxHeight);
         mapDetail.put("avgCanopyHeightRatio",avgCanopyHeightRatio);
         mapDetail.put("count",count);
-        
+
         return mapDetail;
-        
+
     }
-    
+
 }

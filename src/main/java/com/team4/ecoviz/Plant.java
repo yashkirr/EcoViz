@@ -5,9 +5,9 @@
  */
 package com.team4.ecoviz;
 
-import java.awt.Color;
-import java.util.Vector;
+import java.awt.*;
 import java.util.HashMap;
+import java.util.Vector;
 
 /**
  *
@@ -36,6 +36,7 @@ public class Plant extends Species {
         this.age = 0;
         this.radToHi = radToHi;
         this.pos = v;
+
         this.type = "No type";
         this.isBurnt = false;
     }
@@ -68,7 +69,7 @@ public class Plant extends Species {
     public void setPos(float x, float y, float z){
         //perhaps?
     }
-    
+
     public HashMap<String,Object> detail(){
         HashMap<String,Object> plantDetail = new HashMap<String,Object>();
         plantDetail.put("height", height);
@@ -80,5 +81,5 @@ public class Plant extends Species {
         plantDetail.put("Species Details", super.speciesDetail());
         return plantDetail;
     }
-    
+
 }
