@@ -7,14 +7,18 @@ package com.team4.ecoviz;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  *
  * @author yashkir
  */
 public class Controller {
-    
-    public static String loadFile(String name, String fileType) {
+    private static boolean initialized = false;
+
+    public static String selectFile(String name, String fileType) {
         JFileChooser fileDialog = new JFileChooser();
         fileDialog.setFileFilter(new FileNameExtensionFilter(name, fileType));
         int returnVal = fileDialog.showOpenDialog(null);
@@ -23,4 +27,57 @@ public class Controller {
         }
         return "No File Selected";
     }
+
+    public static void loadFile(){
+        // TODO: Connect FileLoader
+    }
+
+    public static void setInitialization(boolean value){
+        initialized = value;
+    }
+
+    public static boolean checkInitialization(){
+        return initialized;
+    }
+
+    /*
+    Temporary Prototype Methods
+     */
+
+    /**
+     * Displays a loading screen window
+     * @param parentFrame
+     */
+    public static void showLoadingScreen(java.awt.Frame parentFrame){
+        closeLoadingScreenAfterTime(4).start();
+        JOptionPane.showOptionDialog(parentFrame, "Loading files, please wait...","Initializing EcoViz", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null);
+
+    }
+
+    private static Timer closeLoadingScreenAfterTime(int seconds) {
+        ActionListener close = new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Window[] windows = Window.getWindows();
+                for (Window window : windows) {
+                    if (window instanceof JDialog) {
+                        JDialog dialog = (JDialog) window;
+                        if (dialog.getContentPane().getComponentCount() == 1
+                                && dialog.getContentPane().getComponent(0) instanceof JOptionPane){
+                            dialog.dispose();
+                        }
+                    }
+                }
+
+            }
+
+        };
+        Timer t = new Timer(seconds * 1000, close);
+        t.setRepeats(false);
+        return t;
+    }
 }
+
+
+
