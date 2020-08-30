@@ -8,7 +8,8 @@ package com.team4.ecoviz;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
 /**
@@ -44,11 +45,16 @@ public class UserView extends javax.swing.JFrame {
     private javax.swing.JTabbedPane tabbedFilterPane;
     // End of variables declaration//GEN-END:variables
 
+    //Self-declared Variables
+    private Controller localController;
+    private boolean selectedSimType = false;
+
     /**
      * Creates new form UserView
      */
     public UserView() {
         initComponents();
+        localController = new Controller(this);
     }
 
     /**
@@ -87,7 +93,6 @@ public class UserView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("EcoViz");
-        setResizable(false);
 
         pnlVizualizer.setName(""); // NOI18N
 
@@ -150,8 +155,10 @@ public class UserView extends javax.swing.JFrame {
             }
         });
 
-        pnlSimControls.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        pnlSimControls.setToolTipText("Simulation controls will appear once a simulation type has been selected.");
+        pnlSimControls.setBorder(null);
+        pnlSimControls.setMaximumSize(new java.awt.Dimension(170, 170));
+        pnlSimControls.setMinimumSize(new java.awt.Dimension(170, 170));
+        pnlSimControls.setPreferredSize(new java.awt.Dimension(170, 170));
 
         javax.swing.GroupLayout pnlSimControlsLayout = new javax.swing.GroupLayout(pnlSimControls);
         pnlSimControls.setLayout(pnlSimControlsLayout);
@@ -177,34 +184,35 @@ public class UserView extends javax.swing.JFrame {
                 .addGap(38, 38, 38))
             .addGroup(pnlControlsLayout.createSequentialGroup()
                 .addGroup(pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlControlsLayout.createSequentialGroup()
-                        .addGap(93, 93, 93)
-                        .addComponent(lblFilter))
-                    .addGroup(pnlControlsLayout.createSequentialGroup()
-                        .addGap(78, 78, 78)
-                        .addComponent(jLabel1))
-                    .addGroup(pnlControlsLayout.createSequentialGroup()
-                        .addGap(74, 74, 74)
-                        .addComponent(jLabel2))
-                    .addGroup(pnlControlsLayout.createSequentialGroup()
-                        .addGap(23, 23, 23)
+                    .addGroup(pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(pnlControlsLayout.createSequentialGroup()
+                                .addGap(23, 23, 23)
+                                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlControlsLayout.createSequentialGroup()
+                                .addGap(93, 93, 93)
+                                .addComponent(lblFilter))
+                            .addGroup(pnlControlsLayout.createSequentialGroup()
+                                .addGap(78, 78, 78)
+                                .addComponent(jLabel1))
+                            .addGroup(pnlControlsLayout.createSequentialGroup()
+                                .addGap(74, 74, 74)
+                                .addComponent(jLabel2))
+                            .addGroup(pnlControlsLayout.createSequentialGroup()
+                                .addGap(37, 37, 37)
+                                .addGroup(pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(pnlSimControls, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                                    .addGroup(pnlControlsLayout.createSequentialGroup()
+                                        .addComponent(lblSimType)
+                                        .addGap(18, 18, 18)
+                                        .addGroup(pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(cbxSimulationType, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblZoom)))))))
                     .addGroup(pnlControlsLayout.createSequentialGroup()
                         .addGap(60, 60, 60)
-                        .addComponent(lblSimulation))
-                    .addGroup(pnlControlsLayout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addGroup(pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(pnlSimControls, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(pnlControlsLayout.createSequentialGroup()
-                                .addComponent(lblSimType)
-                                .addGap(18, 18, 18)
-                                .addGroup(pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cbxSimulationType, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblZoom))))))
-                .addContainerGap(32, Short.MAX_VALUE))
+                        .addComponent(lblSimulation)))
+                .addGap(26, 26, 26))
         );
         pnlControlsLayout.setVerticalGroup(
             pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -300,21 +308,36 @@ public class UserView extends javax.swing.JFrame {
         switch(cbxSimulationType.getSelectedItem().toString())
         {
             case "None":
-
+                selectedSimType = false;
                 for (Component component: pnlSimControls.getComponents()) {
                     if(component instanceof JButton){
                         pnlSimControls.remove(component);
                     }
                 }
-                 break;
-            case "Fire":
-                pnlSimControls.setLayout(new BoxLayout(pnlSimControls, BoxLayout.Y_AXIS));
-                JButton btnWind = new JButton("Set Wind");
-                JButton btnStartFire= new JButton("Start Fire");
-                pnlSimControls.add(btnWind);
-                pnlSimControls.add(btnStartFire);
                 pnlSimControls.revalidate();
                 pnlSimControls.repaint();
+                 break;
+            case "Fire":
+
+                if(!selectedSimType){
+                    pnlSimControls.setLayout(new BoxLayout(pnlSimControls,BoxLayout.PAGE_AXIS));
+                    JButton btnWind = new JButton("Set Wind");
+                    JButton btnStartFire= new JButton("Start Fire");
+                    btnWind.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    btnStartFire.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    btnWind.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent actionEvent) {
+                            WindSetDialog dialog = new WindSetDialog(UserView.this,rootPaneCheckingEnabled);
+                            dialog.setVisible(true);
+                        }
+                    });
+                    pnlSimControls.add(btnWind);
+                    pnlSimControls.add(btnStartFire);
+                    pnlSimControls.revalidate();
+                    pnlSimControls.repaint();
+                }
+                selectedSimType = true;
                 break;
 
 
@@ -364,13 +387,16 @@ public class UserView extends javax.swing.JFrame {
     }
 
     /*Temporary Horizontal Prototype Methods*/
-    public static void setVisualizerScreen(BufferedImage dummyViz) throws IOException {
-        Image scaledDummyViz = dummyViz.getScaledInstance(pnlVizualizer.getWidth(), pnlVizualizer.getHeight(), Image.SCALE_SMOOTH);
-        JLabel dummyVizLabel = new JLabel(new ImageIcon(scaledDummyViz));
+    public static void setVisualizerScreen(JLabel dummyVizLabel) throws IOException {
         dummyVizLabel.setBounds(1, 1, pnlVizualizer.getWidth(), pnlVizualizer.getHeight());
         pnlVizualizer.add(dummyVizLabel);
         pnlVizualizer.revalidate();
         pnlVizualizer.repaint();
+
+    }
+
+    public static JPanel getPnlVizualizer(){
+        return pnlVizualizer;
     }
 
 }

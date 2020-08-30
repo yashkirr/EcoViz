@@ -12,11 +12,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.Vector;
-<<<<<<< HEAD
-=======
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
->>>>>>> master
+
 
 /**
  *
@@ -221,8 +217,8 @@ public class FileLoader {
      //elv
 
 
-     }*/
-=======
+     }
+
     public static void readFiles(String elv,String pdbCanopy,String pdbUndergrowth,String spc){
         try {
             Scanner elvScanner = new Scanner(new File(elv));
@@ -266,7 +262,8 @@ public class FileLoader {
         //elv
 
 
-    }*/
->>>>>>> master
+    }
+    */
+
 }
 

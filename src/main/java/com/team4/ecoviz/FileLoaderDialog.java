@@ -13,14 +13,14 @@ import java.io.IOException;
  */
 public class FileLoaderDialog extends javax.swing.JDialog {
 
-<<<<<<< HEAD
+
     private java.awt.Frame parentFrame;
-=======
     private String elv;
     private String spc;
     private String pdbCan;
     private String pdbUnder;
->>>>>>> master
+    private Controller localController;
+
 
     /**
      * Creates new form FileLoaderDialog
@@ -29,6 +29,7 @@ public class FileLoaderDialog extends javax.swing.JDialog {
         super(parent, modal);
         parentFrame = parent;
         initComponents();
+        localController = new Controller();
         this.setResizable(false);
     }
 
@@ -181,56 +182,37 @@ public class FileLoaderDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoadFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadFilesActionPerformed
-<<<<<<< HEAD
-
+        //TODO: Complete full functionality
         dispose();
         try {
-            Controller.showLoadingScreen(parentFrame);
+            localController.showLoadingScreen(parentFrame);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_btnLoadFilesActionPerformed
 
-    private void btnElevationInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElevationInputActionPerformed
-        txtElevationInput.setText(Controller.selectFile("Elevation files *.elv", "elv"));
-=======
-        // TODO add your handling code here:
-        FileLoader.readELV(elv);
-        FileLoader.readSPC(spc);
-        FileLoader.readPdbCan(pdbCan);
-        FileLoader.readPdbUnder(pdbUnder);
-    }//GEN-LAST:event_btnLoadFilesActionPerformed
+    private void btnElevationInputActionPerformed(java.awt.event.ActionEvent evt) {                                                  
+        txtElevationInput.setText(localController.selectFile("Elevation files *.elv", "elv"));
+    }                                            
 
-    private void btnElevationInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElevationInputActionPerformed
-        Controller.loadFile("Elevation files *.elv", "elv");        // TODO add your handling code here:
-
->>>>>>> master
-    }//GEN-LAST:event_btnElevationInputActionPerformed
-
-    //plants or canopy?
     private void btnPlantsInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlantsInputActionPerformed
-<<<<<<< HEAD
-        txtPlantInput.setText(Controller.selectFile("Plant files *.pdb", "pdb"));
-=======
-        Controller.loadFile("Plant files *.pdb", "pdb");   // TODO add your handling code here:
->>>>>>> master
+
+        txtPlantInput.setText(localController.selectFile("Plant files *.pdb", "pdb"));
+
     }//GEN-LAST:event_btnPlantsInputActionPerformed
 
     private void btnSpeciesInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSpeciesInputActionPerformed
-        txtSpeciesInput.setText(Controller.selectFile("Species files *.spc", "spc"));        // TODO add your handling code here:
+        txtSpeciesInput.setText(localController.selectFile("Species files *.spc", "spc"));        // TODO add your handling code here:
     }//GEN-LAST:event_btnSpeciesInputActionPerformed
     
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
-    //change name for consistency?
+
     private void btnUndergrowthInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUndergrowthInputActionPerformed
-<<<<<<< HEAD
-         txtUndergrowth.setText(Controller.selectFile("Plant files *.pdb", "pdb"));    // TODO add your handling code here:
-=======
-        Controller.loadFile("Plant files *.pdb", "pdb");    // TODO add your handling code here:
->>>>>>> master
+         txtUndergrowth.setText(localController.selectFile("Plant files *.pdb", "pdb"));    // TODO add your handling code here:
+
     }//GEN-LAST:event_btnUndergrowthInputActionPerformed
 
     /**

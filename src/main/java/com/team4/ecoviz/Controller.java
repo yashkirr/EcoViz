@@ -20,9 +20,23 @@ import java.io.IOException;
  * @author yashkir
  */
 public class Controller {
+    private UserView localUserView;
     private static boolean initialized = false;
 
-    public static String selectFile(String name, String fileType) {
+    /**
+     * Constructor for View Class
+     */
+    public Controller(UserView localUserView){
+        this.localUserView = localUserView;
+    }
+    /**
+     * Constructor for classes which need utiltiy methods
+     */
+    public Controller() {
+
+    }
+
+    public String selectFile(String name, String fileType) {
         JFileChooser fileDialog = new JFileChooser();
         fileDialog.setFileFilter(new FileNameExtensionFilter(name, fileType));
         int returnVal = fileDialog.showOpenDialog(null);
@@ -52,12 +66,12 @@ public class Controller {
      * Displays a loading screen window
      * @param parentFrame
      */
-    public static void showLoadingScreen(java.awt.Frame parentFrame) throws IOException {
+    public void showLoadingScreen(java.awt.Frame parentFrame) throws IOException {
         
         closeLoadingScreenAfterTime(4).start();
         
         JOptionPane.showOptionDialog(parentFrame, "Loading files, please wait...","Initializing EcoViz", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null);
-        updateVisualizer();
+        getNewVisualizerImage();
     }
 
     private static Timer closeLoadingScreenAfterTime(int seconds) {
@@ -78,14 +92,20 @@ public class Controller {
         return t;
     }
 
-    public static void updateVisualizer() throws IOException {
-        BufferedImage dummyViz = ImageIO.read(new File("EcoViz Data/DummyVizUsing256.png"));
-        //int width = dummyViz.getWidth();
-       // int height = dummyViz.getHeight();
-        
-        //dummyVizLabel.setMinimumSize(new Dimension(width,height));
-       // dummyVizLabel.setBounds(1,1,1200,1200);
-        UserView.setVisualizerScreen(dummyViz);
+    public void getNewVisualizerImage() throws IOException {
+        BufferedImage dummyViz =ImageIO.read(new File("EcoViz Data/DummyVizUsing256.png"));
+        Image scaledDummyViz = dummyViz.getScaledInstance(
+                UserView.getPnlVizualizer().getWidth(),
+                UserView.getPnlVizualizer().getHeight(),
+                Image.SCALE_SMOOTH);
+        JLabel dummyVizLabel = new JLabel(new ImageIcon(scaledDummyViz));
+        UserView.setVisualizerScreen(dummyVizLabel);
+
+
+    }
+
+    public void getSpeciesList(){
+
     }
 }
 
