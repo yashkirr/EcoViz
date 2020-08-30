@@ -30,8 +30,8 @@ public class UserView extends javax.swing.JFrame {
     private javax.swing.JLabel lblSimType;
     private javax.swing.JLabel lblSimulation;
     private javax.swing.JLabel lblZoom;
-    private javax.swing.JList<String> listFilterPlants;
-    private javax.swing.JList<String> listFilterSpecies;
+    private static javax.swing.JList<String> listFilterPlants;
+    private static javax.swing.JList<String> listFilterSpecies;
     private javax.swing.JMenu mbFIleOption;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem miExit;
@@ -128,7 +128,7 @@ public class UserView extends javax.swing.JFrame {
         });
         tabFilterPlants.setViewportView(listFilterPlants);
 
-        tabbedFilterPane.addTab("Plants", tabFilterPlants);
+        tabbedFilterPane.addTab("Genus", tabFilterPlants);
 
         btnZoomOut.setText("-");
 
@@ -399,4 +399,11 @@ public class UserView extends javax.swing.JFrame {
         return pnlVizualizer;
     }
 
+    public static JList getlistFilterSpecies(){
+        return listFilterSpecies;
+    }
+
+    public static JList getlistFilterGenus(){
+        return listFilterPlants;
+    }
 }

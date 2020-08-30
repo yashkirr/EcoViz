@@ -104,8 +104,23 @@ public class Controller {
 
     }
 
-    public void getSpeciesList(){
+    public void getSpeciesList(String[][] list){
+        DefaultListModel<String> listModel = new DefaultListModel<String>();
+        for (int i = 0; i < list.length; i++) {
+            listModel.addElement(list[i][0].toString());
+        }
+        UserView.getlistFilterSpecies().setModel(listModel);
+    }
 
+    public void getGenusList(String[][] list){
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (int i = 0; i < list.length; i++) {
+            String genus = list[i][1].split(" ")[0];
+            if(!listModel.contains(genus.toString())){
+                listModel.addElement(genus);
+            }
+        }
+        UserView.getlistFilterGenus().setModel(listModel);
     }
 }
 

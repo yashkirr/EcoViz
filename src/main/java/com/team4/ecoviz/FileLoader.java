@@ -29,7 +29,7 @@ public class FileLoader {
     //species parameters
     private static Species[] speciesCan;  //used in pdb
     private static Species[] speciesUnder;  //used in pdb
-    public static String[][] spcKey;
+    private static String[][] spcKey;
 
     //plant parameters
     private static int numSpeciesCan;
@@ -62,7 +62,7 @@ public class FileLoader {
     public static void readSPC(String spc){
         try {
             Scanner spcScanner = new Scanner(new File(spc));
-            spcKey = new String[16][2];
+            setSpcKey(new String[16][2]);
             String junk;
             for (int i = 0; i<16; i++) {          // could generalise line count
                 //junk = spcScanner.next();
@@ -169,6 +169,15 @@ public class FileLoader {
         } catch (FileNotFoundException e) {
             System.out.println("undergrowth pdb file not found");
         }
+    }
+
+    public static String[][] getSpcKey(String path) {
+        readSPC(path);
+        return spcKey;
+    }
+
+    public static void setSpcKey(String[][] spcKey) {
+        FileLoader.spcKey = spcKey;
     }
 
 
