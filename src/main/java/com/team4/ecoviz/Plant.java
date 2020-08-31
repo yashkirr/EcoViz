@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Vector;
 
 /**
- *
+ * Class to store information on each plant to be displayed in the ecosystem visualiser
  * @author yashkir
  */
 public class Plant extends Species {
@@ -22,6 +22,9 @@ public class Plant extends Species {
     private String type;
     private boolean isBurnt;
 
+    /**
+    *default constructor
+    */
     public Plant() {
         this.height = 0;
         this.age = 0;
@@ -31,6 +34,9 @@ public class Plant extends Species {
         this.isBurnt = false;
     }
 
+    /**
+    * Constructor - initialises all variables to variables specified by the argument
+    */
     public Plant(Vector v, float height, float radToHi) {
         this.height = height;
         this.age = 0;
@@ -41,6 +47,9 @@ public class Plant extends Species {
         this.isBurnt = false;
     }
 
+    /**
+    * Constructor - initialises all variables to variables specified by the argument
+    */
     public Plant(float height, float age, float canopyRadius, Vector location, String type, boolean isBurnt) {
         this.height = height;
         this.age = age;
@@ -50,6 +59,9 @@ public class Plant extends Species {
         this.isBurnt = isBurnt;
     }
 
+    /**
+    * Constructor - initialises all variables to variables specified by the argument
+    */
     public Plant(float height, float age, float canopyRadius, Vector location,
                  String type, boolean isBurnt, int ID, Color color, float minHeight,
                  float maxHeight, float avgCanopyHeightRatio, int count) {
@@ -62,14 +74,23 @@ public class Plant extends Species {
         this.isBurnt = isBurnt;
     }
 
+    /**
+    *fetches position of the plant object and returns it.
+    */
     public Vector getPos(){
         return this.pos;
     }
 
+    /**
+    *not yet implemented - changes position of the plant object to the coordinates specified as parameters
+    */
     public void setPos(float x, float y, float z){
         //perhaps?
     }
 
+    /**
+    *Stores plant details in a hash map and returns the hash map
+    */
     public HashMap<String,Object> detail(){
         HashMap<String,Object> plantDetail = new HashMap<String,Object>();
         plantDetail.put("height", height);
