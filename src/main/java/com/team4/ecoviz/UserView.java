@@ -294,16 +294,28 @@ public class UserView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * onClickEventListener for "File" menu item
+     * Opens FileLoaderDialog and sets it to visible
+     * @param evt
+     */
     private void miLoadFIlesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miLoadFIlesActionPerformed
         FileLoaderDialog dialog = new FileLoaderDialog(this, rootPaneCheckingEnabled);
         dialog.setVisible(true);// TODO add your handling code here:
     }//GEN-LAST:event_miLoadFIlesActionPerformed
-
+    /**
+     * onClickEventListener for "Exit" menu item
+     * Exits application
+     * @param evt
+     */
     private void miExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miExitActionPerformed
         System.exit(0);        // TODO add your handling code here:
     }//GEN-LAST:event_miExitActionPerformed
-
+    /**
+     * onClickEventListener for Simulation Combobox
+     * Gets selected type and displays the relevant controls for the simulation
+     * @param evt
+     */
     private void cbxSimulationTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSimulationTypeActionPerformed
         switch(cbxSimulationType.getSelectedItem().toString())
         {
@@ -344,6 +356,11 @@ public class UserView extends javax.swing.JFrame {
         }// TODO add your handling code here:
     }//GEN-LAST:event_cbxSimulationTypeActionPerformed
 
+    /**
+    * onClickEventListener for "Restart" menu item
+    * Restarts application 
+    * @param evt
+    */
     private void miRestartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRestartActionPerformed
           if(JOptionPane.showConfirmDialog(null, "Are you sure you want to restart?") == JOptionPane.YES_OPTION){
               // TODO: Write clear program code here
@@ -387,6 +404,11 @@ public class UserView extends javax.swing.JFrame {
     }
 
     /*Temporary Horizontal Prototype Methods*/
+      /**
+     * Gets Jlabel with embedded image to display on visualizer panel
+     * @param dummyVizLabel
+     * @throws IOException
+     */
     public static void setVisualizerScreen(JLabel dummyVizLabel) throws IOException {
         dummyVizLabel.setBounds(1, 1, pnlVizualizer.getWidth(), pnlVizualizer.getHeight());
         pnlVizualizer.add(dummyVizLabel);
@@ -394,15 +416,24 @@ public class UserView extends javax.swing.JFrame {
         pnlVizualizer.repaint();
 
     }
-
+    /**
+     * Accessor method for Visualizer Panel
+     * @return
+     */
     public static JPanel getPnlVizualizer(){
         return pnlVizualizer;
     }
-
+    /**
+     * Accessor method for Species JList Filter pane
+     * @return
+     */
     public static JList getlistFilterSpecies(){
         return listFilterSpecies;
     }
-
+    /**
+     * Accessor method for Genus JList Filter pane
+     * @return
+     */
     public static JList getlistFilterGenus(){
         return listFilterPlants;
     }
