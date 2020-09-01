@@ -106,11 +106,20 @@ public class WindSetDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * onClickListener for btnCancelWindVector JButton
+     * Closes the form
+     * @param evt
+     */
     private void btnCancelWindVectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelWindVectorActionPerformed
         dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelWindVectorActionPerformed
-
+    
+    /**
+     * onClickListener for btnCancelWindVector JButton
+     * (TEMPORARILY) closes the form for prototype demo
+     * @param evt
+     */
     private void btnConfirmWindVectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmWindVectorActionPerformed
         // TODO: Still need to add functionality
         dispose();
