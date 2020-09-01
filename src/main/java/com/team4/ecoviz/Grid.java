@@ -1,5 +1,8 @@
 package com.team4.ecoviz;
 
+/**
+ * Class for functionality of grid - Not used for prototype as yet.
+ */
 public class Grid {
     // Grid attributes
     private static int dimx;
@@ -8,6 +11,9 @@ public class Grid {
     private static double latitude;
     private static float[][] terrain;
 
+    /** default Constructor
+     *
+     */
     public Grid(){
         this.dimx = 0;
         this.dimy = 0;
@@ -15,7 +21,14 @@ public class Grid {
         this.latitude = 0;
     }
 
-    // Create grid object
+    /** Create grid object
+     *
+     * @param x
+     * @param y
+     * @param spacing
+     * @param latitude
+     * @param terrain
+     */
     public Grid(int x, int y, float spacing, float latitude, float[][] terrain){
         this.dimx = x;
         this.dimy = y;

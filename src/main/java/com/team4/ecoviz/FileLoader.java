@@ -5,6 +5,12 @@
  */
 package com.team4.ecoviz;
 
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,10 +21,11 @@ import java.util.Vector;
 
 
 /**
- *
+ *Class to handle storage of data from inputed file names into different data structures.
  * @author yashkir
  */
 public class FileLoader {
+    /**instance variables*/
     //elevation parameters
     private static int dimx;
     private static int dimy;
@@ -38,6 +45,10 @@ public class FileLoader {
     private static ArrayList<ArrayList<Plant>> speciesListUnder;
 
 
+    /** @author Victor Bantchovski
+     * Takes in an .elv file and reads the formatted data in the file into data structures.
+     * @param elv
+     */
     public static void readELV(String elv){
         Locale.setDefault(new Locale("en", "US")); // decimal should be point not comma
         try {
@@ -59,6 +70,11 @@ public class FileLoader {
         }
     }
 
+    /**
+     * @author Victor Bantchovski
+     * @param spc
+     * Takes in .spc file format and reads in data from the file into different data structures.
+     */
     public static void readSPC(String spc){
         try {
             Scanner spcScanner = new Scanner(new File(spc));
@@ -78,6 +94,11 @@ public class FileLoader {
         }
     }
 
+    /**
+     * @author Victor Bantchovski
+     * Takes in canopy .pdb file format and reads in the formatted data into data structures.
+     * @param pdb
+     */
     public static void readPdbCan(String pdb){ // set canopy boolean?
         Locale.setDefault(new Locale("en", "US")); // decimal should be point not comma
         try {
@@ -125,6 +146,11 @@ public class FileLoader {
     }
 
 
+    /**
+     * @author Victor Bantchovski
+     * Takes in undergrowth .pdb file format and reads data into data structures.
+     * @param pdb
+     */
     public static void readPdbUnder(String pdb){
         Locale.setDefault(new Locale("en", "US")); // decimal should be point not comma
         try {
@@ -171,108 +197,24 @@ public class FileLoader {
         }
     }
 
+    /**
+     * @author Yashkir Ramsamy
+     * @param path
+     * @return String[][]
+     * retrieves the species information stored in the .spc file given the file path
+     */
     public static String[][] getSpcKey(String path) {
         readSPC(path);
         return spcKey;
     }
 
+    /**
+     * @author Yashkir Ramsamy
+     * @param spcKey
+     * updates the species information to the user inputted species information
+     */
     public static void setSpcKey(String[][] spcKey) {
         FileLoader.spcKey = spcKey;
     }
-
-
-    /**
-<<<<<<< HEAD
-     public static void readFiles(String elv,String pdbCanopy,String pdbUndergrowth,String spc){
-     try {
-     Scanner elvScanner = new Scanner(new File(elv));
-     dimx = elvScanner.nextInt();
-     dimy = elvScanner.nextInt();
-     spacing = elvScanner.nextDouble();
-     latitude = elvScanner.nextDouble();
-     terrain = new float[dimx][dimy];
-     while (elvScanner.hasNext()){
-     for (int y = 0;y<dimx;y++){
-     String[] lineArr = elvScanner.nextLine().split(" ");
-     for (int x = 0; x<dimy;x++){
-     //terrain[y][x] =Double.valueOf(lineArr[x]);
-     }
-     }
-     }
-     } catch (FileNotFoundException e) {
-     System.out.println("elv file not found");
-     }
-
-     try {
-     Scanner pdbCanopyScanner = new Scanner(new File(pdbCanopy));
-
-
-     } catch (FileNotFoundException e) {
-     System.out.println("canopy pdb file not found");
-     }
-
-     try {
-     Scanner pdbUndergrowthScanner = new Scanner(new File(pdbUndergrowth));
-     } catch (FileNotFoundException e) {
-     System.out.println("undergrowth pdb file not found");
-     }
-
-     try {
-     Scanner spcScanner = new Scanner(new File(spc));
-     } catch (FileNotFoundException e) {
-     System.out.println("spc file not found");
-     }
-
-     //elv
-
-
-     }
-
-    public static void readFiles(String elv,String pdbCanopy,String pdbUndergrowth,String spc){
-        try {
-            Scanner elvScanner = new Scanner(new File(elv));
-            dimx = elvScanner.nextInt();
-            dimy = elvScanner.nextInt();
-            spacing = elvScanner.nextDouble();
-            latitude = elvScanner.nextDouble();
-            terrain = new float[dimx][dimy];
-            while (elvScanner.hasNext()){
-                for (int y = 0;y<dimx;y++){
-                    String[] lineArr = elvScanner.nextLine().split(" ");
-                    for (int x = 0; x<dimy;x++){
-                        //terrain[y][x] =Double.valueOf(lineArr[x]);
-                    }
-                }
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("elv file not found");
-        }
-
-        try {
-            Scanner pdbCanopyScanner = new Scanner(new File(pdbCanopy));
-
-
-        } catch (FileNotFoundException e) {
-            System.out.println("canopy pdb file not found");
-        }
-
-        try {
-            Scanner pdbUndergrowthScanner = new Scanner(new File(pdbUndergrowth));
-        } catch (FileNotFoundException e) {
-            System.out.println("undergrowth pdb file not found");
-        }
-
-        try {
-            Scanner spcScanner = new Scanner(new File(spc));
-        } catch (FileNotFoundException e) {
-            System.out.println("spc file not found");
-        }
-
-        //elv
-
-
-    }
-    */
-
 }
 
