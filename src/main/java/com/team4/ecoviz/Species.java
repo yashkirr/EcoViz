@@ -5,11 +5,11 @@
  */
 package com.team4.ecoviz;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.HashMap;
 
 /**
- *
+ * Class to store details of species information specified in the .spc.txt input file
  * @author yashkir
  */
 public class Species {
@@ -19,7 +19,10 @@ public class Species {
     private double maxHeight;
     private double avgCanopyHeightRatio;
     private int count;
-    
+
+    /**
+    * default constructor
+    */
     public Species(){
         ID=0;
         count = 0;
@@ -27,9 +30,12 @@ public class Species {
         minHeight=0.0;
         maxHeight=0.0;
         avgCanopyHeightRatio = 0.0;
-        
+
     }
 
+    /**
+    * Constructor - initialises all variables to variables specified by the argument
+    */
     public Species(int ID, Color color, float minHeight, float maxHeight, float avgCanopyHeightRatio, int count) {
         this.ID = ID;
         this.color = color;
@@ -38,7 +44,9 @@ public class Species {
         this.avgCanopyHeightRatio = avgCanopyHeightRatio;
         this.count = count;
     }
-    
+    /**
+    *Stores all species details in a hash map and returns the resulting hash map
+    */
     public HashMap<String,Object> speciesDetail(){
         HashMap<String,Object> mapDetail = new HashMap<String,Object>();
         mapDetail.put("ID",ID);
@@ -47,9 +55,9 @@ public class Species {
         mapDetail.put("maxHeight",maxHeight);
         mapDetail.put("avgCanopyHeightRatio",avgCanopyHeightRatio);
         mapDetail.put("count",count);
-        
+
         return mapDetail;
-        
+
     }
-    
+
 }
