@@ -3,8 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.team4.ecoviz;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -36,9 +34,9 @@ public class Controller {
 
     }
     /**
-    *Receive file name type and extension and show file chooser dialog
+    * Receive file name type and extension and show file chooser dialog
     * returns file path
-    *@param String name, String fileType
+    * @param String name, String fileType
     */
     public String selectFile(String name, String fileType) {
         JFileChooser fileDialog = new JFileChooser();

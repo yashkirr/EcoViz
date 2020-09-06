@@ -1,4 +1,4 @@
-package com.team4.ecoviz;
+
 
 /**
  * Class for functionality of grid - Not used for prototype as yet.
