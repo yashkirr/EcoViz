@@ -1,4 +1,9 @@
-
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Class for functionality of grid - Not used for prototype as yet.
@@ -10,6 +15,7 @@ public class Grid {
     private static double spacing;
     private static double latitude;
     private static float[][] terrain;
+    private static BufferedImage greyscale;
 
     /** default Constructor
      *
@@ -35,5 +41,44 @@ public class Grid {
         this.spacing = spacing;
         this.latitude = latitude;
         this.terrain = terrain;
+        greyscale = new BufferedImage(dimy,dimx,BufferedImage.TYPE_INT_ARGB);
+    }
+
+
+   // private int toRGB(float val){
+    //    int part = Math.round(val*255);
+    //    return part*0x10101;
+    //}
+
+    public BufferedImage getGreyscale() throws IOException {
+        buildGreyscale();
+        File out = new File("img.png");
+        ImageIO.write(greyscale,"png",out);
+        return greyscale;
+    }
+
+    public BufferedImage buildGreyscale() {
+        float minElv =  100000;
+        float maxElv = -100000;
+
+        for (int yComp = 0; yComp<dimy ; yComp++){
+             for (int xComp = 0 ; xComp<dimx ; xComp++){
+                 if (terrain[yComp][xComp]>maxElv){
+                    maxElv = terrain[yComp][xComp];
+                }
+        if (terrain[yComp][xComp]<minElv){
+                    minElv = terrain[yComp][xComp];
+              }
+         }
+        }
+
+        for (int yComp = 0; yComp < dimy; yComp++) {
+            for (int xComp = 0; xComp < dimx; xComp++) {
+                float norm = (terrain[yComp][xComp] - minElv)/(maxElv-minElv);
+                Color colour = new Color(norm, norm, norm, 1.0f);
+                greyscale.setRGB(xComp, yComp, colour.getRGB());
+            }
+        }
+        return greyscale;
     }
 }

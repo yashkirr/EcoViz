@@ -215,5 +215,19 @@ public class FileLoader {
     public static void setSpcKey(String[][] spcKey) {
         FileLoader.spcKey = spcKey;
     }
+
+    public static int getDimx(){ return dimx;}
+
+    public static int getDimy(){return dimy;}
+
+    public static float getSpacing(){return spacing;}
+
+    public static float getLatitude(){return latitude;}
+
+    public static float[][] getTerrain(){return terrain;}
+
+
 }
+
+
 
