@@ -410,8 +410,8 @@ public class UserView extends javax.swing.JFrame{
      * @param
      * @throws IOException
      */
-    public static void setVisualizerScreen() throws IOException {
-        JLabel vizLabel = localController.getNewVisualizerImage();
+    public static void setVisualizerScreen(JLabel vizLabel) throws IOException {
+        //JLabel vizLabel = localController.getNewVisualizerImage();
         vizLabel.setBounds(100, 100, pnlVizualizer.getWidth(), pnlVizualizer.getHeight());
         pnlVizualizer.add(vizLabel);
         pnlVizualizer.revalidate();

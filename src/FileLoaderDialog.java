@@ -188,6 +188,8 @@ public class FileLoaderDialog extends javax.swing.JDialog {
             localController.getSpeciesList(FileLoader.getSpcKey(txtSpeciesInput.getText()));
             localController.getGenusList(FileLoader.getSpcKey(txtSpeciesInput.getText())); //TODO READING FILE TWICE FIX
             localController.showLoadingScreen(parentFrame);
+            //VICTOR EDIT FOR GRAPHIC DISPLAY
+
         } catch (IOException e) {
             e.printStackTrace();
         }

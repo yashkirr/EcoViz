@@ -124,7 +124,7 @@ public class Controller {
      * Generates the terrain visualisation and embeds it in a JLabel
      * @throws IOException
      */
-    public JLabel getNewVisualizerImage() throws IOException {
+    public void getNewVisualizerImage() throws IOException {
         System.out.println("GETVIZIMAGE EXECUTED");
         BufferedImage viz = buildGrid() ;
         Image vizScaled = viz.getScaledInstance(
@@ -132,8 +132,7 @@ public class Controller {
                 UserView.getPnlVizualizer().getHeight(),
                 Image.SCALE_SMOOTH);
         JLabel vizLabel = new JLabel(new ImageIcon(vizScaled));
-        UserView.setVisualizerScreen();
-        return vizLabel;
+        UserView.setVisualizerScreen(vizLabel);
     }
 
     public BufferedImage buildGrid() throws IOException {
