@@ -11,12 +11,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.awt.Graphics;
 
 /**
  *
  * @author yashkir
  */
-public class UserView extends javax.swing.JFrame {
+public class UserView extends javax.swing.JFrame{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnZoomIn;
@@ -46,7 +47,7 @@ public class UserView extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     //Self-declared Variables
-    private Controller localController;
+    private static Controller localController;
     private boolean selectedSimType = false;
 
     /**
@@ -406,15 +407,15 @@ public class UserView extends javax.swing.JFrame {
     /*Temporary Horizontal Prototype Methods*/
       /**
      * Gets Jlabel with embedded image to display on visualizer panel
-     * @param dummyVizLabel
+     * @param
      * @throws IOException
      */
-    public static void setVisualizerScreen(JLabel dummyVizLabel) throws IOException {
-        dummyVizLabel.setBounds(1, 1, pnlVizualizer.getWidth(), pnlVizualizer.getHeight());
-        pnlVizualizer.add(dummyVizLabel);
+    public static void setVisualizerScreen(JLabel vizLabel) throws IOException {
+        //JLabel vizLabel = localController.getNewVisualizerImage();
+        vizLabel.setBounds(100, 100, pnlVizualizer.getWidth(), pnlVizualizer.getHeight());
+        pnlVizualizer.add(vizLabel);
         pnlVizualizer.revalidate();
         pnlVizualizer.repaint();
-
     }
     /**
      * Accessor method for Visualizer Panel
@@ -437,4 +438,5 @@ public class UserView extends javax.swing.JFrame {
     public static JList getlistFilterGenus(){
         return listFilterPlants;
     }
+
 }

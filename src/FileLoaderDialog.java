@@ -188,6 +188,8 @@ public class FileLoaderDialog extends javax.swing.JDialog {
             localController.getSpeciesList(FileLoader.getSpcKey(txtSpeciesInput.getText()));
             localController.getGenusList(FileLoader.getSpcKey(txtSpeciesInput.getText())); //TODO READING FILE TWICE FIX
             localController.showLoadingScreen(parentFrame);
+            //VICTOR EDIT FOR GRAPHIC DISPLAY
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -195,16 +197,21 @@ public class FileLoaderDialog extends javax.swing.JDialog {
 
     private void btnElevationInputActionPerformed(java.awt.event.ActionEvent evt) {                                                  
         txtElevationInput.setText(localController.selectFile("Elevation files *.elv", "elv"));
-    }                                            
+        localController.loadFile(localController.getELV(txtElevationInput.getText()),"elv");
+    }
 
     private void btnPlantsInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlantsInputActionPerformed
 
         txtPlantInput.setText(localController.selectFile("Plant files *.pdb", "pdb"));
+        localController.loadFile(localController.getpdbCan(txtPlantInput.getText()),"pdb");
 
     }//GEN-LAST:event_btnPlantsInputActionPerformed
 
     private void btnSpeciesInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSpeciesInputActionPerformed
-        txtSpeciesInput.setText(localController.selectFile("Species files *.spc", "spc"));        // TODO add your handling code here:
+        txtSpeciesInput.setText(localController.selectFile("Species files *.spc", "spc"));
+        localController.loadFile(localController.getSPC(txtSpeciesInput.getText()),"spc");
+
+        // TODO add your handling code here:
     }//GEN-LAST:event_btnSpeciesInputActionPerformed
     
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -213,7 +220,8 @@ public class FileLoaderDialog extends javax.swing.JDialog {
 
 
     private void btnUndergrowthInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUndergrowthInputActionPerformed
-         txtUndergrowth.setText(localController.selectFile("Plant files *.pdb", "pdb"));    // TODO add your handling code here:
+        txtUndergrowth.setText(localController.selectFile("Plant files *.pdb", "pdb"));    // TODO add your handling code here:
+        localController.loadFile(localController.getpdbUnder(txtUndergrowth.getText()),"pdb");
 
     }//GEN-LAST:event_btnUndergrowthInputActionPerformed
 
