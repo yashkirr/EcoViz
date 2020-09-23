@@ -9,10 +9,12 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.stream.Stream;
 import javax.swing.*;
@@ -158,11 +160,17 @@ public class FileLoaderDialog extends javax.swing.JDialog {
         //TODO: Complete full functionality
         dataDirectory = txtDirectoryInput.getText();
         dispose();
-        try (Stream<Path> paths = Files.walk(Paths.get(dataDirectory))) {
-            paths.filter(Files::isRegularFile).forEach(System.out::println);
-        } catch (IOException e) {
+        try{
+            ArrayList<String> fileList = FileLoader.listFilesInDirectory(new File(dataDirectory));
+            validateDataDirectory(fileList);
+        }catch(IOException e){
+            JOptionPane.showMessageDialog(this,"Please check the directory contents for correctness.","Error",JOptionPane.WARNING_MESSAGE);
+        }
+        catch(Exception e){
             e.printStackTrace();
         }
+
+
         /*
         try {
             localController.getSpeciesList(FileLoader.getSpcKey(txtSpeciesInput.getText()));
@@ -173,6 +181,55 @@ public class FileLoaderDialog extends javax.swing.JDialog {
         } catch (IOException e) {
             e.printStackTrace();
         }*/
+    }
+
+    public boolean validateDataDirectory(ArrayList<String> fileList) throws IOException {
+       //Test 1: Checks if 4 files in directory (pdb,pdb,elv,spc)
+        if(fileList.size() !=4){ return false; }
+
+        //Test 2: Checks if files are named correctly if passes the first test, files should have a set name with "-"
+        //Characters prior to the "-" indicates the name of the data set, baseSubset stores this name
+        String baseSubset = "";
+        int dashFirstOccurrence = fileList.get(0).indexOf("-");
+        if(dashFirstOccurrence != -1){
+            baseSubset = fileList.get(0).substring(0,dashFirstOccurrence);
+        }else{
+            return false;
+        }
+
+        //Test 3: Checks if files belong to the same data set (baseSubset) and counts number of file extensions
+        int pdb = 0,elv = 0,spc = 0;
+        for (String file:
+             fileList) {
+            int dashFirstOccurrence2 = file.indexOf("-"); //checks for dash of consequent files
+            if(dashFirstOccurrence2 != -1){
+                String currentSubset = file.substring(0,dashFirstOccurrence2);
+                if(!currentSubset.equals(baseSubset)){return false;}
+                String extension = file.substring(file.lastIndexOf(".")+1);
+                
+                switch (extension){
+                    case "pdb":
+                        pdb++;
+                        break;
+                    case "elv":
+                        elv++;
+                        break;
+                    case "spc":
+                        spc++;
+                        break;
+                }
+            }else{
+                return false;
+            }
+            
+        }
+        
+        //Test 4: Check if the file correct number of file extensions exist( 2 pdb, 1 elv, 1 spc)
+        if(!((pdb == 2) && (elv ==1) && (spc == 1))){
+            return false;
+        }
+
+        return true;
     }
 
     /*
