@@ -217,13 +217,38 @@ public class FileLoader {
         FileLoader.spcKey = spcKey;
     }
 
-    public static ArrayList<String> listFilesInDirectory(final File folder) {
+    /**
+     * Gets name of files in directory
+     * @Author Yashkir Ramsamy
+     * @param folder
+     * @return ArrayList<String>
+     */
+    public static ArrayList<String> listFileNamesInDirectory(final File folder) {
         ArrayList<String> fileList = new ArrayList<>();
         for (final File fileEntry : folder.listFiles()) {
             if (fileEntry.isDirectory()) {
-                listFilesInDirectory(fileEntry);
+                listFileNamesInDirectory(fileEntry);
             } else {
                 fileList.add(fileEntry.getName());
+            }
+        }
+
+        return fileList;
+    }
+
+    /**
+     * Gets path of files in directory
+     * @Author Yashkir Ramsamy
+     * @param folder
+     * @return ArrayList<String>
+     */
+    public static ArrayList<String> listFilePathsInDirectory(final File folder) {
+        ArrayList<String> fileList = new ArrayList<>();
+        for (final File fileEntry : folder.listFiles()) {
+            if (fileEntry.isDirectory()) {
+                listFilePathsInDirectory(fileEntry);
+            } else {
+                fileList.add(fileEntry.getAbsolutePath());
             }
         }
 
