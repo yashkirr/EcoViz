@@ -5,7 +5,17 @@
  */
 
 
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.stream.Stream;
+import javax.swing.*;
 
 /**
  *
@@ -13,12 +23,20 @@ import java.io.IOException;
  */
 public class FileLoaderDialog extends javax.swing.JDialog {
 
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JButton btnCancel;
+    private JButton btnDirectoryInput;
+    private JButton btnLoadFiles;
+    private JLabel lblElevationInput;
+    private JTextField txtDirectoryInput;
+    // End of variables declaration//GEN-END:variables
 
     private java.awt.Frame parentFrame;
     private String elv;
     private String spc;
     private String pdbCan;
     private String pdbUnder;
+    private String dataDirectory;
     private Controller localController;
 
 
@@ -42,148 +60,110 @@ public class FileLoaderDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtElevationInput = new javax.swing.JTextField();
-        txtPlantInput = new javax.swing.JTextField();
-        txtSpeciesInput = new javax.swing.JTextField();
-        btnElevationInput = new javax.swing.JButton();
-        btnPlantsInput = new javax.swing.JButton();
-        btnSpeciesInput = new javax.swing.JButton();
-        lblElevationInput = new javax.swing.JLabel();
-        lblPlantInput = new javax.swing.JLabel();
-        lblSpeciesInput = new javax.swing.JLabel();
-        btnCancel = new javax.swing.JButton();
-        btnLoadFiles = new javax.swing.JButton();
-        txtUndergrowth = new javax.swing.JTextField();
-        lblUndergrowth = new javax.swing.JLabel();
-        btnUndergrowthInput = new javax.swing.JButton();
+        txtDirectoryInput = new JTextField();
+        btnDirectoryInput = new JButton();
+        lblElevationInput = new JLabel();
+        btnCancel = new JButton();
+        btnLoadFiles = new JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        btnElevationInput.setText("...");
-        btnElevationInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnElevationInputActionPerformed(evt);
+        btnDirectoryInput.setText("...");
+        btnDirectoryInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                btnDirectoryInputActionPerformed(evt);
             }
         });
 
-        btnPlantsInput.setText("...");
-        btnPlantsInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPlantsInputActionPerformed(evt);
-            }
-        });
-
-        btnSpeciesInput.setText("...");
-        btnSpeciesInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSpeciesInputActionPerformed(evt);
-            }
-        });
-
-        lblElevationInput.setText("Elevation");
-
-        lblPlantInput.setText("Canopy");
-
-        lblSpeciesInput.setText("Species");
+        lblElevationInput.setText("Select directory containing .elv , .spc , .pbd files");
 
         btnCancel.setText("Cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(ActionEvent evt) {
                 btnCancelActionPerformed(evt);
             }
         });
 
         btnLoadFiles.setText("Load Files");
-        btnLoadFiles.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+       btnLoadFiles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 btnLoadFilesActionPerformed(evt);
             }
         });
 
-        lblUndergrowth.setText("Undergrowth");
-
-        btnUndergrowthInput.setText("...");
-        btnUndergrowthInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUndergrowthInputActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnLoadFiles, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(51, 51, 51)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblPlantInput)
-                            .addComponent(lblElevationInput)
-                            .addComponent(lblSpeciesInput)
-                            .addComponent(lblUndergrowth))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtElevationInput, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnElevationInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtPlantInput, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnPlantsInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtUndergrowth)
-                                    .addComponent(txtSpeciesInput, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnSpeciesInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnUndergrowthInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(7, 7, 7)))
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addGap(51, 51, 51)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(btnLoadFiles, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(txtDirectoryInput, GroupLayout.PREFERRED_SIZE, 351, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btnDirectoryInput)))
+                    .addComponent(lblElevationInput)))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtElevationInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblElevationInput)
-                    .addComponent(btnElevationInput, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(81, 81, 81)
+                .addComponent(lblElevationInput)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPlantInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPlantsInput, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPlantInput))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnUndergrowthInput, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtUndergrowth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblUndergrowth))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSpeciesInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSpeciesInput)
-                    .addComponent(btnSpeciesInput, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDirectoryInput, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDirectoryInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnLoadFiles)
-                    .addComponent(btnCancel))
-                .addGap(22, 22, 22))
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCancel)
+                    .addComponent(btnLoadFiles))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnLoadFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadFilesActionPerformed
+    private void btnDirectoryInputActionPerformed(ActionEvent evt) {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Select Folder");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
+
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+
+            System.out.println("getCurrentDirectory(): "
+                    +  chooser.getCurrentDirectory());
+
+            System.out.println("getSelectedFile() : "
+                    +  chooser.getSelectedFile());
+            txtDirectoryInput.setText(chooser.getSelectedFile().toString());
+
+
+        }
+        else {
+            System.out.println("No Selection ");
+        }
+    }
+        //add strings for getting file paths
+        //open file chooser to select directory
+
+
+    private void btnLoadFilesActionPerformed(ActionEvent evt) {
         //TODO: Complete full functionality
+        dataDirectory = txtDirectoryInput.getText();
         dispose();
+        try (Stream<Path> paths = Files.walk(Paths.get(dataDirectory))) {
+            paths.filter(Files::isRegularFile).forEach(System.out::println);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        /*
         try {
             localController.getSpeciesList(FileLoader.getSpcKey(txtSpeciesInput.getText()));
             localController.getGenusList(FileLoader.getSpcKey(txtSpeciesInput.getText())); //TODO READING FILE TWICE FIX
@@ -192,73 +172,47 @@ public class FileLoaderDialog extends javax.swing.JDialog {
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }//GEN-LAST:event_btnLoadFilesActionPerformed
+        }*/
+    }
 
-    private void btnElevationInputActionPerformed(java.awt.event.ActionEvent evt) {                                                  
+    /*
+    private void btnElevationInputActionPerformed(ActionEvent evt) {
         txtElevationInput.setText(localController.selectFile("Elevation files *.elv", "elv"));
         localController.loadFile(localController.getELV(txtElevationInput.getText()),"elv");
     }
-
-    private void btnPlantsInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlantsInputActionPerformed
-
-        txtPlantInput.setText(localController.selectFile("Plant files *.pdb", "pdb"));
-        localController.loadFile(localController.getpdbCan(txtPlantInput.getText()),"pdb");
-
-    }//GEN-LAST:event_btnPlantsInputActionPerformed
-
-    private void btnSpeciesInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSpeciesInputActionPerformed
-        txtSpeciesInput.setText(localController.selectFile("Species files *.spc", "spc"));
-        localController.loadFile(localController.getSPC(txtSpeciesInput.getText()),"spc");
-
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSpeciesInputActionPerformed
-    
-    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+    */
+    private void btnCancelActionPerformed(ActionEvent evt) {
         dispose();
-    }//GEN-LAST:event_btnCancelActionPerformed
+    }
 
-
-    private void btnUndergrowthInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUndergrowthInputActionPerformed
-        txtUndergrowth.setText(localController.selectFile("Plant files *.pdb", "pdb"));    // TODO add your handling code here:
-        localController.loadFile(localController.getpdbUnder(txtUndergrowth.getText()),"pdb");
-
-    }//GEN-LAST:event_btnUndergrowthInputActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FileLoaderDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FileLoaderDialog.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FileLoaderDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FileLoaderDialog.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FileLoaderDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FileLoaderDialog.class.getName()).log(Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FileLoaderDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FileLoaderDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FileLoaderDialog dialog = new FileLoaderDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                FileLoaderDialog dialog = new FileLoaderDialog(new JFrame(), true);
+                dialog.addWindowListener(new WindowAdapter() {
                     @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
+                    public void windowClosing(WindowEvent e) {
                         System.exit(0);
                     }
                 });
@@ -267,20 +221,5 @@ public class FileLoaderDialog extends javax.swing.JDialog {
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnElevationInput;
-    private javax.swing.JButton btnLoadFiles;
-    private javax.swing.JButton btnPlantsInput;
-    private javax.swing.JButton btnSpeciesInput;
-    private javax.swing.JButton btnUndergrowthInput;
-    private javax.swing.JLabel lblElevationInput;
-    private javax.swing.JLabel lblPlantInput;
-    private javax.swing.JLabel lblSpeciesInput;
-    private javax.swing.JLabel lblUndergrowth;
-    private javax.swing.JTextField txtElevationInput;
-    private javax.swing.JTextField txtPlantInput;
-    private javax.swing.JTextField txtSpeciesInput;
-    private javax.swing.JTextField txtUndergrowth;
-    // End of variables declaration//GEN-END:variables
+
 }
