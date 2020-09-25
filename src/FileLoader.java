@@ -13,6 +13,7 @@
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
@@ -216,6 +217,45 @@ public class FileLoader {
         FileLoader.spcKey = spcKey;
     }
 
+    /**
+     * Gets name of files in directory
+     * @Author Yashkir Ramsamy
+     * @param folder
+     * @return ArrayList<String>
+     */
+    public static ArrayList<String> listFileNamesInDirectory(final File folder) {
+        ArrayList<String> fileList = new ArrayList<>();
+        for (final File fileEntry : folder.listFiles()) {
+            if (fileEntry.isDirectory()) {
+                listFileNamesInDirectory(fileEntry);
+            } else {
+                fileList.add(fileEntry.getName());
+            }
+        }
+
+        return fileList;
+    }
+
+    /**
+     * Gets path of files in directory
+     * @Author Yashkir Ramsamy
+     * @param folder
+     * @return ArrayList<String>
+     */
+    public static ArrayList<String> listFilePathsInDirectory(final File folder) {
+        ArrayList<String> fileList = new ArrayList<>();
+        for (final File fileEntry : folder.listFiles()) {
+            if (fileEntry.isDirectory()) {
+                listFilePathsInDirectory(fileEntry);
+            } else {
+                fileList.add(fileEntry.getAbsolutePath());
+            }
+        }
+
+        return fileList;
+    }
+
+
     public static int getDimx(){ return dimx;}
 
     public static int getDimy(){return dimy;}
@@ -225,6 +265,7 @@ public class FileLoader {
     public static float getLatitude(){return latitude;}
 
     public static float[][] getTerrain(){return terrain;}
+
 
 
 }
