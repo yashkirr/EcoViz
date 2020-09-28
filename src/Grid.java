@@ -65,11 +65,11 @@ public class Grid {
              for (int xComp = 0 ; xComp<dimx ; xComp++){
                  if (terrain[yComp][xComp]>maxElv){
                     maxElv = terrain[yComp][xComp];
-                }
-        if (terrain[yComp][xComp]<minElv){
+                 }
+                if (terrain[yComp][xComp]<minElv){
                     minElv = terrain[yComp][xComp];
-              }
-         }
+                }
+             }
         }
 
         for (int yComp = 0; yComp < dimy; yComp++) {
@@ -80,5 +80,21 @@ public class Grid {
             }
         }
         return greyscale;
+    }
+
+    public int getDimx() {
+        return dimx;
+    }
+
+    public void setDimx(int dimx) {
+        this.dimx = dimx;
+    }
+
+    public int getDimy() {
+        return dimy;
+    }
+
+    public void setDimy(int dimy) {
+        this.dimy = dimy;
     }
 }
