@@ -53,8 +53,6 @@ public class VizPanel extends JPanel /*implements Runnable*/{
         Iterator j;
         int count = 0;
         int count2 = 0;
-        int scalingFactorX = getWidth() / grid.getGreyscale().getWidth();
-        int scalingFactorY = getHeight() / grid.getGreyscale().getHeight();
 
         while (i.hasNext()){
             j = pdbCan.get(count).iterator();
