@@ -63,8 +63,8 @@ public class VizPanel extends JPanel /*implements Runnable*/{
                 plant.setColor(new Color(count));
                 Color color = plant.getColor();
                 g.setColor(color);
-                g.fillOval(Math.round((float)plant.getPos().get(0))*scalingFactorX/Math.round((float)grid.getSpacing()),
-                        Math.round((float)plant.getPos().get(1))*scalingFactorY/Math.round((float)grid.getSpacing()),
+                g.fillOval(Math.round((float)plant.getPos().get(0)*getWidth()/(grid.getDimx()*(float)grid.getSpacing())),//*scalingFactorX/Math.round((float)grid.getSpacing()),
+                        Math.round((float)plant.getPos().get(1)*getHeight()/(grid.getDimy()*(float)grid.getSpacing())),
                         5,5);
                 j.next();
                 count2++;
@@ -85,8 +85,8 @@ public class VizPanel extends JPanel /*implements Runnable*/{
                 plant.setColor(new Color(100,200,250, 100));
                 Color color = plant.getColor();
                 g.setColor(color);
-                g.fillRect(Math.round((float)plant.getPos().get(0))*scalingFactorX/Math.round((float)grid.getSpacing()),
-                        Math.round((float)plant.getPos().get(1))*scalingFactorY/Math.round((float)grid.getSpacing()),
+                g.fillRect(Math.round((float)plant.getPos().get(0)*getWidth()/(grid.getDimx()*(float)grid.getSpacing())),//*scalingFactorX/Math.round((float)grid.getSpacing()),
+                        Math.round((float)plant.getPos().get(1)*getHeight()/(grid.getDimy()*(float)grid.getSpacing())),
                         5,5);
                 j.next();
                 count2++;
