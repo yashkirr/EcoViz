@@ -80,7 +80,7 @@ public class VizPanel extends JPanel /*implements Runnable*/{
             j = pdbUnder.get(count).iterator();
             while (j.hasNext()){
                 Plant plant = pdbUnder.get(count).get(count2);
-                plant.setColor(new Color(100,200,250, 100));
+                plant.setColor(new Color(100,200,250, 30));
                 Color color = plant.getColor();
                 g.setColor(color);
                 g.fillRect(Math.round((float)plant.getPos().get(0)*getWidth()/(grid.getDimx()*(float)grid.getSpacing())),//*scalingFactorX/Math.round((float)grid.getSpacing()),
