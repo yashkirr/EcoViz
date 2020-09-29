@@ -21,7 +21,7 @@ import java.util.Vector;
 
 
 /**
- *Class to handle storage of data from inputed file names into different data structures.
+ *Class to handle storage of data from input file names into different data structures.
  * @author yashkir
  */
 public class FileLoader {

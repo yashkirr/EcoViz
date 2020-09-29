@@ -12,43 +12,46 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.awt.Graphics;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author yashkir
  */
-public class UserView extends javax.swing.JFrame{
+public class UserView extends JFrame{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnZoomIn;
-    private javax.swing.JButton btnZoomOut;
-    private javax.swing.JComboBox<String> cbxSimulationType;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JSlider jSlider1;
-    private javax.swing.JSlider jSlider2;
-    private javax.swing.JLabel lblFilter;
-    private javax.swing.JLabel lblSimType;
-    private javax.swing.JLabel lblSimulation;
-    private javax.swing.JLabel lblZoom;
-    private static javax.swing.JList<String> listFilterPlants;
-    private static javax.swing.JList<String> listFilterSpecies;
-    private javax.swing.JMenu mbFIleOption;
-    private javax.swing.JMenuBar menuBar;
-    private javax.swing.JMenuItem miExit;
-    private javax.swing.JMenuItem miLoadFIles;
-    private javax.swing.JMenuItem miRestart;
-    private javax.swing.JPanel pnlControls;
-    private javax.swing.JPanel pnlSimControls;
-    private static javax.swing.JPanel pnlVizualizer;
-    private javax.swing.JScrollPane tabFilterPlants;
-    private javax.swing.JScrollPane tabFilterSpecies;
-    private javax.swing.JTabbedPane tabbedFilterPane;
+    private JButton btnZoomIn;
+    private JButton btnZoomOut;
+    private JComboBox<String> cbxSimulationType;
+    private JLabel jLabel1;
+    private JLabel jLabel2;
+    private JSlider jSlider1;
+    private JSlider jSlider2;
+    private JLabel lblFilter;
+    private JLabel lblSimType;
+    private JLabel lblSimulation;
+    private JLabel lblZoom;
+    private static JList<String> listFilterPlants;
+    private static JList<String> listFilterSpecies;
+    private JMenu mbFIleOption;
+    private JMenuBar menuBar;
+    private JMenuItem miExit;
+    private JMenuItem miLoadFIles;
+    private JMenuItem miRestart;
+    private JPanel pnlControls;
+    private JPanel pnlSimControls;
+    public static VizPanel pnlVizualizer;
+    private JScrollPane tabFilterPlants;
+    private JScrollPane tabFilterSpecies;
+    private JTabbedPane tabbedFilterPane;
     // End of variables declaration//GEN-END:variables
 
     //Self-declared Variables
     private static Controller localController;
     private boolean selectedSimType = false;
+    public static VizPanel vizPanel;
 
     /**
      * Creates new form UserView
@@ -67,53 +70,53 @@ public class UserView extends javax.swing.JFrame{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pnlVizualizer = new javax.swing.JPanel();
-        pnlControls = new javax.swing.JPanel();
-        btnZoomIn = new javax.swing.JButton();
-        tabbedFilterPane = new javax.swing.JTabbedPane();
-        tabFilterSpecies = new javax.swing.JScrollPane();
-        listFilterSpecies = new javax.swing.JList<>();
-        tabFilterPlants = new javax.swing.JScrollPane();
-        listFilterPlants = new javax.swing.JList<>();
-        btnZoomOut = new javax.swing.JButton();
-        lblZoom = new javax.swing.JLabel();
-        lblFilter = new javax.swing.JLabel();
-        jSlider1 = new javax.swing.JSlider();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jSlider2 = new javax.swing.JSlider();
-        lblSimulation = new javax.swing.JLabel();
-        lblSimType = new javax.swing.JLabel();
-        cbxSimulationType = new javax.swing.JComboBox<>();
-        pnlSimControls = new javax.swing.JPanel();
-        menuBar = new javax.swing.JMenuBar();
-        mbFIleOption = new javax.swing.JMenu();
-        miLoadFIles = new javax.swing.JMenuItem();
-        miRestart = new javax.swing.JMenuItem();
-        miExit = new javax.swing.JMenuItem();
+        pnlVizualizer = new VizPanel();
+        pnlControls = new JPanel();
+        btnZoomIn = new JButton();
+        tabbedFilterPane = new JTabbedPane();
+        tabFilterSpecies = new JScrollPane();
+        listFilterSpecies = new JList<>();
+        tabFilterPlants = new JScrollPane();
+        listFilterPlants = new JList<>();
+        btnZoomOut = new JButton();
+        lblZoom = new JLabel();
+        lblFilter = new JLabel();
+        jSlider1 = new JSlider();
+        jLabel1 = new JLabel();
+        jLabel2 = new JLabel();
+        jSlider2 = new JSlider();
+        lblSimulation = new JLabel();
+        lblSimType = new JLabel();
+        cbxSimulationType = new JComboBox<>();
+        pnlSimControls = new JPanel();
+        menuBar = new JMenuBar();
+        mbFIleOption = new JMenu();
+        miLoadFIles = new JMenuItem();
+        miRestart = new JMenuItem();
+        miExit = new JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("EcoViz");
 
         pnlVizualizer.setName(""); // NOI18N
 
-        javax.swing.GroupLayout pnlVizualizerLayout = new javax.swing.GroupLayout(pnlVizualizer);
+        GroupLayout pnlVizualizerLayout = new GroupLayout(pnlVizualizer);
         pnlVizualizer.setLayout(pnlVizualizerLayout);
         pnlVizualizerLayout.setHorizontalGroup(
-            pnlVizualizerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            pnlVizualizerLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGap(0, 910, Short.MAX_VALUE)
         );
         pnlVizualizerLayout.setVerticalGroup(
-            pnlVizualizerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            pnlVizualizerLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        pnlControls.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        pnlControls.setForeground(new java.awt.Color(56, 60, 74));
+        pnlControls.setBorder(BorderFactory.createEtchedBorder());
+        pnlControls.setForeground(new Color(56, 60, 74));
 
         btnZoomIn.setText("+");
 
-        listFilterSpecies.setModel(new javax.swing.AbstractListModel<String>() {
+        listFilterSpecies.setModel(new AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
@@ -122,7 +125,7 @@ public class UserView extends javax.swing.JFrame{
 
         tabbedFilterPane.addTab("Species", tabFilterSpecies);
 
-        listFilterPlants.setModel(new javax.swing.AbstractListModel<String>() {
+        listFilterPlants.setModel(new AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
@@ -132,65 +135,62 @@ public class UserView extends javax.swing.JFrame{
         tabbedFilterPane.addTab("Genus", tabFilterPlants);
 
         btnZoomOut.setText("-");
+        btnZoomOut.addActionListener(evt -> btnZoomOutActionPerformed(evt));
 
-        lblZoom.setFont(new java.awt.Font("Ubuntu", 0, 24)); // NOI18N
-        lblZoom.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblZoom.setFont(new Font("Ubuntu", 0, 24)); // NOI18N
+        lblZoom.setHorizontalAlignment(SwingConstants.CENTER);
         lblZoom.setText("Zoom");
 
-        lblFilter.setFont(new java.awt.Font("Ubuntu", 0, 24)); // NOI18N
+        lblFilter.setFont(new Font("Ubuntu", 0, 24)); // NOI18N
         lblFilter.setText("Filter");
 
         jLabel1.setText("Plant Height");
 
         jLabel2.setText("Canopy Radius");
 
-        lblSimulation.setFont(new java.awt.Font("Ubuntu", 0, 24)); // NOI18N
+        lblSimulation.setFont(new Font("Ubuntu", 0, 24)); // NOI18N
         lblSimulation.setText("Simulations");
 
         lblSimType.setText("Type");
 
-        cbxSimulationType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "None", "Fire" }));
-        cbxSimulationType.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxSimulationTypeActionPerformed(evt);
-            }
-        });
+        cbxSimulationType.setModel(new DefaultComboBoxModel<>(new String[] { "None", "Fire" }));
+        cbxSimulationType.addActionListener(evt -> cbxSimulationTypeActionPerformed(evt));
 
         pnlSimControls.setBorder(null);
-        pnlSimControls.setMaximumSize(new java.awt.Dimension(170, 170));
-        pnlSimControls.setMinimumSize(new java.awt.Dimension(170, 170));
-        pnlSimControls.setPreferredSize(new java.awt.Dimension(170, 170));
+        pnlSimControls.setMaximumSize(new Dimension(170, 170));
+        pnlSimControls.setMinimumSize(new Dimension(170, 170));
+        pnlSimControls.setPreferredSize(new Dimension(170, 170));
 
-        javax.swing.GroupLayout pnlSimControlsLayout = new javax.swing.GroupLayout(pnlSimControls);
+        GroupLayout pnlSimControlsLayout = new GroupLayout(pnlSimControls);
         pnlSimControls.setLayout(pnlSimControlsLayout);
         pnlSimControlsLayout.setHorizontalGroup(
-            pnlSimControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            pnlSimControlsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
         pnlSimControlsLayout.setVerticalGroup(
-            pnlSimControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            pnlSimControlsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGap(0, 170, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout pnlControlsLayout = new javax.swing.GroupLayout(pnlControls);
+        GroupLayout pnlControlsLayout = new GroupLayout(pnlControls);
         pnlControls.setLayout(pnlControlsLayout);
         pnlControlsLayout.setHorizontalGroup(
-            pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            pnlControlsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addComponent(tabbedFilterPane)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlControlsLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnZoomIn, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnZoomOut, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(GroupLayout.Alignment.TRAILING, pnlControlsLayout.createSequentialGroup()
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnZoomIn, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnZoomOut, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38))
             .addGroup(pnlControlsLayout.createSequentialGroup()
-                .addGroup(pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlControlsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlControlsLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                        .addComponent(jSlider2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addGroup(pnlControlsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                             .addGroup(pnlControlsLayout.createSequentialGroup()
                                 .addGap(23, 23, 23)
-                                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jSlider1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                             .addGroup(pnlControlsLayout.createSequentialGroup()
                                 .addGap(93, 93, 93)
                                 .addComponent(lblFilter))
@@ -202,13 +202,13 @@ public class UserView extends javax.swing.JFrame{
                                 .addComponent(jLabel2))
                             .addGroup(pnlControlsLayout.createSequentialGroup()
                                 .addGap(37, 37, 37)
-                                .addGroup(pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(pnlSimControls, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                                .addGroup(pnlControlsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                    .addComponent(pnlSimControls, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
                                     .addGroup(pnlControlsLayout.createSequentialGroup()
                                         .addComponent(lblSimType)
                                         .addGap(18, 18, 18)
-                                        .addGroup(pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(cbxSimulationType, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(pnlControlsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                            .addComponent(cbxSimulationType, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
                                             .addComponent(lblZoom)))))))
                     .addGroup(pnlControlsLayout.createSequentialGroup()
                         .addGap(60, 60, 60)
@@ -216,34 +216,34 @@ public class UserView extends javax.swing.JFrame{
                 .addGap(26, 26, 26))
         );
         pnlControlsLayout.setVerticalGroup(
-            pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            pnlControlsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(pnlControlsLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(lblSimulation)
                 .addGap(18, 18, 18)
-                .addGroup(pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlControlsLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(lblSimType)
-                    .addComponent(cbxSimulationType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbxSimulationType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(pnlSimControls, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlSimControls, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lblZoom)
                 .addGap(18, 18, 18)
-                .addGroup(pnlControlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlControlsLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(btnZoomIn)
                     .addComponent(btnZoomOut))
                 .addGap(28, 28, 28)
                 .addComponent(lblFilter)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSlider1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(tabbedFilterPane, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSlider2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(tabbedFilterPane, GroupLayout.PREFERRED_SIZE, 257, GroupLayout.PREFERRED_SIZE))
         );
 
         menuBar.setName(""); // NOI18N
@@ -251,24 +251,24 @@ public class UserView extends javax.swing.JFrame{
         mbFIleOption.setText("File");
 
         miLoadFIles.setText("Load Files");
-        miLoadFIles.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        miLoadFIles.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 miLoadFIlesActionPerformed(evt);
             }
         });
         mbFIleOption.add(miLoadFIles);
 
         miRestart.setText("Restart");
-        miRestart.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        miRestart.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 miRestartActionPerformed(evt);
             }
         });
         mbFIleOption.add(miRestart);
 
         miExit.setText("Exit");
-        miExit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        miExit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 miExitActionPerformed(evt);
             }
         });
@@ -278,29 +278,35 @@ public class UserView extends javax.swing.JFrame{
 
         setJMenuBar(menuBar);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(pnlVizualizer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlControls, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(pnlVizualizer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlControls, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlVizualizer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(pnlControls, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(pnlVizualizer, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlControls, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-
+       
         pack();
+
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnZoomOutActionPerformed(ActionEvent evt) {
+
+    }
+
     /**
      * onClickEventListener for "File" menu item
      * Opens FileLoaderDialog and sets it to visible
      * @param evt
      */
-    private void miLoadFIlesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miLoadFIlesActionPerformed
+    private void miLoadFIlesActionPerformed(ActionEvent evt) {//GEN-FIRST:event_miLoadFIlesActionPerformed
         FileLoaderDialog dialog = new FileLoaderDialog(this, rootPaneCheckingEnabled);
         dialog.setVisible(true);// TODO add your handling code here:
     }//GEN-LAST:event_miLoadFIlesActionPerformed
@@ -309,7 +315,7 @@ public class UserView extends javax.swing.JFrame{
      * Exits application
      * @param evt
      */
-    private void miExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miExitActionPerformed
+    private void miExitActionPerformed(ActionEvent evt) {//GEN-FIRST:event_miExitActionPerformed
         System.exit(0);        // TODO add your handling code here:
     }//GEN-LAST:event_miExitActionPerformed
     /**
@@ -317,7 +323,7 @@ public class UserView extends javax.swing.JFrame{
      * Gets selected type and displays the relevant controls for the simulation
      * @param evt
      */
-    private void cbxSimulationTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSimulationTypeActionPerformed
+    private void cbxSimulationTypeActionPerformed(ActionEvent evt) {//GEN-FIRST:event_cbxSimulationTypeActionPerformed
         switch(cbxSimulationType.getSelectedItem().toString())
         {
             case "None":
@@ -338,12 +344,9 @@ public class UserView extends javax.swing.JFrame{
                     JButton btnStartFire= new JButton("Start Fire");
                     btnWind.setAlignmentX(Component.CENTER_ALIGNMENT);
                     btnStartFire.setAlignmentX(Component.CENTER_ALIGNMENT);
-                    btnWind.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent actionEvent) {
-                            WindSetDialog dialog = new WindSetDialog(UserView.this,rootPaneCheckingEnabled);
-                            dialog.setVisible(true);
-                        }
+                    btnWind.addActionListener(actionEvent -> {
+                        WindSetDialog dialog = new WindSetDialog(UserView.this,rootPaneCheckingEnabled);
+                        dialog.setVisible(true);
                     });
                     pnlSimControls.add(btnWind);
                     pnlSimControls.add(btnStartFire);
@@ -362,7 +365,7 @@ public class UserView extends javax.swing.JFrame{
     * Restarts application 
     * @param evt
     */
-    private void miRestartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRestartActionPerformed
+    private void miRestartActionPerformed(ActionEvent evt) {//GEN-FIRST:event_miRestartActionPerformed
           if(JOptionPane.showConfirmDialog(null, "Are you sure you want to restart?") == JOptionPane.YES_OPTION){
               // TODO: Write clear program code here
           }
@@ -379,40 +382,38 @@ public class UserView extends javax.swing.JFrame{
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UserView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            Logger.getLogger(UserView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UserView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            Logger.getLogger(UserView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UserView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UserView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            Logger.getLogger(UserView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(UserView.class.getName()).log(Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new UserView().setVisible(true);
             }
         });
     }
 
-    /*Temporary Horizontal Prototype Methods*/
       /**
      * Gets Jlabel with embedded image to display on visualizer panel
      * @param
      * @throws IOException
      */
     public static void setVisualizerScreen(JLabel vizLabel) throws IOException {
-        //JLabel vizLabel = localController.getNewVisualizerImage();
-        vizLabel.setBounds(100, 100, pnlVizualizer.getWidth(), pnlVizualizer.getHeight());
+        vizLabel.setBounds(0, 0, pnlVizualizer.getWidth(), pnlVizualizer.getHeight());
         pnlVizualizer.add(vizLabel);
         pnlVizualizer.revalidate();
         pnlVizualizer.repaint();

@@ -34,20 +34,6 @@ public class Controller {
 
     }
     /**
-    * Receive file name type and extension and show file chooser dialog
-    * returns file path
-    * @param name name, String fileType
-    */
-    public String selectFile(String name, String fileType) {
-        JFileChooser fileDialog = new JFileChooser();
-        fileDialog.setFileFilter(new FileNameExtensionFilter(name, fileType));
-        int returnVal = fileDialog.showOpenDialog(null);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            return fileDialog.getSelectedFile().getAbsolutePath();
-        }
-        return "No File Selected";
-    }
-    /**
     * Connects FileLoader to FileLoaderDialog
     */
     public void loadFile(String path, String fileType){
@@ -66,7 +52,6 @@ public class Controller {
             }
         }
 
-        // TODO: Connect FileLoader
     }
     /**
     * Used in determining whether EcoViz has been opened for the first time
@@ -96,7 +81,7 @@ public class Controller {
         closeLoadingScreenAfterTime(4).start();
         
         JOptionPane.showOptionDialog(parentFrame, "Loading files, please wait...","Initializing EcoViz", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null);
-        getNewVisualizerImage();
+        //getNewVisualizerImage();
     }
 
     /**
@@ -124,15 +109,18 @@ public class Controller {
      * Generates the terrain visualisation and embeds it in a JLabel
      * @throws IOException
      */
-    public void getNewVisualizerImage() throws IOException {
+    public void initializeTerrainGrid() throws IOException {
         System.out.println("GETVIZIMAGE EXECUTED");
+        UserView.pnlVizualizer.setGrid(new Grid(FileLoader.getDimx(),FileLoader.getDimy(),FileLoader.getSpacing(),FileLoader.getLatitude(), FileLoader.getTerrain()));
+        updateView();
+        /*
         BufferedImage viz = buildGrid() ;
         Image vizScaled = viz.getScaledInstance(
                 UserView.getPnlVizualizer().getWidth(),
                 UserView.getPnlVizualizer().getHeight(),
                 Image.SCALE_SMOOTH);
         JLabel vizLabel = new JLabel(new ImageIcon(vizScaled));
-        UserView.setVisualizerScreen(vizLabel);
+        UserView.setVisualizerScreen(vizLabel);*/
     }
 
     public BufferedImage buildGrid() throws IOException {
@@ -165,6 +153,12 @@ public class Controller {
             }
         }
         UserView.getlistFilterGenus().setModel(listModel);
+    }
+
+    public void updateView(){
+        UserView.pnlVizualizer.revalidate();
+        UserView.pnlVizualizer.repaint();
+
     }
 
     public String getSPC(String spc){
