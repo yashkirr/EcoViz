@@ -6,6 +6,7 @@
 
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -21,6 +22,8 @@ public class Plant extends Species {
     private Vector pos;     //vs separate xyz
     private String type;
     private boolean isBurnt;
+    private Ellipse2D circle;
+    private Color color;
 
     /**
     *default constructor
@@ -32,6 +35,8 @@ public class Plant extends Species {
         this.pos = null;
         this.type = "No type";
         this.isBurnt = false;
+        circle = null;
+        color = null;
     }
 
     /**
@@ -42,9 +47,11 @@ public class Plant extends Species {
         this.age = 0;
         this.radToHi = radToHi;
         this.pos = v;
-
+        this.color = null;
         this.type = "No type";
         this.isBurnt = false;
+        this.circle = new Ellipse2D.Float();
+        circle.setFrame((float) pos.get(0),(float) pos.get(1),2,2);
     }
 
     /**
@@ -57,6 +64,9 @@ public class Plant extends Species {
         this.pos = location;
         this.type = type;
         this.isBurnt = isBurnt;
+        this.circle = new Ellipse2D.Float();
+        circle.setFrame((float) pos.get(0),(float) pos.get(1),2,2);
+        this.color = null;
     }
 
     /**
@@ -72,6 +82,9 @@ public class Plant extends Species {
         this.pos = location;
         this.type = type;
         this.isBurnt = isBurnt;
+        this.circle = new Ellipse2D.Float();
+        circle.setFrame((float) pos.get(0),(float) pos.get(1),2,2);
+        this.color = null;
     }
 
     /**
@@ -101,6 +114,14 @@ public class Plant extends Species {
         plantDetail.put("isBurnt", isBurnt);
         plantDetail.put("Species Details", super.speciesDetail());
         return plantDetail;
+    }
+
+    public void setColor(Color color){
+        this.color = color;
+    }
+
+    public Color getColor(){
+        return color;
     }
 
 }

@@ -266,7 +266,13 @@ public class FileLoader {
 
     public static float[][] getTerrain(){return terrain;}
 
+    public static ArrayList<ArrayList<Plant>> getSpeciesListCan(){
+        return speciesListCan;
+    }
 
+    public static ArrayList<ArrayList<Plant>> getSpeciesListUnder(){
+        return speciesListUnder;
+    }
 
 }
 

@@ -97,4 +97,8 @@ public class Grid {
     public void setDimy(int dimy) {
         this.dimy = dimy;
     }
+
+    public double getSpacing(){
+        return spacing;
+    }
 }

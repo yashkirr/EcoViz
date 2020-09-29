@@ -81,7 +81,7 @@ public class Controller {
         closeLoadingScreenAfterTime(4).start();
         
         JOptionPane.showOptionDialog(parentFrame, "Loading files, please wait...","Initializing EcoViz", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null);
-        //getNewVisualizerImage();
+        //initializeTerrainGrid();
     }
 
     /**

@@ -179,7 +179,7 @@ public class FileLoaderDialog extends javax.swing.JDialog {
             localController.loadFile(filePathList.get(2),"pdb");
             localController.loadFile(filePathList.get(3),"pdb");
 
-            localController.getNewVisualizerImage();
+            localController.initializeTerrainGrid();
         }catch(IOException e){
             JOptionPane.showMessageDialog(this,"Please check the directory contents for correctness.",
                     "Error",JOptionPane.WARNING_MESSAGE);
