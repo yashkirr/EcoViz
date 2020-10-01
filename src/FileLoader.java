@@ -37,6 +37,7 @@ public class FileLoader {
     private static Species[] speciesCan;  //used in pdb
     private static Species[] speciesUnder;  //used in pdb
     private static String[][] spcKey;
+    private static int[] spcColor;
 
     //plant parameters
     private static int numSpeciesCan;
@@ -78,16 +79,30 @@ public class FileLoader {
     public static void readSPC(String spc){
         try {
             Scanner spcScanner = new Scanner(new File(spc));
-            setSpcKey(new String[16][2]);
+            setSpcKey(new String[100][2]);
             String junk;
-            for (int i = 0; i<16; i++) {          // could generalise line count
+            int i=0;
+            //for (int i = 0; i<16; i++) {          // could generalise line count
+            while(spcScanner.hasNext()){
                 //junk = spcScanner.next();
                 //System.out.println(junk);
                 String[] line = spcScanner.nextLine().split("“");
                 spcKey[i][0] = line[1].split("”")[0]; //English name
-                System.out.println(spcKey[i][0]);
                 spcKey[i][1] = line[2].split("”")[0]; //Latin name
-                System.out.println(spcKey[i][1]);
+                i++;
+            }
+            //Set colours
+            spcColor = new int[i+1];
+            int j = 0; //counter
+            int alpha = (int) (50 * Math.pow(2,24)); //transparency value
+            for(int R = 0; R<=3; R++){
+                for(int B = 1; B<=3; B++){
+                    for(int G = 0; G<=3; G++){
+                        spcColor[j] = (int) (G*100*Math.pow(2,16) + B*100*Math.pow(2,8) + R*100 + alpha);
+                        j++;
+                        if(j==i){ return;};
+                    }
+                }
             }
         } catch (FileNotFoundException e) {
             System.out.println("spc file not found");
@@ -136,6 +151,7 @@ public class FileLoader {
                     float height = pdbScanner.nextFloat();
                     float radToHi = pdbScanner.nextFloat();
                     Plant plant = new Plant(v, height, radToHi);
+                    plant.setColor(spcColor[i]);
                     plantList.add(plant);
                 }
                 speciesListCan.add(plantList);
@@ -174,6 +190,7 @@ public class FileLoader {
                 Species s = new Species(ID, Color.GREEN, minH, maxH, avgCanHiRatio, count);
                 speciesUnder[i] = s;  //NB this identifies which species each speciesList object is.
 
+
                 // create list of plants of species type to insert into speciesList
                 ArrayList<Plant> plantList = new ArrayList<Plant>();
                 for (int j = 0; j < count; j++){
@@ -188,6 +205,7 @@ public class FileLoader {
                     float height = pdbScanner.nextFloat();
                     float radToHi = pdbScanner.nextFloat();
                     Plant plant = new Plant(v, height, radToHi);
+                    plant.setColor(spcColor[i]);
                     plantList.add(plant);
                 }
                 speciesListUnder.add(plantList);

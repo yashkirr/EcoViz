@@ -116,8 +116,8 @@ public class Plant extends Species {
         return plantDetail;
     }
 
-    public void setColor(Color color){
-        this.color = color;
+    public void setColor(int rgb){
+        this.color = new Color(rgb, true);
     }
 
     public Color getColor(){

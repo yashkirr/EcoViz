@@ -44,6 +44,10 @@ public class Species {
         this.avgCanopyHeightRatio = avgCanopyHeightRatio;
         this.count = count;
     }
+
+    public int getID(){
+        return this.ID;
+    }
     /**
     *Stores all species details in a hash map and returns the resulting hash map
     */

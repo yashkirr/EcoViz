@@ -110,7 +110,7 @@ public class Controller {
      * @throws IOException
      */
     public void initializeTerrainGrid() throws IOException {
-        System.out.println("GETVIZIMAGE EXECUTED");
+        //System.out.println("GETVIZIMAGE EXECUTED");
         UserView.pnlVizualizer.setGrid(new Grid(FileLoader.getDimx(),FileLoader.getDimy(),FileLoader.getSpacing(),FileLoader.getLatitude(), FileLoader.getTerrain()));
         updateView();
         /*

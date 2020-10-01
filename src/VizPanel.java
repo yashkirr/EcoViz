@@ -49,19 +49,21 @@ public class VizPanel extends JPanel /*implements Runnable*/{
 
         ArrayList<ArrayList<Plant>> pdbCan = FileLoader.getSpeciesListCan();
         ArrayList<ArrayList<Plant>> pdbUnder = FileLoader.getSpeciesListUnder();
-        Iterator i = pdbCan.iterator();
+
+
+        Iterator i = pdbUnder.iterator();
         Iterator j;
         int count = 0;
         int count2 = 0;
 
         while (i.hasNext()){
-            j = pdbCan.get(count).iterator();
+            j = pdbUnder.get(count).iterator();
             while (j.hasNext()){
-                Plant plant = pdbCan.get(count).get(count2);
-                plant.setColor(new Color(count));
+                Plant plant = pdbUnder.get(count).get(count2);
+                //plant.setColor(new Color(100,200,250, 30));
                 Color color = plant.getColor();
                 g.setColor(color);
-                g.fillOval(Math.round((float)plant.getPos().get(0)*getWidth()/(grid.getDimx()*(float)grid.getSpacing())),//*scalingFactorX/Math.round((float)grid.getSpacing()),
+                g.fillRect(Math.round((float)plant.getPos().get(0)*getWidth()/(grid.getDimx()*(float)grid.getSpacing())),//*scalingFactorX/Math.round((float)grid.getSpacing()),
                         Math.round((float)plant.getPos().get(1)*getHeight()/(grid.getDimy()*(float)grid.getSpacing())),
                         5,5);
                 j.next();
@@ -71,19 +73,18 @@ public class VizPanel extends JPanel /*implements Runnable*/{
             count++;
             count2 = 0;
         }
-
-        i = pdbUnder.iterator();
+        i = pdbCan.iterator();
         count = 0;
         count2 = 0;
 
         while (i.hasNext()){
-            j = pdbUnder.get(count).iterator();
+            j = pdbCan.get(count).iterator();
             while (j.hasNext()){
-                Plant plant = pdbUnder.get(count).get(count2);
-                plant.setColor(new Color(100,200,250, 30));
+                Plant plant = pdbCan.get(count).get(count2);
+                //plant.setColor(new Color(count));
                 Color color = plant.getColor();
                 g.setColor(color);
-                g.fillRect(Math.round((float)plant.getPos().get(0)*getWidth()/(grid.getDimx()*(float)grid.getSpacing())),//*scalingFactorX/Math.round((float)grid.getSpacing()),
+                g.fillOval(Math.round((float)plant.getPos().get(0)*getWidth()/(grid.getDimx()*(float)grid.getSpacing())),//*scalingFactorX/Math.round((float)grid.getSpacing()),
                         Math.round((float)plant.getPos().get(1)*getHeight()/(grid.getDimy()*(float)grid.getSpacing())),
                         5,5);
                 j.next();
