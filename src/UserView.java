@@ -7,11 +7,12 @@
 
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.awt.Graphics;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,13 +26,12 @@ public class UserView extends JFrame{
     private JButton btnZoomIn;
     private JButton btnZoomOut;
     private JComboBox<String> cbxSimulationType;
-    private JLabel jLabel1;
+    private JLabel lblPlantHeightSlider;
     private JLabel jLabel2;
-    private JSlider jSlider1;
-    private JSlider jSlider2;
     private JLabel lblFilter;
     private JLabel lblSimType;
     private JLabel lblSimulation;
+    private JLabel lblSimulationControlsHelp;
     private JLabel lblZoom;
     private static JList<String> listFilterPlants;
     private static JList<String> listFilterSpecies;
@@ -43,6 +43,8 @@ public class UserView extends JFrame{
     private JPanel pnlControls;
     private JPanel pnlSimControls;
     public static VizPanel pnlVizualizer;
+    private static JSlider sldCanopyRadius;
+    private static JSlider sldPlantHeight;
     private JScrollPane tabFilterPlants;
     private JScrollPane tabFilterSpecies;
     private JTabbedPane tabbedFilterPane;
@@ -51,7 +53,6 @@ public class UserView extends JFrame{
     //Self-declared Variables
     private static Controller localController;
     private boolean selectedSimType = false;
-    public static VizPanel vizPanel;
 
     /**
      * Creates new form UserView
@@ -75,20 +76,21 @@ public class UserView extends JFrame{
         btnZoomIn = new JButton();
         tabbedFilterPane = new JTabbedPane();
         tabFilterSpecies = new JScrollPane();
-        listFilterSpecies = new JList<>();
+        listFilterSpecies = new JList<String>();
         tabFilterPlants = new JScrollPane();
-        listFilterPlants = new JList<>();
+        listFilterPlants = new JList<String>();
         btnZoomOut = new JButton();
         lblZoom = new JLabel();
         lblFilter = new JLabel();
-        jSlider1 = new JSlider();
-        jLabel1 = new JLabel();
+        sldPlantHeight = new JSlider();
+        lblPlantHeightSlider = new JLabel();
         jLabel2 = new JLabel();
-        jSlider2 = new JSlider();
+        sldCanopyRadius = new JSlider();
         lblSimulation = new JLabel();
         lblSimType = new JLabel();
-        cbxSimulationType = new JComboBox<>();
+        cbxSimulationType = new JComboBox<String>();
         pnlSimControls = new JPanel();
+        lblSimulationControlsHelp = new JLabel();
         menuBar = new JMenuBar();
         mbFIleOption = new JMenu();
         miLoadFIles = new JMenuItem();
@@ -132,10 +134,9 @@ public class UserView extends JFrame{
         });
         tabFilterPlants.setViewportView(listFilterPlants);
 
-        tabbedFilterPane.addTab("Genus", tabFilterPlants);
+        tabbedFilterPane.addTab("Plants", tabFilterPlants);
 
         btnZoomOut.setText("-");
-        btnZoomOut.addActionListener(evt -> btnZoomOutActionPerformed(evt));
 
         lblZoom.setFont(new Font("Ubuntu", 0, 24)); // NOI18N
         lblZoom.setHorizontalAlignment(SwingConstants.CENTER);
@@ -144,33 +145,36 @@ public class UserView extends JFrame{
         lblFilter.setFont(new Font("Ubuntu", 0, 24)); // NOI18N
         lblFilter.setText("Filter");
 
-        jLabel1.setText("Plant Height");
+        sldPlantHeight.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                sldPlantHeightStateChanged(evt);
+            }
+        });
+
+        lblPlantHeightSlider.setText("Plant Height");
 
         jLabel2.setText("Canopy Radius");
+
+        sldCanopyRadius.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent evt) {
+                sldCanopyRadiusStateChanged(evt);
+            }
+        });
 
         lblSimulation.setFont(new Font("Ubuntu", 0, 24)); // NOI18N
         lblSimulation.setText("Simulations");
 
         lblSimType.setText("Type");
 
-        cbxSimulationType.setModel(new DefaultComboBoxModel<>(new String[] { "None", "Fire" }));
-        cbxSimulationType.addActionListener(evt -> cbxSimulationTypeActionPerformed(evt));
+        cbxSimulationType.setModel(new DefaultComboBoxModel<String>(new String[] { "None", "Fire" }));
+        cbxSimulationType.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                cbxSimulationTypeActionPerformed(evt);
+            }
+        });
 
-        pnlSimControls.setBorder(null);
-        pnlSimControls.setMaximumSize(new Dimension(170, 170));
-        pnlSimControls.setMinimumSize(new Dimension(170, 170));
-        pnlSimControls.setPreferredSize(new Dimension(170, 170));
-
-        GroupLayout pnlSimControlsLayout = new GroupLayout(pnlSimControls);
-        pnlSimControls.setLayout(pnlSimControlsLayout);
-        pnlSimControlsLayout.setHorizontalGroup(
-            pnlSimControlsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        pnlSimControlsLayout.setVerticalGroup(
-            pnlSimControlsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 170, Short.MAX_VALUE)
-        );
+        lblSimulationControlsHelp.setText("<html>\nControls will appear once<br> a simulation type is<br> selected.");
+        //pnlSimControls.setViewportView(lblSimulationControlsHelp);
 
         GroupLayout pnlControlsLayout = new GroupLayout(pnlControls);
         pnlControls.setLayout(pnlControlsLayout);
@@ -186,24 +190,24 @@ public class UserView extends JFrame{
             .addGroup(pnlControlsLayout.createSequentialGroup()
                 .addGroup(pnlControlsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(pnlControlsLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                        .addComponent(jSlider2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(sldCanopyRadius, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addGroup(pnlControlsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                             .addGroup(pnlControlsLayout.createSequentialGroup()
                                 .addGap(23, 23, 23)
-                                .addComponent(jSlider1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                .addComponent(sldPlantHeight, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                             .addGroup(pnlControlsLayout.createSequentialGroup()
                                 .addGap(93, 93, 93)
                                 .addComponent(lblFilter))
                             .addGroup(pnlControlsLayout.createSequentialGroup()
                                 .addGap(78, 78, 78)
-                                .addComponent(jLabel1))
+                                .addComponent(lblPlantHeightSlider))
                             .addGroup(pnlControlsLayout.createSequentialGroup()
                                 .addGap(74, 74, 74)
                                 .addComponent(jLabel2))
                             .addGroup(pnlControlsLayout.createSequentialGroup()
                                 .addGap(37, 37, 37)
-                                .addGroup(pnlControlsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                    .addComponent(pnlSimControls, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                                .addGroup(pnlControlsLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(pnlSimControls)
                                     .addGroup(pnlControlsLayout.createSequentialGroup()
                                         .addComponent(lblSimType)
                                         .addGap(18, 18, 18)
@@ -213,7 +217,7 @@ public class UserView extends JFrame{
                     .addGroup(pnlControlsLayout.createSequentialGroup()
                         .addGap(60, 60, 60)
                         .addComponent(lblSimulation)))
-                .addGap(26, 26, 26))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         pnlControlsLayout.setVerticalGroup(
             pnlControlsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -225,7 +229,7 @@ public class UserView extends JFrame{
                     .addComponent(lblSimType)
                     .addComponent(cbxSimulationType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(pnlSimControls, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlSimControls, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lblZoom)
                 .addGap(18, 18, 18)
@@ -235,13 +239,13 @@ public class UserView extends JFrame{
                 .addGap(28, 28, 28)
                 .addComponent(lblFilter)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
+                .addComponent(lblPlantHeightSlider)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSlider1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(sldPlantHeight, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSlider2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(sldCanopyRadius, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(tabbedFilterPane, GroupLayout.PREFERRED_SIZE, 257, GroupLayout.PREFERRED_SIZE))
         );
@@ -292,9 +296,8 @@ public class UserView extends JFrame{
             .addComponent(pnlVizualizer, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(pnlControls, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-       
-        pack();
 
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnZoomOutActionPerformed(ActionEvent evt) {
@@ -372,6 +375,23 @@ public class UserView extends JFrame{
         
     }//GEN-LAST:event_miRestartActionPerformed
 
+    private void sldCanopyRadiusStateChanged(ChangeEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void sldPlantHeightStateChanged(ChangeEvent evt) {
+        // TODO: @Calley - slider for plant height filter
+        JSlider source = (JSlider) evt.getSource(); //gets the event type
+        //sliders only work in integers
+        if(source.getValue()==sldPlantHeight.getMinimum()){
+            lblPlantHeightSlider.setText("Plant Height"); //if slider value minimum, slider label resets to default
+        }else{
+            lblPlantHeightSlider.setText("Selected Plant Height: " + source.getValue());
+        }
+
+
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -407,6 +427,15 @@ public class UserView extends JFrame{
         });
     }
 
+    public static void setPlantHeightSliderValues(float min,float max){
+        sldPlantHeight.setMinimum(Math.round(min-1));
+        sldPlantHeight.setMaximum(Math.round(max+1));
+    }
+
+    public static void setCanopyRadiusSlider(float min,float max){
+        sldCanopyRadius.setMinimum(Math.round(min-1));
+        sldCanopyRadius.setMaximum(Math.round(max+1));
+    }
       /**
      * Gets Jlabel with embedded image to display on visualizer panel
      * @param

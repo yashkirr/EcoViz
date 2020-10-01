@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -9,6 +11,7 @@ public class VizPanel extends JPanel /*implements Runnable*/{
     private static volatile boolean complete;
     private Grid grid;
     private boolean initialized = false;
+    private Image terrainLayer;
 
     public VizPanel(Grid grid){
         super();
@@ -34,7 +37,7 @@ public class VizPanel extends JPanel /*implements Runnable*/{
         if(initialized){
             drawBackground(g); //for drawing the terrain
             try {
-                drawPlantLayer(g); //for drawing plants over terrian
+                drawPlantLayer(g); //for drawing plants over terrain
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -102,6 +105,7 @@ public class VizPanel extends JPanel /*implements Runnable*/{
                     getHeight(),
                     Image.SCALE_SMOOTH);
             g.drawImage(vizscaled,0,0,null);
+            this.terrainLayer = vizscaled;
         } catch (Exception e) {
             e.printStackTrace();
         }
