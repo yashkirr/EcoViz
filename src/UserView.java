@@ -51,7 +51,7 @@ public class UserView extends JFrame{
     // End of variables declaration//GEN-END:variables
 
     //Self-declared Variables
-    private static Controller localController;
+    public static Controller localController;
     private boolean selectedSimType = false;
 
     /**
@@ -382,14 +382,13 @@ public class UserView extends JFrame{
     private void sldPlantHeightStateChanged(ChangeEvent evt) {
         // TODO: @Calley - slider for plant height filter
         JSlider source = (JSlider) evt.getSource(); //gets the event type
+        pnlVizualizer.heightSliderValue = source.getValue();
         //sliders only work in integers
         if(source.getValue()==sldPlantHeight.getMinimum()){
             lblPlantHeightSlider.setText("Plant Height"); //if slider value minimum, slider label resets to default
         }else{
             lblPlantHeightSlider.setText("Selected Plant Height: " + source.getValue());
         }
-
-
     }
 
     /**
@@ -430,6 +429,14 @@ public class UserView extends JFrame{
     public static void setPlantHeightSliderValues(float min,float max){
         sldPlantHeight.setMinimum(Math.round(min-1));
         sldPlantHeight.setMaximum(Math.round(max+1));
+    }
+    public static int getPlantHeightMin(){
+        if (sldPlantHeight !=null) {
+            return sldPlantHeight.getMinimum();
+        }
+        else{
+            return -1;
+        }
     }
 
     public static void setCanopyRadiusSlider(float min,float max){

@@ -124,4 +124,7 @@ public class Plant extends Species {
         return color;
     }
 
+    public float getHeight(){
+        return height;
+    }
 }

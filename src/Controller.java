@@ -147,6 +147,7 @@ public class Controller {
     public void getGenusList(String[][] list){
         DefaultListModel<String> listModel = new DefaultListModel<>();
         for (int i = 0; i < list.length; i++) {
+            //System.out.println(list[i][1]);
             String genus = list[i][1].split(" ")[0];
             if(!listModel.contains(genus.toString())){
                 listModel.addElement(genus);

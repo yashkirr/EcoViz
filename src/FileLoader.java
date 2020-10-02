@@ -85,7 +85,14 @@ public class FileLoader {
     public static void readSPC(String spc){
         try {
             Scanner spcScanner = new Scanner(new File(spc));
-            setSpcKey(new String[100][2]);
+            int count = 0;
+            while (spcScanner.hasNext()){
+                count++;
+                spcScanner.nextLine();
+            }
+
+            spcScanner = new Scanner(new File(spc));
+            setSpcKey(new String[count][2]);
             String junk;
             int i=0;
             //for (int i = 0; i<16; i++) {          // could generalise line count
@@ -312,6 +319,9 @@ public class FileLoader {
         return speciesListUnder;
     }
 
+    public static int[] getSpcColor(){
+        return spcColor;
+    }
 }
 
 
