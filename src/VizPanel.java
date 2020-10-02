@@ -40,7 +40,7 @@ public class VizPanel extends JPanel /*implements Runnable*/{
         if(initialized){
             drawBackground(g); //for drawing the terrain
             try {
-                if (heightSliderValue!=UserView.getPlantHeightMin()){
+                if (true){//heightSliderValue>UserView.getPlantHeightMin()){  //changed != to >
                     filterHeight(heightSliderValue,g);
                 }
                 else{
@@ -136,7 +136,7 @@ public class VizPanel extends JPanel /*implements Runnable*/{
             j = pdbUnder.get(count).iterator();
             while (j.hasNext()) {
                 Plant plant = pdbUnder.get(count).get(count2);
-                if ((sliderVal >= plant.getHeight())){
+                if ((sliderVal <= plant.getHeight())){
                     //plant.setColor(new Color(1,1,1,0));
                     g.setColor(plant.getColor());
                     g.fillRect(Math.round((float)plant.getPos().get(0)*getWidth()/(grid.getDimx()*(float)grid.getSpacing())),//*scalingFactorX/Math.round((float)grid.getSpacing()),
@@ -160,7 +160,7 @@ public class VizPanel extends JPanel /*implements Runnable*/{
             j = pdbCan.get(count).iterator();
             while (j.hasNext()) {
                 Plant plant = pdbCan.get(count).get(count2);
-                if ((sliderVal >= plant.getHeight())){
+                if ((sliderVal <= plant.getHeight())){
                     //plant.setColor(new Color(1,1,1,0));
                     g.setColor(plant.getColor());
                     g.fillOval(Math.round((float)plant.getPos().get(0)*getWidth()/(grid.getDimx()*(float)grid.getSpacing())),//*scalingFactorX/Math.round((float)grid.getSpacing()),

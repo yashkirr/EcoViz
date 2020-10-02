@@ -107,7 +107,7 @@ public class FileLoader {
             //Set colours
             spcColor = new int[i+1];
             int j = 0; //counter
-            int alpha = (int) (50 * Math.pow(2,24)); //transparency value
+            int alpha = (int) (80 * Math.pow(2,24)); //transparency value
             for(int R = 0; R<=3; R++){
                 for(int B = 1; B<=3; B++){
                     for(int G = 0; G<=3; G++){

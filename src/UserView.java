@@ -384,7 +384,7 @@ public class UserView extends JFrame{
         JSlider source = (JSlider) evt.getSource(); //gets the event type
         pnlVizualizer.heightSliderValue = source.getValue();
         //sliders only work in integers
-        if(source.getValue()==sldPlantHeight.getMinimum()){
+        if(source.getValue()<=sldPlantHeight.getMinimum()){
             lblPlantHeightSlider.setText("Plant Height"); //if slider value minimum, slider label resets to default
         }else{
             lblPlantHeightSlider.setText("Selected Plant Height: " + source.getValue());
