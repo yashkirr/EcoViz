@@ -149,8 +149,6 @@ public class FileLoaderDialog extends javax.swing.JDialog {
             System.out.println("No Selection ");
         }
     }
-        //add strings for getting file paths
-        //open file chooser to select directory
 
 
     private void btnLoadFilesActionPerformed(ActionEvent evt) {

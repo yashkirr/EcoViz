@@ -158,8 +158,12 @@ public class Controller {
     public void updateView(){
         UserView.pnlVizualizer.revalidate();
         UserView.pnlVizualizer.repaint();
+        getGenusList(FileLoader.getSpcKey());
+        getSpeciesList(FileLoader.getSpcKey());
+        UserView.setPlantHeightSliderValues(FileLoader.getMinPlantHeight(),FileLoader.getMaxPlantHeight());
 
     }
+
 
     public String getSPC(String spc){
         return spc;

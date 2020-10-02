@@ -45,6 +45,12 @@ public class FileLoader {
     private static ArrayList<ArrayList<Plant>> speciesListCan;
     private static ArrayList<ArrayList<Plant>> speciesListUnder;
 
+    //filter parameters
+    private static float minPlantHeightUndergrowth;
+    private static float minPlantHeightCanopy;
+    private static float maxPlantHeightUndergrowth;
+    private static float maxPlantHeightCanopy;
+
 
     /** @author Victor Bantchovski
      * Takes in an .elv file and reads the formatted data in the file into data structures.
@@ -130,6 +136,8 @@ public class FileLoader {
                 int ID = pdbScanner.nextInt();
                 float minH = pdbScanner.nextFloat();
                 float maxH = pdbScanner.nextFloat();
+                minPlantHeightCanopy = minH;
+                maxPlantHeightCanopy = maxH;
                 float avgCanHiRatio = pdbScanner.nextFloat();
                 int count = pdbScanner.nextInt();
 
@@ -183,6 +191,8 @@ public class FileLoader {
                 int ID = pdbScanner.nextInt();
                 float minH = pdbScanner.nextFloat();
                 float maxH = pdbScanner.nextFloat();
+                minPlantHeightUndergrowth = minH;
+                maxPlantHeightUndergrowth = maxH;
                 float avgCanHiRatio = pdbScanner.nextFloat();
                 int count = pdbScanner.nextInt();
 
@@ -226,6 +236,9 @@ public class FileLoader {
         return spcKey;
     }
 
+    public static String[][] getSpcKey(){
+        return spcKey;
+    }
     /**
      * @author Yashkir Ramsamy
      * @param spcKey
@@ -273,6 +286,13 @@ public class FileLoader {
         return fileList;
     }
 
+    public static float getMaxPlantHeight(){
+        return Math.max(maxPlantHeightCanopy,maxPlantHeightUndergrowth);
+    }
+
+    public static float getMinPlantHeight(){
+        return Math.min(minPlantHeightCanopy,minPlantHeightUndergrowth);
+    }
 
     public static int getDimx(){ return dimx;}
 
