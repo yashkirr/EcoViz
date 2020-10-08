@@ -117,6 +117,12 @@ public class UserView extends JFrame{
         pnlControls.setForeground(new Color(56, 60, 74));
 
         btnZoomIn.setText("+");
+        btnZoomIn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                zoomInButtonClick();
+            }
+        });
 
         listFilterSpecies.setModel(new AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -137,6 +143,12 @@ public class UserView extends JFrame{
         tabbedFilterPane.addTab("Plants", tabFilterPlants);
 
         btnZoomOut.setText("-");
+        btnZoomOut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                zoomOutButtonClick();
+            }
+        });
 
         lblZoom.setFont(new Font("Ubuntu", 0, 24)); // NOI18N
         lblZoom.setHorizontalAlignment(SwingConstants.CENTER);
@@ -300,6 +312,14 @@ public class UserView extends JFrame{
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void zoomOutButtonClick() {
+        pnlVizualizer.zoomOutTenPercent();
+    }
+
+    private void zoomInButtonClick() {
+        pnlVizualizer.zoomInTenPercent();
+    }
+
     private void btnZoomOutActionPerformed(ActionEvent evt) {
 
     }
@@ -380,7 +400,7 @@ public class UserView extends JFrame{
     }
 
     private void sldPlantHeightStateChanged(ChangeEvent evt) {
-        // TODO: @Calley - slider for plant height filter
+
         JSlider source = (JSlider) evt.getSource(); //gets the event type
         pnlVizualizer.heightSliderValue = source.getValue();
         //sliders only work in integers

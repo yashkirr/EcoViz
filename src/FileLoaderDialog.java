@@ -143,7 +143,6 @@ public class FileLoaderDialog extends javax.swing.JDialog {
                     +  chooser.getSelectedFile());
             txtDirectoryInput.setText(chooser.getSelectedFile().toString());
 
-
         }
         else {
             System.out.println("No Selection ");
@@ -186,17 +185,6 @@ public class FileLoaderDialog extends javax.swing.JDialog {
             e.printStackTrace();
         }
 
-
-        /*
-        try {
-            localController.getSpeciesList(FileLoader.getSpcKey(txtSpeciesInput.getText()));
-            localController.getGenusList(FileLoader.getSpcKey(txtSpeciesInput.getText())); //TODO READING FILE TWICE FIX
-            localController.showLoadingScreen(parentFrame);
-            //VICTOR EDIT FOR GRAPHIC DISPLAY
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 
     public boolean validateDataDirectory(ArrayList<String> fileList) throws IOException {
