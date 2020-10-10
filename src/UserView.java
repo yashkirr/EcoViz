@@ -15,6 +15,10 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import static java.lang.Thread.currentThread;
 
 /**
  *
@@ -126,6 +130,13 @@ public class UserView extends JFrame{
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        listFilterSpecies.addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent evt) {
+                jListSpeciesSelect(evt);
+            }
+        });
         tabFilterSpecies.setViewportView(listFilterSpecies);
 
         tabbedFilterPane.addTab("Species", tabFilterSpecies);
@@ -135,6 +146,7 @@ public class UserView extends JFrame{
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        listFilterPlants.addListSelectionListener(evt -> jListPlantSelect(evt));
         tabFilterPlants.setViewportView(listFilterPlants);
 
         tabbedFilterPane.addTab("Genus", tabFilterPlants);
@@ -322,6 +334,45 @@ public class UserView extends JFrame{
 
     }
 
+    /**JList methods for filtering through species.
+     * Access Fileloader static variables
+     * @param evt
+     */
+    private void jListPlantSelect(ListSelectionEvent evt) {
+        //set text on right here
+        String s = (String) listFilterPlants.getSelectedValue();
+        if(s==null){return;}
+        String[][] spc = FileLoader.getSpcKey();
+        for(int i=0;i<spc.length;i++){
+            if(s.equals(spc[i][1].split(" ")[0])&&!FileLoader.getSpcDraw()[i]){
+                System.out.println(s);
+                System.out.println(spc[i][1].split(" ")[0]);
+                FileLoader.setSpcDraw(i,true);
+                break;
+            }
+            else if(s.equals(spc[i][1].split(" ")[0])&&FileLoader.getSpcDraw()[i]){
+                System.out.println(s);
+                System.out.println(spc[i][1].split(" ")[0]);
+                FileLoader.setSpcDraw(i,false);
+                break;
+            }
+        }
+    }
+    private void jListSpeciesSelect(ListSelectionEvent evt) {
+        //set text on right here
+        String s = (String) listFilterSpecies.getSelectedValue();
+        if(s==null){return;}
+        String[][] spc = FileLoader.getSpcKey();
+        for(int i=0;i<spc.length;i++){
+            if(s.equals(spc[i][0])&&!FileLoader.getSpcDraw()[i]){
+                FileLoader.setSpcDraw(i,true);
+            }
+            else if(s.equals(spc[i][0])&&FileLoader.getSpcDraw()[i]){
+                FileLoader.setSpcDraw(i,false);
+            }
+        }
+    }
+
     /**
      * onClickEventListener for "File" menu item
      * Opens FileLoaderDialog and sets it to visible
@@ -412,6 +463,9 @@ public class UserView extends JFrame{
             lblPlantHeightSlider.setText("Selected Plant Height: " + source.getValue());
         }
     }
+    //list filtration
+    private void selectListSPC(ActionEvent evt){
+    }
 
     /**
      * @param args the command line arguments
@@ -439,6 +493,8 @@ public class UserView extends JFrame{
             Logger.getLogger(UserView.class.getName()).log(Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        Thread currentThread = currentThread();
+        System.out.println(currentThread());
 
         /* Create and display the form */
         EventQueue.invokeLater(() -> new UserView().setVisible(true));

@@ -19,11 +19,14 @@ public class Plant extends Species {
     private float age;
     private float canopyRadius;
     private float radToHi;
-    private Vector pos;     //vs separate xyz
+    private Vector<Float> pos;     //vs separate xyz
     private String type;
     private boolean isBurnt;
     private Ellipse2D circle;
     private Color color;
+    private int rectX;
+    private int rectY;
+    private boolean draw = true;
 
     /**
     *default constructor
@@ -42,7 +45,7 @@ public class Plant extends Species {
     /**
     * Constructor - initialises all variables to variables specified by the argument
     */
-    public Plant(Vector v, float height, float radToHi) {
+    public Plant(Vector v, float height, float radToHi, int dimx, int dimy, float spacing, int pnlWidth, int pnlHeight) {
         this.height = height;
         this.age = 0;
         this.radToHi = radToHi;
@@ -50,9 +53,19 @@ public class Plant extends Species {
         this.color = null;
         this.type = "No type";
         this.isBurnt = false;
+        this.rectX = Math.round(this.pos.get(0)*pnlWidth/(dimx*spacing));
+        this.rectY = Math.round(this.pos.get(1)*pnlHeight/(dimy*spacing));
         this.circle = new Ellipse2D.Float();
-        circle.setFrame((float) pos.get(0),(float) pos.get(1),2,2);
+        circle.setFrame(this.rectX, this.rectY,5,5);
     }
+    // retrieve Rect values
+    public int getRectX(){ return this.rectX;}
+    public int getRectY(){ return this.rectY;}
+
+    public void setDrawStat(boolean draw){this.draw=draw;}
+    public boolean getDrawStat(){return this.draw;}
+
+    public Ellipse2D getShape(){return this.circle;}
 
     /**
     * Constructor - initialises all variables to variables specified by the argument
@@ -68,6 +81,7 @@ public class Plant extends Species {
         circle.setFrame((float) pos.get(0),(float) pos.get(1),2,2);
         this.color = null;
     }
+
 
     /**
     * Constructor - initialises all variables to variables specified by the argument
