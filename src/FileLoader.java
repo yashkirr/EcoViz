@@ -50,6 +50,13 @@ public class FileLoader {
     private static float minPlantHeightCanopy;
     private static float maxPlantHeightUndergrowth;
     private static float maxPlantHeightCanopy;
+    private static boolean[] spcDraw;
+    private static boolean[] canDraw;
+    private static boolean[] underDraw;
+
+    //Userview width for plant specs
+    private static int pnlWidth = UserView.pnlVizualizer.getWidth();
+    private static int pnlHeight = UserView.pnlVizualizer.getHeight();
 
 
     /** @author Victor Bantchovski
@@ -93,6 +100,7 @@ public class FileLoader {
 
             spcScanner = new Scanner(new File(spc));
             setSpcKey(new String[count][2]);
+            spcDraw = new boolean[count];
             String junk;
             int i=0;
             //for (int i = 0; i<16; i++) {          // could generalise line count
@@ -102,6 +110,7 @@ public class FileLoader {
                 String[] line = spcScanner.nextLine().split("“");
                 spcKey[i][0] = line[1].split("”")[0]; //English name
                 spcKey[i][1] = line[2].split("”")[0]; //Latin name
+                spcDraw[i]=false;
                 i++;
             }
             //Set colours
@@ -120,6 +129,7 @@ public class FileLoader {
         } catch (FileNotFoundException e) {
             System.out.println("spc file not found");
         }
+
     }
 
     /**
@@ -134,6 +144,7 @@ public class FileLoader {
             // can set color canopy
             numSpeciesCan = pdbScanner.nextInt();
             speciesCan = new Species[numSpeciesCan];
+            canDraw = new boolean[numSpeciesCan];
 
             // create nested arraylist: Species > Plants
 
@@ -151,6 +162,7 @@ public class FileLoader {
                 // create species object and populate species array
                 Species s = new Species(ID, Color.GREEN, minH, maxH, avgCanHiRatio, count);
                 speciesCan[i] = s;  //NB this identifies which species each speciesList object is.
+                //canDraw[s.getID()] = true;
 
                 // create list of plants of species type to insert into speciesList
                 ArrayList<Plant> plantList = new ArrayList<Plant>();
@@ -165,7 +177,7 @@ public class FileLoader {
                     v.add(z);
                     float height = pdbScanner.nextFloat();
                     float radToHi = pdbScanner.nextFloat();
-                    Plant plant = new Plant(v, height, radToHi);
+                    Plant plant = new Plant(v, height, radToHi, dimx, dimy, spacing, pnlWidth, pnlHeight);
                     plant.setColor(spcColor[i]);
                     plantList.add(plant);
                 }
@@ -189,6 +201,7 @@ public class FileLoader {
             // can set color canopy
             numSpeciesUnder = pdbScanner.nextInt();
             speciesUnder = new Species[numSpeciesUnder];
+            //underDraw = new boolean[numSpeciesUnder];
 
             // create nested arraylist: Species > Plants
 
@@ -206,7 +219,7 @@ public class FileLoader {
                 // create species object and populate species array
                 Species s = new Species(ID, Color.GREEN, minH, maxH, avgCanHiRatio, count);
                 speciesUnder[i] = s;  //NB this identifies which species each speciesList object is.
-
+                //underDraw[s.getID()] = true;
 
                 // create list of plants of species type to insert into speciesList
                 ArrayList<Plant> plantList = new ArrayList<Plant>();
@@ -221,7 +234,7 @@ public class FileLoader {
                     v.add(z);
                     float height = pdbScanner.nextFloat();
                     float radToHi = pdbScanner.nextFloat();
-                    Plant plant = new Plant(v, height, radToHi);
+                    Plant plant = new Plant(v, height, radToHi, dimx, dimy, spacing, pnlWidth, pnlHeight);
                     plant.setColor(spcColor[i]);
                     plantList.add(plant);
                 }
@@ -242,7 +255,10 @@ public class FileLoader {
         readSPC(path);
         return spcKey;
     }
-
+    public static Species[] getSpeciesCan(){return speciesCan;}
+    public static  Species[] getSpeciesUnder(){return speciesUnder;}
+    public static boolean[] getSpcDraw(){ return  spcDraw;}
+    public static void setSpcDraw(int i, boolean bool){ spcDraw[i]=bool;}
     public static String[][] getSpcKey(){
         return spcKey;
     }
