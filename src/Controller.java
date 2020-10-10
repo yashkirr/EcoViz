@@ -158,11 +158,15 @@ public class Controller {
     }
 
     public void updateView(){
-        UserView.pnlVizualizer.revalidate();
-        UserView.pnlVizualizer.repaint();
+
+        if(!initialized){
+            UserView.setPlantHeightSliderValues(FileLoader.getMinPlantHeight(),FileLoader.getMaxPlantHeight());
+            initialized = true;
+        }
         getGenusList(FileLoader.getSpcKey());
         getSpeciesList(FileLoader.getSpcKey());
-        UserView.setPlantHeightSliderValues(FileLoader.getMinPlantHeight(),FileLoader.getMaxPlantHeight());
+        UserView.pnlVizualizer.revalidate();
+        UserView.pnlVizualizer.repaint();
 
     }
 

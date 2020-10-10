@@ -309,7 +309,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             repaint();
         }
         //Zoom out
-        if (mouseWheelEvent.getWheelRotation() > 0) {
+        if (mouseWheelEvent.getWheelRotation() > 0 && zoomFactor>=1) {
             zoomFactor /= 1.1;
             repaint();
         }

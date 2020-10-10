@@ -448,9 +448,6 @@ public class UserView extends JFrame{
         // TODO add your handling code here:
     }//GEN-LAST:event_chbCanopyActionPerformed
 
-    private void sldCanopyRadiusStateChanged(ChangeEvent evt) {
-        // TODO add your handling code here:
-    }
 
     private void sldPlantHeightStateChanged(ChangeEvent evt) {
 
