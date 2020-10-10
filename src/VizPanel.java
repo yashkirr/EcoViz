@@ -38,8 +38,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     private Point startPoint;
     private boolean one = false;
     private AffineTransform at = new AffineTransform();
-    private HashMap<Point,Plant> canopyMap;
-    private HashMap<Point,Plant> undergrowthMap;
+   // private HashMap<Point,Plant> canopyMap;
+   // private HashMap<Point,Plant> undergrowthMap;
 
 
     public VizPanel(Grid grid){
@@ -47,8 +47,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         super();
         complete = false;
         this.grid = grid;
-        canopyMap = new HashMap<Point, Plant>();
-        undergrowthMap = new HashMap<Point, Plant>();
+        //canopyMap = new HashMap<Point, Plant>();
+       //undergrowthMap = new HashMap<Point, Plant>();
         canopyList = new ArrayList<Plant>();
         undergrowthList = new ArrayList<Plant>();
         heightSliderValue = UserView.getPlantHeightMin();
@@ -60,8 +60,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         super();
         complete = false;
         heightSliderValue = UserView.getPlantHeightMin();
-        canopyMap = new HashMap<Point, Plant>();
-        undergrowthMap = new HashMap<Point, Plant>();
+       // canopyMap = new HashMap<Point, Plant>();
+        //undergrowthMap = new HashMap<Point, Plant>();
         canopyList = new ArrayList<Plant>();
         undergrowthList = new ArrayList<Plant>();
         addMouseListeners();
@@ -94,6 +94,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             Graphics2D g2 = (Graphics2D) g;
 
             if (zoomer) {
+                setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
                 System.out.println("Zooming");
                 at = new AffineTransform();
 
@@ -109,6 +110,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 at.scale(zoomFactor, zoomFactor);
                 prevZoomFactor = zoomFactor;
                 g2.transform(at);
+                setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 zoomer = false;
             }
 
@@ -123,7 +125,9 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 if (released) {
                     xOffset += xDiff;
                     yOffset += yDiff;
+                    setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                     dragger = false;
+
                 }
 
             }
@@ -169,6 +173,9 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         ArrayList<ArrayList<Plant>> pdbCan = FileLoader.getSpeciesListCan();
         ArrayList<ArrayList<Plant>> pdbUnder = FileLoader.getSpeciesListUnder();
 
+
+
+
         Iterator i = pdbUnder.iterator();
         Iterator j;
         int count = 0;
@@ -183,7 +190,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 while (j.hasNext()) {
                     Plant plant = pdbUnder.get(count).get(count2);
                     undergrowthList.add(plant);
-                    undergrowthMap.put(plant.getPoint(),plant);
+                   // undergrowthMap.put(plant.getPoint(),plant);
                     if ((sliderVal <= plant.getHeight())) {
                         g.fill(plant.getShape());
                         //g.fillRect(plant.getRectX(),plant.getRectY(),5, 5);
@@ -211,7 +218,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 while (j.hasNext()) {
                     Plant plant = pdbCan.get(count).get(count2);
                     canopyList.add(plant);
-                    canopyMap.put(plant.getPoint(),plant);
+                   // canopyMap.put(plant.getPoint(),plant);
                     if ((sliderVal <= plant.getHeight())) {
                         //g.fillOval((int)plant.getRectX(), (int)plant.getRectY(), 5, 5);
                         g.fill(plant.getShape());
@@ -231,15 +238,18 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     public void mouseClicked(MouseEvent mouseEvent) {
 
         Point location = mouseEvent.getPoint();
-        System.out.println("Mouse click detected @ "+location.toString());
+
         for(Plant plant : undergrowthList){
-            if(plant.getShape().contains(location)){
-                System.out.println("HIT"+ plant.detail().toString());
-                plant.detail();
+            if (plant.getShape().contains(location)){
+                System.out.println("Hit Undergrowth");
             }
         }
-        System.out.println("complete");
 
+        for(Plant plant : canopyList){
+            if(plant.getShape().contains(location)){
+                System.out.println("Hit Canopy");
+            }
+        }
     }
 
     public Color getSelectedColor(Point location){
@@ -278,7 +288,6 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
-
             Point curPoint = mouseEvent.getLocationOnScreen();
             xDiff = curPoint.x - startPoint.x;
             yDiff = curPoint.y - startPoint.y;
