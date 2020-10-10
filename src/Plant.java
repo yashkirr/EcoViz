@@ -128,7 +128,6 @@ public class Plant extends Species {
         plantDetail.put("location",pos);
         plantDetail.put("type",type);
         plantDetail.put("isBurnt", isBurnt);
-        plantDetail.put("Species Details", super.speciesDetail());
         return plantDetail;
     }
 
