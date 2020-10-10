@@ -24,8 +24,8 @@ public class Plant extends Species {
     private boolean isBurnt;
     private Ellipse2D circle;
     private Color color;
-    private int rectX;
-    private int rectY;
+    private float rectX;
+    private float rectY;
     private boolean draw = true;
 
     /**
@@ -45,22 +45,24 @@ public class Plant extends Species {
     /**
     * Constructor - initialises all variables to variables specified by the argument
     */
-    public Plant(Vector v, float height, float radToHi, int dimx, int dimy, float spacing, int pnlWidth, int pnlHeight) {
+    public Plant(Vector v, float height, float radius, int dimx, int dimy, float spacing, int pnlWidth, int pnlHeight) {
         this.height = height;
         this.age = 0;
-        this.radToHi = radToHi;
+        this.canopyRadius = radius;
         this.pos = v;
         this.color = null;
         this.type = "No type";
         this.isBurnt = false;
-        this.rectX = Math.round(this.pos.get(0)*pnlWidth/(dimx*spacing));
-        this.rectY = Math.round(this.pos.get(1)*pnlHeight/(dimy*spacing));
+
+        float rectRad = this.canopyRadius*pnlWidth/(dimx*spacing);
+        this.rectX = this.pos.get(0)*pnlWidth/(dimx*spacing) - rectRad;
+        this.rectY = this.pos.get(1)*pnlHeight/(dimy*spacing) - rectRad;
         this.circle = new Ellipse2D.Float();
-        circle.setFrame(this.rectX, this.rectY,5,5);
+        circle.setFrame(this.rectX, this.rectY,rectRad*2,rectRad*2);
     }
     // retrieve Rect values
-    public int getRectX(){ return this.rectX;}
-    public int getRectY(){ return this.rectY;}
+    public float getRectX(){ return this.rectX;}
+    public float getRectY(){ return this.rectY;}
 
     public void setDrawStat(boolean draw){this.draw=draw;}
     public boolean getDrawStat(){return this.draw;}
@@ -141,4 +143,6 @@ public class Plant extends Species {
     public float getHeight(){
         return height;
     }
+
+    public float getDiameter(){ return this.canopyRadius*2;}
 }
