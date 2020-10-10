@@ -34,6 +34,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     private int yDiff;
     private Point startPoint;
     private boolean one = false;
+    private AffineTransform at = new AffineTransform();
 
 
     public VizPanel(Grid grid){
@@ -75,7 +76,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             Graphics2D g2 = (Graphics2D) g;
 
             if (zoomer) {
-                AffineTransform at = new AffineTransform();
+                at = new AffineTransform();
 
                 double xRel = MouseInfo.getPointerInfo().getLocation().getX() - getLocationOnScreen().getX();
                 double yRel = MouseInfo.getPointerInfo().getLocation().getY() - getLocationOnScreen().getY();
@@ -92,8 +93,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 zoomer = false;
             }
 
-            if (dragger) {
-                AffineTransform at = new AffineTransform();
+            else if (dragger) {
+                at = new AffineTransform();
                 at.translate(xOffset + xDiff, yOffset + yDiff);
                 at.scale(zoomFactor, zoomFactor);
                 g2.transform(at);
@@ -105,6 +106,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 }
 
             }
+            else{ g2.transform(at);}
 
             if(!one){
                 drawBackground(g2); //for drawing the terrain
@@ -113,10 +115,10 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             drawBackground(g2);
             try {
                 if (true){//heightSliderValue>UserView.getPlantHeightMin()){  //changed != to >
-                    double now = System.currentTimeMillis();
+                    //double now = System.currentTimeMillis();
                     filterHeight(heightSliderValue,g2);
-                    double then = System.currentTimeMillis()-now;
-                    System.out.println("Duration plantlayer: "+then+currentThread);
+                    //double then = System.currentTimeMillis()-now;
+                    //System.out.println("Duration plantlayer: "+then+currentThread);
                 }
                 else{
                     int s = 2;//drawPlantLayer(g2); //for drawing plants over terrain
