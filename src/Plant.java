@@ -132,6 +132,10 @@ public class Plant extends Species {
         return plantDetail;
     }
 
+    public Point getPoint(){
+        return new Point(Math.round(rectX),Math.round(rectY));
+    }
+
     public void setColor(int rgb){
         this.color = new Color(rgb, true);
     }

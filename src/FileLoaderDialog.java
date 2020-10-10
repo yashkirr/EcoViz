@@ -5,7 +5,7 @@
  */
 
 
-import java.awt.EventQueue;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -149,11 +149,14 @@ public class FileLoaderDialog extends javax.swing.JDialog {
         }
     }
 
+    public void print(String s){
+        System.out.println("FileLoaderDialog: "+s);
+    }
 
     private void btnLoadFilesActionPerformed(ActionEvent evt) {
-        //TODO: Complete full functionality
+        print("btnLoadFilesActionPerformed");
         dataDirectory = txtDirectoryInput.getText();
-        dispose();
+
         try{
             ArrayList<String> fileNameList = FileLoader.listFileNamesInDirectory(new File(dataDirectory)); //Stores file names excluding paths
             if(!validateDataDirectory(fileNameList)){throw new IOException("File Input Error");}
@@ -170,13 +173,14 @@ public class FileLoaderDialog extends javax.swing.JDialog {
             3: .pdb (undergrowth)
 
              */
-            System.out.println(filePathList);
             localController.loadFile(filePathList.get(0),"elv");
             localController.loadFile(filePathList.get(1),"spc");
             localController.loadFile(filePathList.get(2),"pdb");
             localController.loadFile(filePathList.get(3),"pdb");
 
             localController.initializeTerrainGrid();
+            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            dispose();
         }catch(IOException e){
             JOptionPane.showMessageDialog(this,"Please check the directory contents for correctness.",
                     "Error",JOptionPane.WARNING_MESSAGE);

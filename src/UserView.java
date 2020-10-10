@@ -66,7 +66,10 @@ public class UserView extends JFrame{
         initComponents();
         this.setResizable(false);
         localController = new Controller(this);
+        localController.setVisualizerCursor(Cursor.DEFAULT_CURSOR);
     }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -357,6 +360,8 @@ public class UserView extends JFrame{
                 break;
             }
         }
+
+        localController.updateView();
     }
     private void jListSpeciesSelect(ListSelectionEvent evt) {
         //set text on right here
@@ -371,6 +376,8 @@ public class UserView extends JFrame{
                 FileLoader.setSpcDraw(i,false);
             }
         }
+
+        localController.updateView();
     }
 
     /**
@@ -459,6 +466,9 @@ public class UserView extends JFrame{
         }else{
             lblPlantHeightSlider.setText("Selected Plant Height: " + source.getValue());
         }
+
+
+        localController.updateView();
     }
     //list filtration
     private void selectListSPC(ActionEvent evt){

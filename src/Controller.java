@@ -106,22 +106,19 @@ public class Controller {
         t.setRepeats(false);
         return t;
     }
+
+    public void print(String s){
+        System.out.println("Controller: "+s);
+    }
+
     /**
      * Generates the terrain visualisation and embeds it in a JLabel
      * @throws IOException
      */
     public void initializeTerrainGrid() throws IOException {
-        //System.out.println("GETVIZIMAGE EXECUTED");
+        print("initializeTerrainGrid");
         UserView.pnlVizualizer.setGrid(new Grid(FileLoader.getDimx(),FileLoader.getDimy(),FileLoader.getSpacing(),FileLoader.getLatitude(), FileLoader.getTerrain()));
         updateView();
-        /*
-        BufferedImage viz = buildGrid() ;
-        Image vizScaled = viz.getScaledInstance(
-                UserView.getPnlVizualizer().getWidth(),
-                UserView.getPnlVizualizer().getHeight(),
-                Image.SCALE_SMOOTH);
-        JLabel vizLabel = new JLabel(new ImageIcon(vizScaled));
-        UserView.setVisualizerScreen(vizLabel);*/
     }
 
     public BufferedImage buildGrid() throws IOException {
@@ -157,10 +154,15 @@ public class Controller {
         UserView.getlistFilterGenus().setModel(listModel);
     }
 
-    public void updateView(){
+    public void setVisualizerCursor(int handCursor) {
+        UserView.pnlVizualizer.setCursor(Cursor.getPredefinedCursor(handCursor));
+    }
 
+    public void updateView(){
+        print("updateView");
         if(!initialized){
             UserView.setPlantHeightSliderValues(FileLoader.getMinPlantHeight(),FileLoader.getMaxPlantHeight());
+            setVisualizerCursor(Cursor.HAND_CURSOR);
             initialized = true;
         }
         getGenusList(FileLoader.getSpcKey());
