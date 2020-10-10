@@ -110,7 +110,7 @@ public class FileLoader {
                 String[] line = spcScanner.nextLine().split("“");
                 spcKey[i][0] = line[1].split("”")[0]; //English name
                 spcKey[i][1] = line[2].split("”")[0]; //Latin name
-                spcDraw[i]=false;
+                spcDraw[i]=true;
                 i++;
             }
             //Set colours
@@ -176,8 +176,8 @@ public class FileLoader {
                     v.add(y);
                     v.add(z);
                     float height = pdbScanner.nextFloat();
-                    float radToHi = pdbScanner.nextFloat();
-                    Plant plant = new Plant(v, height, radToHi, dimx, dimy, spacing, pnlWidth, pnlHeight);
+                    float radius = pdbScanner.nextFloat();
+                    Plant plant = new Plant(v, height, radius, dimx, dimy, spacing, pnlWidth, pnlHeight);
                     plant.setColor(spcColor[i]);
                     plantList.add(plant);
                 }
@@ -233,8 +233,8 @@ public class FileLoader {
                     v.add(y);
                     v.add(z);
                     float height = pdbScanner.nextFloat();
-                    float radToHi = pdbScanner.nextFloat();
-                    Plant plant = new Plant(v, height, radToHi, dimx, dimy, spacing, pnlWidth, pnlHeight);
+                    float radius = pdbScanner.nextFloat();
+                    Plant plant = new Plant(v, height, radius, dimx, dimy, spacing, pnlWidth, pnlHeight);
                     plant.setColor(spcColor[i]);
                     plantList.add(plant);
                 }

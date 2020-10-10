@@ -34,6 +34,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     private int yDiff;
     private Point startPoint;
     private boolean one = false;
+    private AffineTransform at = new AffineTransform();
 
 
     public VizPanel(Grid grid){
@@ -75,7 +76,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             Graphics2D g2 = (Graphics2D) g;
 
             if (zoomer) {
-                AffineTransform at = new AffineTransform();
+                at = new AffineTransform();
 
                 double xRel = MouseInfo.getPointerInfo().getLocation().getX() - getLocationOnScreen().getX();
                 double yRel = MouseInfo.getPointerInfo().getLocation().getY() - getLocationOnScreen().getY();
@@ -92,8 +93,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 zoomer = false;
             }
 
-            if (dragger) {
-                AffineTransform at = new AffineTransform();
+            else if (dragger) {
+                at = new AffineTransform();
                 at.translate(xOffset + xDiff, yOffset + yDiff);
                 at.scale(zoomFactor, zoomFactor);
                 g2.transform(at);
@@ -105,6 +106,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 }
 
             }
+            else{ g2.transform(at);}
 
             if(!one){
                 drawBackground(g2); //for drawing the terrain
@@ -113,13 +115,13 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             drawBackground(g2);
             try {
                 if (true){//heightSliderValue>UserView.getPlantHeightMin()){  //changed != to >
-                    double now = System.currentTimeMillis();
+                    //double now = System.currentTimeMillis();
                     filterHeight(heightSliderValue,g2);
-                    double then = System.currentTimeMillis()-now;
+                    //double then = System.currentTimeMillis()-now;
                     //System.out.println("Duration plantlayer: "+then+currentThread);
                 }
                 else{
-                    drawPlantLayer(g2); //for drawing plants over terrain
+                    int s = 2;//drawPlantLayer(g2); //for drawing plants over terrain
                 }
 
             } catch (IOException e) {
@@ -130,7 +132,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
     }
 
-    public void drawPlantLayer(Graphics2D g) throws IOException {
+    /*public void drawPlantLayer(Graphics2D g) throws IOException {
         ArrayList<ArrayList<Plant>> pdbCan = FileLoader.getSpeciesListCan();
         ArrayList<ArrayList<Plant>> pdbUnder = FileLoader.getSpeciesListUnder();
 
@@ -178,7 +180,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             count++;
             count2 = 0;
         }
-    }
+    }*/
 
     private void drawBackground(Graphics2D g){
         try {
@@ -194,7 +196,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         }
     }
 
-    public void filterHeight(int sliderVal,Graphics2D g){
+    public void filterHeight(int sliderVal,Graphics2D g) throws IOException{
 
         ArrayList<ArrayList<Plant>> pdbCan = FileLoader.getSpeciesListCan();
         ArrayList<ArrayList<Plant>> pdbUnder = FileLoader.getSpeciesListUnder();
@@ -213,7 +215,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 while (j.hasNext()) {
                     Plant plant = pdbUnder.get(count).get(count2);
                     if ((sliderVal <= plant.getHeight())) {
-                        g.fillRect(plant.getRectX(),plant.getRectY(),5, 5);
+                        g.fill(plant.getShape());
+                        //g.fillRect(plant.getRectX(),plant.getRectY(),5, 5);
                     }
                     j.next();
                     count2++;
@@ -238,7 +241,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 while (j.hasNext()) {
                     Plant plant = pdbCan.get(count).get(count2);
                     if ((sliderVal <= plant.getHeight())) {
-                        g.fillOval(plant.getRectX(), plant.getRectY(), 5, 5);
+                        //g.fillOval((int)plant.getRectX(), (int)plant.getRectY(), 5, 5);
+                        g.fill(plant.getShape());
                     }
                     j.next();
                     count2++;
