@@ -38,7 +38,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     private Point startPoint;
     private boolean one = false;
     private AffineTransform at = new AffineTransform();
-   // private HashMap<Point,Plant> canopyMap;
+    private boolean zoomWithButton;
+    // private HashMap<Point,Plant> canopyMap;
    // private HashMap<Point,Plant> undergrowthMap;
 
 
@@ -52,6 +53,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         canopyList = new ArrayList<Plant>();
         undergrowthList = new ArrayList<Plant>();
         heightSliderValue = UserView.getPlantHeightMin();
+        zoomWithButton = false;
         addMouseListeners();
     }
 
@@ -80,7 +82,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         print("setGrid");
         this.grid = grid;
         initialized = true;
-        System.out.println("set to true");
+
     }
 
     @Override
@@ -96,9 +98,17 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
                 System.out.println("Zooming");
                 at = new AffineTransform();
+                double xRel =0.0;
+                double yRel = 0.0;
+                if(zoomWithButton){
+                    xRel = this.getLocationOnScreen().getX();
+                    yRel = this.getLocationOnScreen().getY();
+                    zoomWithButton = false;
+                }else{
+                     xRel = MouseInfo.getPointerInfo().getLocation().getX() - getLocationOnScreen().getX();
+                     yRel = MouseInfo.getPointerInfo().getLocation().getY() - getLocationOnScreen().getY();
+                }
 
-                double xRel = MouseInfo.getPointerInfo().getLocation().getX() - getLocationOnScreen().getX();
-                double yRel = MouseInfo.getPointerInfo().getLocation().getY() - getLocationOnScreen().getY();
 
                 double zoomDiv = zoomFactor / prevZoomFactor;
 
@@ -356,12 +366,14 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
     public void zoomInTenPercent(){
         zoomer = true;
+        zoomWithButton = true;
         zoomFactor *= 1.1;
         repaint();
     }
 
     public void zoomOutTenPercent(){
         zoomer = true;
+        zoomWithButton = true;
         zoomFactor /= 1.1;
         repaint();
     }
