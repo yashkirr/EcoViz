@@ -361,7 +361,8 @@ public class UserView extends JFrame{
             }
         }
 
-        UserView.pnlVizualizer.repaint();
+        //UserView.pnlVizualizer.repaint();
+        localController.updateView();
     }
     private void jListSpeciesSelect(ListSelectionEvent evt) {
         //set text on right here
@@ -376,7 +377,8 @@ public class UserView extends JFrame{
                 FileLoader.setSpcDraw(i,false);
             }
         }
-        UserView.pnlVizualizer.repaint();
+        //UserView.pnlVizualizer.repaint();
+        localController.updateView();
     }
 
     /**
