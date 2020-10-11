@@ -201,6 +201,8 @@ public class UserView extends JFrame{
         //pnlSimControls.setViewportView(lblSimulationControlsHelp);
 
         chbCanopy.setText("Canopy");
+        chbCanopy.doClick();
+        pnlVizualizer.canopyCHB = true;
         chbCanopy.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 chbCanopyActionPerformed(evt);
@@ -208,7 +210,13 @@ public class UserView extends JFrame{
         });
 
         chbUndergrowth.setText("Undergrowth");
-
+        chbUndergrowth.doClick();
+        pnlVizualizer.undergrowthCHB = true;
+        chbUndergrowth.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                chbUndergrowthActionPerformed(evt);
+            }
+        });
         GroupLayout pnlControlsLayout = new GroupLayout(pnlControls);
         pnlControls.setLayout(pnlControlsLayout);
         pnlControlsLayout.setHorizontalGroup(
@@ -475,8 +483,15 @@ public class UserView extends JFrame{
 
     private void chbCanopyActionPerformed(ActionEvent evt) {//GEN-FIRST:event_chbCanopyActionPerformed
         // TODO add your handling code here:
+        pnlVizualizer.canopyCHB = chbCanopy.isSelected();
+        localController.updateView();
     }//GEN-LAST:event_chbCanopyActionPerformed
 
+    private void chbUndergrowthActionPerformed(ActionEvent evt) {//GEN-FIRST:event_chbCanopyActionPerformed
+        // TODO add your handling code here:
+        pnlVizualizer.undergrowthCHB = chbUndergrowth.isSelected();
+        localController.updateView();
+    }//GEN-LAST:event_chbCanopyActionPerformed
 
     private void sldPlantHeightStateChanged(ChangeEvent evt) {
 

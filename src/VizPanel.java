@@ -39,6 +39,10 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     private boolean one = false;
     private AffineTransform at = new AffineTransform();
     private boolean zoomWithButton;
+
+    public boolean canopyCHB;
+    public boolean undergrowthCHB;
+
     // private HashMap<Point,Plant> canopyMap;
    // private HashMap<Point,Plant> undergrowthMap;
 
@@ -54,6 +58,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         undergrowthList = new ArrayList<Plant>();
         heightSliderValue = UserView.getPlantHeightMin();
         zoomWithButton = false;
+        canopyCHB = true;
+        undergrowthCHB = true;
         addMouseListeners();
     }
 
@@ -191,20 +197,21 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         Iterator j;
         int count = 0;
         int count2 = 0;
-        while(i.hasNext()){
-            int id = FileLoader.getSpeciesUnder()[count].getID();
-            if(FileLoader.getSpcDraw()[id]){
+        if(undergrowthCHB==true) {
+            while (i.hasNext()) {
+                int id = FileLoader.getSpeciesUnder()[count].getID();
+                if (FileLoader.getSpcDraw()[id]) {
 
-                j = pdbUnder.get(count).iterator();
-                g.setColor(pdbUnder.get(count).get(0).getColor());
-                //if(heightSliderValue!=sliderVal){break;}
-                while (j.hasNext()) {
-                    Plant plant = pdbUnder.get(count).get(count2);
-                    a = x*(plant.getRectX()+plant.getRad())+at.getTranslateX(); //x transform
-                    b = x*(plant.getRectY()+plant.getRad())+at.getTranslateY(); //y transform
-                    c = x*plant.getRad()/getWidth();    // ratio scaled radius to vizpanel
-                    if (sliderVal <= plant.getHeight()&&a>=0&&a<=getWidth()&&b>=0&&b<=getHeight()) {
-                        //SELECTIVE PRINTING MECHANICS
+                    j = pdbUnder.get(count).iterator();
+                    g.setColor(pdbUnder.get(count).get(0).getColor());
+                    //if(heightSliderValue!=sliderVal){break;}
+                    while (j.hasNext()) {
+                        Plant plant = pdbUnder.get(count).get(count2);
+                        a = x * (plant.getRectX() + plant.getRad()) + at.getTranslateX(); //x transform
+                        b = x * (plant.getRectY() + plant.getRad()) + at.getTranslateY(); //y transform
+                        c = x * plant.getRad() / getWidth();    // ratio scaled radius to vizpanel
+                        if (sliderVal <= plant.getHeight() && a >= 0 && a <= getWidth() && b >= 0 && b <= getHeight()) {
+                            //SELECTIVE PRINTING MECHANICS
                         /*if (c <= 0.005&&c>0.001) {//draw small
                             if(small==20){
                                 g.fill(plant.getShape());
@@ -218,17 +225,18 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                             }
                             med += 1;
                         } else */
-                        if(c>0.01){                //draw large
-                            g.fill(plant.getShape());
+                            if (c > 0.01) {                //draw large
+                                g.fill(plant.getShape());
+                            }
                         }
+                        j.next();
+                        count2++;
                     }
-                    j.next();
-                    count2++;
                 }
+                i.next();
+                count++;
+                count2 = 0;
             }
-            i.next();
-            count++;
-            count2 = 0;
         }
 
         i = pdbCan.iterator();
@@ -236,19 +244,20 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         count = 0;
         count2 = 0;
 
-        while(i.hasNext()){
-            int id = FileLoader.getSpeciesCan()[count].getID();//get id of present species
-            if(FileLoader.getSpcDraw()[id]){                //check if Species ID should be drawn
-                j = pdbCan.get(count).iterator();
-                g.setColor(pdbCan.get(count).get(0).getColor());
-                //if(this.heightSliderValue!=sliderVal){break; }
-                while (j.hasNext()) {
-                    Plant plant = pdbCan.get(count).get(count2);
-                    a = x*(plant.getRectX()+plant.getRad())+at.getTranslateX(); //x transform
-                    b = x*(plant.getRectY()+plant.getRad())+at.getTranslateY(); //y transform
-                    c = x*plant.getRad()/getWidth();    // ratio scaled radius to vizpanel
-                    if (sliderVal <= plant.getHeight()&&a>=0&&a<=getWidth()&&b>=0&&b<=getHeight()) {
-                        //SELECTIVE PRINTING MECHANICS
+        if (canopyCHB == true) {
+            while (i.hasNext()) {
+                int id = FileLoader.getSpeciesCan()[count].getID();//get id of present species
+                if (FileLoader.getSpcDraw()[id]) {                //check if Species ID should be drawn
+                    j = pdbCan.get(count).iterator();
+                    g.setColor(pdbCan.get(count).get(0).getColor());
+                    //if(this.heightSliderValue!=sliderVal){break; }
+                    while (j.hasNext()) {
+                        Plant plant = pdbCan.get(count).get(count2);
+                        a = x * (plant.getRectX() + plant.getRad()) + at.getTranslateX(); //x transform
+                        b = x * (plant.getRectY() + plant.getRad()) + at.getTranslateY(); //y transform
+                        c = x * plant.getRad() / getWidth();    // ratio scaled radius to vizpanel
+                        if (sliderVal <= plant.getHeight() && a >= 0 && a <= getWidth() && b >= 0 && b <= getHeight()) {
+                            //SELECTIVE PRINTING MECHANICS
                         /*if (c <= 0.01&&c>0.005) {//draw small
                             if(small==100){
                                 g.fill(plant.getShape());
@@ -262,17 +271,18 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                             }
                             med += 1;
                         } else */
-                        if(c>0.01){                //draw large
-                            g.fill(plant.getShape());
+                            if (c > 0.01) {                //draw large
+                                g.fill(plant.getShape());
+                            }
                         }
+                        j.next();
+                        count2++;
                     }
-                    j.next();
-                    count2++;
                 }
+                i.next();
+                count++;
+                count2 = 0;
             }
-            i.next();
-            count++;
-            count2 = 0;
         }
 
     }
