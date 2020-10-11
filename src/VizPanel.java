@@ -67,8 +67,6 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
     @Override
     protected void paintComponent(Graphics g) {
-        Thread currentThread = Thread.currentThread();
-
         super.paintComponent(g);
         /* If files have been loaded, set initialized to true and enable these features*/
         if(initialized){
@@ -190,14 +188,19 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                     Image.SCALE_SMOOTH);
             g.drawImage(vizscaled,0,0,null);
             this.terrainLayer = vizscaled;
-            UserView.localController.updateView();
+            //UserView.localController.updateView();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void filterHeight(int sliderVal,Graphics2D g) throws IOException{
-
+        double x = at.getScaleX();
+        double a;
+        double b;
+        double c;
+        int small=0;
+        int med = 0;
         ArrayList<ArrayList<Plant>> pdbCan = FileLoader.getSpeciesListCan();
         ArrayList<ArrayList<Plant>> pdbUnder = FileLoader.getSpeciesListUnder();
 
@@ -214,9 +217,27 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 //if(heightSliderValue!=sliderVal){break;}
                 while (j.hasNext()) {
                     Plant plant = pdbUnder.get(count).get(count2);
-                    if ((sliderVal <= plant.getHeight())) {
-                        g.fill(plant.getShape());
-                        //g.fillRect(plant.getRectX(),plant.getRectY(),5, 5);
+                    a = x*(plant.getRectX()+plant.getRad())+at.getTranslateX(); //x transform
+                    b = x*(plant.getRectY()+plant.getRad())+at.getTranslateY(); //y transform
+                    c = x*plant.getRad()/getWidth();    // ratio scaled radius to vizpanel
+                    if (sliderVal <= plant.getHeight()&&a>=0&&a<=getWidth()&&b>=0&&b<=getHeight()) {
+                        //SELECTIVE PRINTING MECHANICS
+                        /*if (c <= 0.005&&c>0.001) {//draw small
+                            if(small==20){
+                                g.fill(plant.getShape());
+                                small=0;
+                            }
+                            small +=1;
+                        } else if (c>0.005&&c<=0.01) {  //draw medium
+                            if(med==5){
+                                g.fill(plant.getShape());
+                                med = 0;
+                            }
+                            med += 1;
+                        } else */
+                        if(c>0.01){                //draw large
+                            g.fill(plant.getShape());
+                        }
                     }
                     j.next();
                     count2++;
@@ -240,9 +261,27 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 //if(this.heightSliderValue!=sliderVal){break; }
                 while (j.hasNext()) {
                     Plant plant = pdbCan.get(count).get(count2);
-                    if ((sliderVal <= plant.getHeight())) {
-                        //g.fillOval((int)plant.getRectX(), (int)plant.getRectY(), 5, 5);
-                        g.fill(plant.getShape());
+                    a = x*(plant.getRectX()+plant.getRad())+at.getTranslateX(); //x transform
+                    b = x*(plant.getRectY()+plant.getRad())+at.getTranslateY(); //y transform
+                    c = x*plant.getRad()/getWidth();    // ratio scaled radius to vizpanel
+                    if (sliderVal <= plant.getHeight()&&a>=0&&a<=getWidth()&&b>=0&&b<=getHeight()) {
+                        //SELECTIVE PRINTING MECHANICS
+                        /*if (c <= 0.01&&c>0.005) {//draw small
+                            if(small==100){
+                                g.fill(plant.getShape());
+                                small=0;
+                            }
+                            small +=1;
+                        } else if (c>0.01&&c<=0.02) {  //draw medium
+                            if(med==8){
+                                g.fill(plant.getShape());
+                                med = 0;
+                            }
+                            med += 1;
+                        } else */
+                        if(c>0.01){                //draw large
+                            g.fill(plant.getShape());
+                        }
                     }
                     j.next();
                     count2++;
@@ -252,7 +291,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             count++;
             count2 = 0;
         }
-        UserView.localController.updateView();
+        //UserView.localController.updateView();
 
     }
 

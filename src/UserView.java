@@ -160,7 +160,7 @@ public class UserView extends JFrame{
         lblFilter.setFont(new Font("Ubuntu", 0, 24)); // NOI18N
         lblFilter.setText("Filter");
 
-        sldPlantHeight.addChangeListener(new ChangeListener() {
+        sldPlantHeight.addChangeListener(new ChangeListener(){
             public void stateChanged(ChangeEvent evt) {
                 sldPlantHeightStateChanged(evt);
             }
@@ -345,18 +345,15 @@ public class UserView extends JFrame{
         String[][] spc = FileLoader.getSpcKey();
         for(int i=0;i<spc.length;i++){
             if(s.equals(spc[i][1].split(" ")[0])&&!FileLoader.getSpcDraw()[i]){
-                System.out.println(s);
-                System.out.println(spc[i][1].split(" ")[0]);
                 FileLoader.setSpcDraw(i,true);
                 break;
             }
             else if(s.equals(spc[i][1].split(" ")[0])&&FileLoader.getSpcDraw()[i]){
-                System.out.println(s);
-                System.out.println(spc[i][1].split(" ")[0]);
                 FileLoader.setSpcDraw(i,false);
                 break;
             }
         }
+        UserView.pnlVizualizer.repaint();
     }
     private void jListSpeciesSelect(ListSelectionEvent evt) {
         //set text on right here
@@ -371,6 +368,7 @@ public class UserView extends JFrame{
                 FileLoader.setSpcDraw(i,false);
             }
         }
+        UserView.pnlVizualizer.repaint();
     }
 
     /**
@@ -459,6 +457,7 @@ public class UserView extends JFrame{
         }else{
             lblPlantHeightSlider.setText("Selected Plant Height: " + source.getValue());
         }
+        pnlVizualizer.repaint();
     }
     //list filtration
     private void selectListSPC(ActionEvent evt){
