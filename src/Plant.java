@@ -26,6 +26,7 @@ public class Plant extends Species {
     private Color color;
     private float rectX;
     private float rectY;
+    private float rectRad; // for drawing, jpanel radius
     private boolean draw = true;
 
     /**
@@ -53,8 +54,7 @@ public class Plant extends Species {
         this.color = null;
         this.type = "No type";
         this.isBurnt = false;
-
-        float rectRad = this.canopyRadius*pnlWidth/(dimx*spacing);
+        this.rectRad = this.canopyRadius*pnlWidth/(dimx*spacing);
         this.rectX = this.pos.get(0)*pnlWidth/(dimx*spacing) - rectRad;
         this.rectY = this.pos.get(1)*pnlHeight/(dimy*spacing) - rectRad;
         this.circle = new Ellipse2D.Float();
@@ -68,6 +68,7 @@ public class Plant extends Species {
     public boolean getDrawStat(){return this.draw;}
 
     public Ellipse2D getShape(){return this.circle;}
+    public float getRad(){ return rectRad;}
 
     /**
     * Constructor - initialises all variables to variables specified by the argument

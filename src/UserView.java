@@ -163,7 +163,7 @@ public class UserView extends JFrame{
         lblFilter.setFont(new Font("Ubuntu", 0, 24)); // NOI18N
         lblFilter.setText("Filter");
 
-        sldPlantHeight.addChangeListener(new ChangeListener() {
+        sldPlantHeight.addChangeListener(new ChangeListener(){
             public void stateChanged(ChangeEvent evt) {
                 sldPlantHeightStateChanged(evt);
             }
@@ -361,7 +361,7 @@ public class UserView extends JFrame{
             }
         }
 
-        localController.updateView();
+        UserView.pnlVizualizer.repaint();
     }
     private void jListSpeciesSelect(ListSelectionEvent evt) {
         //set text on right here
@@ -376,8 +376,7 @@ public class UserView extends JFrame{
                 FileLoader.setSpcDraw(i,false);
             }
         }
-
-        localController.updateView();
+        UserView.pnlVizualizer.repaint();
     }
 
     /**
@@ -466,9 +465,7 @@ public class UserView extends JFrame{
         }else{
             lblPlantHeightSlider.setText("Selected Plant Height: " + source.getValue());
         }
-
-
-        localController.updateView();
+        pnlVizualizer.repaint();
     }
     //list filtration
     private void selectListSPC(ActionEvent evt){
