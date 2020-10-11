@@ -348,14 +348,10 @@ public class UserView extends JFrame{
         String[][] spc = FileLoader.getSpcKey();
         for(int i=0;i<spc.length;i++){
             if(s.equals(spc[i][1].split(" ")[0])&&!FileLoader.getSpcDraw()[i]){
-                System.out.println(s);
-                System.out.println(spc[i][1].split(" ")[0]);
                 FileLoader.setSpcDraw(i,true);
                 break;
             }
             else if(s.equals(spc[i][1].split(" ")[0])&&FileLoader.getSpcDraw()[i]){
-                System.out.println(s);
-                System.out.println(spc[i][1].split(" ")[0]);
                 FileLoader.setSpcDraw(i,false);
                 break;
             }

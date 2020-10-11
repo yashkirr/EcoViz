@@ -172,6 +172,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         double a;
         double b;
         double c;
+        double z;
         int small=0;
         int med = 0;
         ArrayList<ArrayList<Plant>> pdbCan = FileLoader.getSpeciesListCan();
@@ -190,10 +191,11 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 //if(heightSliderValue!=sliderVal){break;}
                 while (j.hasNext()) {
                     Plant plant = pdbUnder.get(count).get(count2);
-                    a = x*(plant.getRectX()+plant.getRad())+at.getTranslateX(); //x transform
-                    b = x*(plant.getRectY()+plant.getRad())+at.getTranslateY(); //y transform
+                    z = x*2*plant.getRad();
+                    a = x*plant.getRectX()+at.getTranslateX(); //x transform
+                    b = x*plant.getRectY()+at.getTranslateY(); //y transform
                     c = x*plant.getRad()/getWidth();    // ratio scaled radius to vizpanel
-                    if (sliderVal <= plant.getHeight()&&a>=0&&a<=getWidth()&&b>=0&&b<=getHeight()) {
+                    if (sliderVal <= plant.getHeight()&&a+z>=0&&a<=getWidth()&&b+z>=0&&b<=getHeight()) {
                         //SELECTIVE PRINTING MECHANICS
                         /*if (c <= 0.005&&c>0.001) {//draw small
                             if(small==20){
@@ -234,10 +236,11 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 //if(this.heightSliderValue!=sliderVal){break; }
                 while (j.hasNext()) {
                     Plant plant = pdbCan.get(count).get(count2);
-                    a = x*(plant.getRectX()+plant.getRad())+at.getTranslateX(); //x transform
-                    b = x*(plant.getRectY()+plant.getRad())+at.getTranslateY(); //y transform
+                    z = x*2*plant.getRad();
+                    a = x*plant.getRectX()+at.getTranslateX(); //x transform
+                    b = x*plant.getRectY()+at.getTranslateY(); //y transform
                     c = x*plant.getRad()/getWidth();    // ratio scaled radius to vizpanel
-                    if (sliderVal <= plant.getHeight()&&a>=0&&a<=getWidth()&&b>=0&&b<=getHeight()) {
+                    if (sliderVal <= plant.getHeight()&&a+z>=0&&a<=getWidth()&&b+z>=0&&b<=getHeight()) {
                         //SELECTIVE PRINTING MECHANICS
                         /*if (c <= 0.01&&c>0.005) {//draw small
                             if(small==100){
