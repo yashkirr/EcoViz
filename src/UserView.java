@@ -155,6 +155,18 @@ public class UserView extends JFrame{
         tabbedFilterPane.addTab("Genus", tabFilterPlants);
 
         btnZoomOut.setText("-");
+        btnZoomIn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                zoomInButtonClick();
+            }
+        });
+        btnZoomOut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                zoomOutButtonClick();
+            }
+        });
 
         lblZoom.setFont(new Font("Ubuntu", 0, 24)); // NOI18N
         lblZoom.setHorizontalAlignment(SwingConstants.CENTER);
@@ -424,6 +436,12 @@ public class UserView extends JFrame{
                     JButton btnStartFire= new JButton("Start Fire");
                     btnWind.setAlignmentX(Component.CENTER_ALIGNMENT);
                     btnStartFire.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    btnStartFire.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent actionEvent) {
+                            startFireSim();
+                        }
+                    });
                     btnWind.addActionListener(actionEvent -> {
                         WindSetDialog dialog = new WindSetDialog(UserView.this,rootPaneCheckingEnabled);
                         dialog.setVisible(true);
@@ -439,6 +457,9 @@ public class UserView extends JFrame{
 
         }// TODO add your handling code here:
     }//GEN-LAST:event_cbxSimulationTypeActionPerformed
+
+    private void startFireSim() {
+    }
 
     /**
     * onClickEventListener for "Restart" menu item
