@@ -167,6 +167,14 @@ public class WindSetDialog extends javax.swing.JDialog {
         });
     }
 
+    public int getwindX(){
+        return Integer.valueOf(txtWindX.getText());
+    }
+
+    public int getwindY(){
+        return Integer.valueOf(txtWindY.getText());
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelWindVector;
     private javax.swing.JButton btnConfirmWindVector;

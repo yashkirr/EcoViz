@@ -43,6 +43,11 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     public boolean canopyCHB;
     public boolean undergrowthCHB;
 
+    public boolean startFireClicked;
+
+    private int simStartX;
+    private int simStartY;
+
     // private HashMap<Point,Plant> canopyMap;
    // private HashMap<Point,Plant> undergrowthMap;
 
@@ -72,6 +77,11 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         //undergrowthMap = new HashMap<Point, Plant>();
         canopyList = new ArrayList<Plant>();
         undergrowthList = new ArrayList<Plant>();
+        canopyCHB = true;
+        undergrowthCHB = true;
+        startFireClicked = false;
+        simStartX = 0;
+        simStartY = 0;
         addMouseListeners();
     }
 
@@ -161,7 +171,6 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 else{
                     int s = 2;//drawPlantLayer(g2); //for drawing plants over terrain
                 }
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -303,6 +312,10 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 System.out.println("Hit Canopy");
             }
         }*/
+    }
+
+    public void fireSim(int windX, int windY,int xStart, int yStart,Graphics g){
+
     }
 
     public Color getSelectedColor(Point location){

@@ -58,7 +58,8 @@ public class UserView extends JFrame{
     //Self-declared Variables
     public static Controller localController;
     private boolean selectedSimType = false;
-
+    private static int windX;
+    private static int windY;
     /**
      * Creates new form UserView
      */
@@ -106,6 +107,9 @@ public class UserView extends JFrame{
         miLoadFIles = new JMenuItem();
         miRestart = new JMenuItem();
         miExit = new JMenuItem();
+
+        windX = 0;
+        windY = 0;
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("EcoViz");
@@ -447,12 +451,61 @@ public class UserView extends JFrame{
                     btnStartFire.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent actionEvent) {
+                            //pnlVizualizer.startFireClicked = true;
+                            JButton pauseButton = new JButton("Pause");
+                            JButton playButton = new JButton("Play");
+                            //JButton resetButton = new JButton("Reset");
+                            JButton stopButton = new JButton("Stop");
+
+                            pauseButton.addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+
+                                }
+                            });
+
+                            playButton.addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+
+                                }
+                            });
+
+                           /* resetButton.addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    pnlVizualizer.paused = false;
+                                    pnlVizualizer.done = true;
+                                }
+                            });
+                           */
+                            stopButton.addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+
+                                }
+                            });
+
+                            pnlSimControls.add(playButton);
+                            pnlSimControls.add(pauseButton);
+                            //pnlSimControls.add(resetButton);
+                            pnlSimControls.add(stopButton);
+
+                            pnlSimControls.revalidate();
+                            pnlSimControls.repaint();
+
+                            //playButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                            //pauseButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                            //pauseButton.setVisible(true);
                             startFireSim();
                         }
                     });
                     btnWind.addActionListener(actionEvent -> {
                         WindSetDialog dialog = new WindSetDialog(UserView.this,rootPaneCheckingEnabled);
                         dialog.setVisible(true);
+                        windX = dialog.getwindX();
+                        windY = dialog.getwindY();
+
                     });
                     pnlSimControls.add(btnWind);
                     pnlSimControls.add(btnStartFire);
@@ -467,8 +520,16 @@ public class UserView extends JFrame{
     }//GEN-LAST:event_cbxSimulationTypeActionPerformed
 
     private void startFireSim() {
+        pnlVizualizer.startFireClicked=true;
     }
 
+    public static int getWindX(){
+        return windX;
+    }
+
+    public static int getWindY(){
+        return windY;
+    }
     /**
     * onClickEventListener for "Restart" menu item
     * Restarts application 
