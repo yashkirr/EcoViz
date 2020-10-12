@@ -172,22 +172,6 @@ public class Controller {
 
     }
 
-
-    public String getSPC(String spc){
-        return spc;
-    }
-
-    public String getELV(String elv){
-        return elv;
-    }
-
-    public String getpdbUnder(String pdbUnder){
-        return pdbUnder;
-    }
-
-    public String getpdbCan(String pdbCan){
-        return pdbCan;
-    }
 }
 
 
