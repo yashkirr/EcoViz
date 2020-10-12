@@ -14,7 +14,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class VizPanel extends JPanel implements MouseWheelListener, MouseListener, MouseMotionListener {
 
@@ -47,6 +47,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
     private int simStartX;
     private int simStartY;
+    private double viewingThreshold = 0.01;// if plants are less than 1% of VizPanel, don't render until in view. Default.
 
     // private HashMap<Point,Plant> canopyMap;
    // private HashMap<Point,Plant> undergrowthMap;
@@ -175,7 +176,12 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 e.printStackTrace();
             }
 
-        }else{ g.drawString("Select Files > Load Files to start a visualization",getWidth()/2,getHeight()/2); }
+        }else{
+
+           // this.setLayout(new GridBagLayout());
+            //this.add(new JLabel("Select Files > Load Files to start a visualization"));
+            g.drawString("Select Files > Load Files to start a visualization",getWidth()/2,getHeight()/2);
+            }
 
     }
 
@@ -206,7 +212,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         Iterator j;
         int count = 0;
         int count2 = 0;
-        if(undergrowthCHB==true) {
+        if(undergrowthCHB) {
             while (i.hasNext()) {
                 int id = FileLoader.getSpeciesUnder()[count].getID();
                 if (FileLoader.getSpcDraw()[id]) {
@@ -220,20 +226,6 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                         b = x * (plant.getRectY() + plant.getRad()) + at.getTranslateY(); //y transform
                         c = x * plant.getRad() / getWidth();    // ratio scaled radius to vizpanel
                         if (sliderVal <= plant.getHeight() && a >= 0 && a <= getWidth() && b >= 0 && b <= getHeight()) {
-                            //SELECTIVE PRINTING MECHANICS
-                        /*if (c <= 0.005&&c>0.001) {//draw small
-                            if(small==20){
-                                g.fill(plant.getShape());
-                                small=0;
-                            }
-                            small +=1;
-                        } else if (c>0.005&&c<=0.01) {  //draw medium
-                            if(med==5){
-                                g.fill(plant.getShape());
-                                med = 0;
-                            }
-                            med += 1;
-                        } else */
                             if (c > 0.01) {                //draw large
                                 g.fill(plant.getShape());
                             }
@@ -253,7 +245,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         count = 0;
         count2 = 0;
 
-        if (canopyCHB == true) {
+        if (canopyCHB) {
             while (i.hasNext()) {
                 int id = FileLoader.getSpeciesCan()[count].getID();//get id of present species
                 if (FileLoader.getSpcDraw()[id]) {                //check if Species ID should be drawn
@@ -280,8 +272,9 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                             }
                             med += 1;
                         } else */
-                            if (c > 0.01) {                //draw large
-                                g.fill(plant.getShape());
+                            if (c > viewingThreshold) {
+                                plant.updateVisualPosition(getWidth(),getHeight()); //method for drawing plants responsively
+                                g.fill(plant.getShape());//draw large
                             }
                         }
                         j.next();
