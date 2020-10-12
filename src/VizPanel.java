@@ -18,6 +18,8 @@ import javax.swing.*;
 
 public class VizPanel extends JPanel implements MouseWheelListener, MouseListener, MouseMotionListener {
 
+    //Components
+
     private static volatile boolean complete;
     private ArrayList<Plant> undergrowthList;
     private ArrayList<Plant> canopyList;
@@ -48,6 +50,9 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     private int simStartX;
     private int simStartY;
     private double viewingThreshold = 0.01;// if plants are less than 1% of VizPanel, don't render until in view. Default.
+    private JLabel lblZoom;
+    private JButton btnZoomIn;
+    private JButton btnZoomOut;
 
     // private HashMap<Point,Plant> canopyMap;
    // private HashMap<Point,Plant> undergrowthMap;
@@ -102,13 +107,46 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
     }
 
+    private void initLayout(){
+
+        lblZoom = new javax.swing.JLabel();
+        btnZoomIn = new javax.swing.JButton();
+        btnZoomOut = new javax.swing.JButton();
+
+        javax.swing.GroupLayout pnlVizualizerLayout = new javax.swing.GroupLayout(this);
+        this.setLayout(pnlVizualizerLayout);
+        pnlVizualizerLayout.setHorizontalGroup(
+                pnlVizualizerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnlVizualizerLayout.createSequentialGroup()
+                                .addContainerGap(958, Short.MAX_VALUE)
+                                .addComponent(lblZoom)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pnlVizualizerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(btnZoomOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnZoomIn, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE))
+                                .addContainerGap())
+        );
+        pnlVizualizerLayout.setVerticalGroup(
+                pnlVizualizerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlVizualizerLayout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnZoomIn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pnlVizualizerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(btnZoomOut)
+                                        .addComponent(lblZoom))
+                                .addGap(20, 20, 20))
+        );
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
 
         super.paintComponent(g);
         /* If files have been loaded, set initialized to true and enable these features*/
         if(initialized){
-
+            initLayout();
+        this.setLayout(null);
             Graphics2D g2 = (Graphics2D) g;
 
             if (zoomer) {
@@ -167,7 +205,6 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             try {
                 if (true){
                     filterHeight(heightSliderValue,g2);
-
                 }
                 else{
                     int s = 2;//drawPlantLayer(g2); //for drawing plants over terrain
@@ -177,10 +214,10 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             }
 
         }else{
-
-           // this.setLayout(new GridBagLayout());
-            //this.add(new JLabel("Select Files > Load Files to start a visualization"));
-            g.drawString("Select Files > Load Files to start a visualization",getWidth()/2,getHeight()/2);
+            //System.out.println("vizzzz"+this.getLayout().toString());
+           //this.setLayout(new GridBagLayout());
+           //this.add(new JLabel("Select Files > Load Files to start a visualization"));
+           // g.drawString("Select Files > Load Files to start a visualization",getWidth()/2,getHeight()/2);
             }
 
     }
@@ -199,6 +236,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     }
 
     public void filterHeight(int sliderVal,Graphics2D g) throws IOException{
+        //viewingThreshold =
         double x = at.getScaleX();
         double a;
         double b;
