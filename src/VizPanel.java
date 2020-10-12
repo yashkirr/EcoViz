@@ -327,6 +327,10 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
     }
 
+    public void setViewingThreshold(int viewingThreshold){
+        this.viewingThreshold = viewingThreshold/100.0;
+    }
+
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
 /*
