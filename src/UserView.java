@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -78,15 +79,51 @@ public class UserView extends JFrame{
     private boolean selectedSimType = false;
     private static int windX;
     private static int windY;
+
+    //Enum Types
+    protected static enum Theme{
+        DARK_MODE,
+        LIGHT_MODE;
+    }
+
     /**
      * Creates new form UserView
      */
     public UserView() {
-        initComponents();
-        setupListeners();
-       // this.setResizable(false);
+
+        initComponents(); //Initializes GUI Components
+        setTheme(Theme.DARK_MODE);
+        setupListeners(); //Connects ActionListeners to Components
+        getContentPane().setBackground(new Color(56,60,74));
         localController = new Controller(this);
         localController.setVisualizerCursor(Cursor.DEFAULT_CURSOR);
+    }
+
+    private void setTheme(Theme theme) {
+        ArrayList<Component> components = getAllComponents(this);
+        if(theme == Theme.DARK_MODE){
+            for (Component component:
+                    components) {
+                component.setBackground(new Color(56,60,74));
+                component.setForeground(new Color(255,255,255));
+            }
+        }else{
+
+        }
+
+
+
+    }
+
+    public static ArrayList<Component> getAllComponents(final Container c) {
+        Component[] comps = c.getComponents();
+        ArrayList<Component> compList = new ArrayList<Component>();
+        for (Component comp : comps) {
+            compList.add(comp);
+            if (comp instanceof Container)
+                compList.addAll(getAllComponents((Container) comp));
+        }
+        return compList;
     }
 
     private void setupListeners() {
@@ -267,7 +304,7 @@ public class UserView extends JFrame{
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("EcoViz");
-        setPreferredSize(new java.awt.Dimension(1459, 800));
+        setPreferredSize(new java.awt.Dimension(1024, 800));
 
         pnlVizualizer.setName("");
 
@@ -504,7 +541,7 @@ public class UserView extends JFrame{
                                 .addContainerGap(579, Short.MAX_VALUE))
         );
 
-        pnlControls.add(pnlSimulation, "card5");
+        pnlControls.add(pnlSimulation, "pnlSimulation");
 
         chbCanopy.setText("Canopy");
 
