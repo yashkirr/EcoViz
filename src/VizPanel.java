@@ -213,12 +213,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 e.printStackTrace();
             }
 
-        }else{
-            //System.out.println("vizzzz"+this.getLayout().toString());
-           //this.setLayout(new GridBagLayout());
-           //this.add(new JLabel("Select Files > Load Files to start a visualization"));
-           // g.drawString("Select Files > Load Files to start a visualization",getWidth()/2,getHeight()/2);
-            }
+        }
 
     }
 
@@ -264,7 +259,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                         b = x * (plant.getRectY() + plant.getRad()) + at.getTranslateY(); //y transform
                         c = x * plant.getRad() / getWidth();    // ratio scaled radius to vizpanel
                         if (sliderVal <= plant.getHeight() && a >= 0 && a <= getWidth() && b >= 0 && b <= getHeight()) {
-                            if (c > 0.01) {                //draw large
+                            if (c > viewingThreshold) {                //draw large
                                 g.fill(plant.getShape());
                             }
                         }
