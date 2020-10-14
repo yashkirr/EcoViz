@@ -47,9 +47,11 @@ public class Controller {
         else if (fileType == "pdb") {
             if (path.contains("undergrowth")){
                 FileLoader.readPdbUnder(path);
+                FileLoader.convertTo1DUnder();
             }
             else if (path.contains("canopy")){
                 FileLoader.readPdbCan(path);
+                FileLoader.convertTo1DCan();
             }
         }
 
@@ -159,7 +161,7 @@ public class Controller {
     }
 
     public void updateView(){
-        print("updateView");
+        //print("updateView");
         if(!initialized){
             UserView.setPlantHeightSliderValues(FileLoader.getMinPlantHeight(),FileLoader.getMaxPlantHeight());
             setVisualizerCursor(Cursor.HAND_CURSOR);

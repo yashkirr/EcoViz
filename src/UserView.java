@@ -454,35 +454,39 @@ public class UserView extends JFrame{
                             //pnlVizualizer.startFireClicked = true;
                             JButton pauseButton = new JButton("Pause");
                             JButton playButton = new JButton("Play");
-                            //JButton resetButton = new JButton("Reset");
+                            JButton resetButton = new JButton("Reset");
                             JButton stopButton = new JButton("Stop");
 
                             pauseButton.addActionListener(new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
-
+                                    pnlVizualizer.fire.paused = true;
+                                    pnlVizualizer.fire.stopped = false;
                                 }
                             });
 
                             playButton.addActionListener(new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
-
+                                    pnlVizualizer.fire.paused = false;
+                                    pnlVizualizer.fire.stopped = false;
                                 }
                             });
 
-                           /* resetButton.addActionListener(new ActionListener() {
+                            resetButton.addActionListener(new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
-                                    pnlVizualizer.paused = false;
-                                    pnlVizualizer.done = true;
+                                    pnlVizualizer.fire.paused = false;
+                                    pnlVizualizer.fire.stopped = true;
+                                    pnlVizualizer.fire.resetFireLayer();
                                 }
                             });
-                           */
+
                             stopButton.addActionListener(new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
-
+                                    pnlVizualizer.fire.paused = false;
+                                    pnlVizualizer.fire.stopped = true;
                                 }
                             });
 
@@ -521,6 +525,7 @@ public class UserView extends JFrame{
 
     private void startFireSim() {
         pnlVizualizer.startFireClicked=true;
+
     }
 
     public static int getWindX(){
