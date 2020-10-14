@@ -372,14 +372,10 @@ public class UserView extends JFrame{
         String[][] spc = FileLoader.getSpcKey();
         for(int i=0;i<spc.length;i++){
             if(s.equals(spc[i][1].split(" ")[0])&&!FileLoader.getSpcDraw()[i]){
-                System.out.println(s);
-                System.out.println(spc[i][1].split(" ")[0]);
                 FileLoader.setSpcDraw(i,true);
                 break;
             }
             else if(s.equals(spc[i][1].split(" ")[0])&&FileLoader.getSpcDraw()[i]){
-                System.out.println(s);
-                System.out.println(spc[i][1].split(" ")[0]);
                 FileLoader.setSpcDraw(i,false);
                 break;
             }
@@ -578,7 +574,7 @@ public class UserView extends JFrame{
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws Exception {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -601,8 +597,8 @@ public class UserView extends JFrame{
             Logger.getLogger(UserView.class.getName()).log(Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        Thread currentThread = currentThread();
-        System.out.println(currentThread());
+        System.setProperty("sun.java2d.opengl","True");
+        //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
         /* Create and display the form */
         EventQueue.invokeLater(() -> new UserView().setVisible(true));

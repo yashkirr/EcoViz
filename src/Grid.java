@@ -15,6 +15,7 @@ public class Grid {
     private static double spacing;
     private static double latitude;
     private static float[][] terrain;
+    private static float[][] gradient;
     private static BufferedImage greyscale;
 
     /** default Constructor
@@ -51,7 +52,7 @@ public class Grid {
     //}
 
     public BufferedImage getGreyscale() throws IOException {
-        buildGreyscale();
+        buildGreyscale2();
         File out = new File("img.png");
         ImageIO.write(greyscale,"png",out);
         return greyscale;
@@ -81,6 +82,35 @@ public class Grid {
         }
         return greyscale;
     }
+    public BufferedImage buildGreyscale2() {
+        float maxSlope =  0;
+        //float maxElv = -100000;
+        gradient = new float[dimx][dimy];
+        float dist  = (float)Math.sqrt(2*spacing);
+
+        for (int y = 0; y<dimy-1 ; y++){
+            for (int x = 0 ; x<dimx-1 ; x++){
+                gradient[x][y]= Math.abs((terrain[x][y+1]+terrain[x+1][y]-2*terrain[x][y])/dist);
+                if (gradient[x][y]>maxSlope){
+                    maxSlope = gradient[x][y];
+                }
+            }
+            for(int x = 0; x<dimx; x++){
+                gradient[x][dimy-1]=gradient[x][dimy-2];
+                gradient[dimy-1][x]=gradient[dimy-2][x];
+            }
+        }
+
+        for (int y = 0; y < dimy; y++) {
+            for (int x = 0; x < dimx; x++) {
+                float norm = (1-(float)Math.sqrt(gradient[x][y]/(maxSlope)))*(float)0.95;//m
+                Color colour = new Color(norm, norm, norm, 1.0f);
+                greyscale.setRGB(x, y, colour.getRGB());
+            }
+        }
+        return greyscale;
+    }
+
 
     public int getDimx() {
         return dimx;

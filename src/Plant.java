@@ -6,7 +6,10 @@
 
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -28,6 +31,7 @@ public class Plant extends Species {
     private float rectY;
     private float rectRad; // for drawing, jpanel radius
     private boolean draw = true;
+    public AffineTransform at;
 
     /**
     *default constructor
@@ -59,6 +63,8 @@ public class Plant extends Species {
         this.rectY = this.pos.get(1)*pnlHeight/(dimy*spacing) - rectRad;
         this.circle = new Ellipse2D.Float();
         circle.setFrame(this.rectX, this.rectY,rectRad*2,rectRad*2);
+        float[] f = {this.getRad()*2/FileLoader.n, 0, 0, this.getRad()*2/FileLoader.n, this.getRectX(), this.getRectY()};
+        this.at = new AffineTransform(f);
     }
     // retrieve Rect values
     public float getRectX(){ return this.rectX;}
@@ -135,8 +141,8 @@ public class Plant extends Species {
         return new Point(Math.round(rectX),Math.round(rectY));
     }
 
-    public void setColor(int rgb){
-        this.color = new Color(rgb, true);
+    public void setColor(Color rgb){
+        this.color = rgb;
     }
 
     public Color getColor(){
