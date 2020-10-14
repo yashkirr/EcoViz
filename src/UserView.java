@@ -178,6 +178,7 @@ public class UserView extends JFrame{
             @Override
             public void stateChanged(ChangeEvent evt) {
                 sldRenderingThresholdStateChanged(evt);
+                localController.updateView();
             }
         });
 
@@ -203,6 +204,14 @@ public class UserView extends JFrame{
         listFilterPlants.addListSelectionListener(evt -> jListPlantSelect(evt));
 
         /* Buttons */
+
+        btnDefaultThreshold.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                btnDefaultThresholdActionPerformed(actionEvent);
+            }
+        });
+
         btnZoomIn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -275,6 +284,11 @@ public class UserView extends JFrame{
             }
         });*/
 
+    }
+
+    private void btnDefaultThresholdActionPerformed(ActionEvent actionEvent) {
+        sldRenderingThreshold.setValue(1);
+        localController.updateView();
     }
 
     private void chbRealisticTerrainStateChange(ItemEvent itemEvent) {
