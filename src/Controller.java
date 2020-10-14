@@ -54,6 +54,15 @@ public class Controller {
         }
 
     }
+
+    /**
+     * Disables control panel and settings menu on start to restrict the user to only entering files or exiting
+     */
+    public void restrictControls(boolean restricted){
+        UserView.chbControlsList.setEnabled(!restricted);
+
+    }
+
     /**
     * Used in determining whether EcoViz has been opened for the first time
     * Setter for initialized boolean
@@ -69,9 +78,6 @@ public class Controller {
         return initialized;
     }
 
-    /*
-    Temporary Prototype Methods
-     */
 
     /**
      * Displays a loading screen window
@@ -117,6 +123,7 @@ public class Controller {
      */
     public void initializeTerrainGrid() throws IOException {
         print("initializeTerrainGrid");
+        restrictControls(false);
         UserView.pnlVizualizer.setGrid(new Grid(FileLoader.getDimx(),FileLoader.getDimy(),FileLoader.getSpacing(),FileLoader.getLatitude(), FileLoader.getTerrain()));
         updateView();
     }
