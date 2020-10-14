@@ -6,6 +6,8 @@
 
 
 
+import com.formdev.flatlaf.FlatLightLaf;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -1034,21 +1036,23 @@ public class UserView extends JFrame{
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+            UIManager.setLookAndFeel( new FlatLightLaf());
+
+            /*for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
-            }
-        } catch (ClassNotFoundException ex) {
+            }*/
+        } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(UserView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
+        } /*catch (InstantiationException ex) {
             Logger.getLogger(UserView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
             Logger.getLogger(UserView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(UserView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
         //</editor-fold>
         Thread currentThread = currentThread();
         System.out.println(currentThread());
