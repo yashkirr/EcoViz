@@ -132,7 +132,7 @@ public class UserView extends JFrame{
     public UserView() {
 
         initComponents(); //Initializes GUI Components
-        setTheme(Theme.DARK_MODE);
+        setTheme(Theme.LIGHT_MODE);
         setupListeners(); //Connects ActionListeners to Components
         setupMisc();
         //getContentPane().setBackground(new Color(56,60,74));
@@ -150,7 +150,11 @@ public class UserView extends JFrame{
                 component.setForeground(new Color(255,255,255));
             }
         }else{
-
+            for (Component component:
+                    components) {
+                component.setBackground(new Color(242,242,242));
+                component.setForeground(new Color(0,0,0));
+            }
         }
 
     }
@@ -1359,10 +1363,9 @@ public class UserView extends JFrame{
     * @param evt
     */
     private void miRestartActionPerformed(ActionEvent evt) {//GEN-FIRST:event_miRestartActionPerformed
-          if(JOptionPane.showConfirmDialog(null, "Are you sure you want to restart?") == JOptionPane.YES_OPTION){
+          if(JOptionPane.showConfirmDialog(null, "Are you sure you want to restart?") == JOptionPane.YES_OPTION) {
               // TODO: Write clear program code here
           }
-        
     }//GEN-LAST:event_miRestartActionPerformed
 
     private void chbCanopyActionPerformed(ActionEvent evt) {//GEN-FIRST:event_chbCanopyActionPerformed
@@ -1409,6 +1412,7 @@ public class UserView extends JFrame{
 
         /* Create and display the form */
         EventQueue.invokeLater(() -> new UserView().setVisible(true));
+
     }
 
     public static void setPlantHeightSliderValues(float min,float max){
