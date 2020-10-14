@@ -48,11 +48,15 @@ public class Species {
     public int getID(){
         return this.ID;
     }
+    public int setID(int ID){
+        this.ID = ID;
+        return ID;
+    }
     /**
     *Stores all species details in a hash map and returns the resulting hash map
     */
     public HashMap<String,Object> speciesDetail(){
-        HashMap<String,Object> mapDetail = new HashMap<String,Object>();
+        HashMap<String,Object> mapDetail = new HashMap<>();
         mapDetail.put("ID",ID);
         mapDetail.put("Color",color);
         mapDetail.put("minHeight",minHeight);

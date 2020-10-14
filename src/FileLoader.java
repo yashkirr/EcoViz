@@ -11,9 +11,13 @@
  */
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.awt.image.VolatileImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Array;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
@@ -37,13 +41,17 @@ public class FileLoader {
     private static Species[] speciesCan;  //used in pdb
     private static Species[] speciesUnder;  //used in pdb
     private static String[][] spcKey;
-    private static int[] spcColor;
+    private static Color[] spcColor;
+    private static BufferedImage[] spcCircle;
 
     //plant parameters
     private static int numSpeciesCan;
     private static int numSpeciesUnder;
     private static ArrayList<ArrayList<Plant>> speciesListCan;
     private static ArrayList<ArrayList<Plant>> speciesListUnder;
+
+    public static ArrayList<ArrayList<Plant>> getCanopy(){ return speciesListCan;}
+    public static ArrayList<ArrayList<Plant>> getUnder(){ return speciesListUnder;}
 
     //filter parameters
     private static float minPlantHeightUndergrowth;
@@ -57,6 +65,15 @@ public class FileLoader {
     //Userview width for plant specs
     private static int pnlWidth = UserView.pnlVizualizer.getWidth();
     private static int pnlHeight = UserView.pnlVizualizer.getHeight();
+
+    //Find plants
+    private static ArrayList<Plant>[][] finder;
+
+    //Plant stats
+    static float min = 10;
+    static float max =0;
+    static int totalCan = 0;
+    static int totalUnder = 0;
 
 
     /** @author Victor Bantchovski
@@ -72,6 +89,7 @@ public class FileLoader {
             spacing = elvScanner.nextFloat();
             latitude = elvScanner.nextFloat();
             terrain = new float[dimx][dimy];
+            finder = new ArrayList[(int)(dimx*spacing*10)][(int)spacing*dimy*10];
             while (elvScanner.hasNext()){
                 for (int y = 0;y<dimx;y++){
                     for (int x = 0; x<dimy;x++){
@@ -101,6 +119,7 @@ public class FileLoader {
             spcScanner = new Scanner(new File(spc));
             setSpcKey(new String[count][2]);
             spcDraw = new boolean[count];
+            spcCircle = new BufferedImage[count];
             String junk;
             int i=0;
             //for (int i = 0; i<16; i++) {          // could generalise line count
@@ -114,13 +133,13 @@ public class FileLoader {
                 i++;
             }
             //Set colours
-            spcColor = new int[i+1];
+            spcColor = new Color[i+1];
             int j = 0; //counter
-            int alpha = (int) (80 * Math.pow(2,24)); //transparency value
-            for(int R = 0; R<=3; R++){
-                for(int B = 1; B<=3; B++){
-                    for(int G = 0; G<=3; G++){
-                        spcColor[j] = (int) (G*100*Math.pow(2,16) + B*100*Math.pow(2,8) + R*100 + alpha);
+            for(int B = 2; B>=0; B--){
+                for(int G=4; G>=1; G--){
+                    for(int R = 2; R>=0; R--){
+                        spcColor[j] = new Color(R*70,G*60,B*80,170);
+                        spcCircle[j] = drawIMG(new Color(R*70,G*60,B*80,170));
                         j++;
                         if(j==i){ return;};
                     }
@@ -180,6 +199,8 @@ public class FileLoader {
                     Plant plant = new Plant(v, height, radius, dimx, dimy, spacing, pnlWidth, pnlHeight);
                     plant.setColor(spcColor[i]);
                     plantList.add(plant);
+                    plant.setID(s.getID());
+                    totalCan++;
                 }
                 speciesListCan.add(plantList);
             }
@@ -202,7 +223,6 @@ public class FileLoader {
             numSpeciesUnder = pdbScanner.nextInt();
             speciesUnder = new Species[numSpeciesUnder];
             //underDraw = new boolean[numSpeciesUnder];
-
             // create nested arraylist: Species > Plants
 
             speciesListUnder = new ArrayList<ArrayList<Plant>>(16);
@@ -237,6 +257,8 @@ public class FileLoader {
                     Plant plant = new Plant(v, height, radius, dimx, dimy, spacing, pnlWidth, pnlHeight);
                     plant.setColor(spcColor[i]);
                     plantList.add(plant);
+                    plant.setID(s.getID());
+                    totalUnder++;
                 }
                 speciesListUnder.add(plantList);
             }
@@ -335,9 +357,103 @@ public class FileLoader {
         return speciesListUnder;
     }
 
-    public static int[] getSpcColor(){
+    public static Color[] getSpcColor(){
         return spcColor;
     }
+    public static int n=500;
+    private static boolean first = true;
+    public static BufferedImage drawIMG(Color col){
+        BufferedImage img = new BufferedImage(n, n, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D gz = img.createGraphics();
+        //Color col = new Color(rgb);//,true);
+        gz.setColor(col);
+        gz.fillOval(0,0,n,n);
+        gz.dispose();
+        return img;
+    }
+    public static BufferedImage getIMG(int i){ return spcCircle[i];}
+/*
+    public class Circle extends VolatileImage {
+        private VolatileImage createVolatileImage(int width, int height, int transparency) {
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            GraphicsConfiguration gc = ge.getDefaultScreenDevice().getDefaultConfiguration();
+            VolatileImage image = null;
+
+            image = gc.createCompatibleVolatileImage(width, height, transparency);
+
+            int valid = image.validate(gc);
+
+            if (valid == VolatileImage.IMAGE_INCOMPATIBLE) {
+                image = this.createVolatileImage(width, height, transparency);
+                return image;
+            }
+
+            return image;
+        }
+        public void draw(Graphics2D g, int x, int y) {
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            GraphicsConfiguration gc = ge.getDefaultScreenDevice().getDefaultConfiguration();
+
+// Since we're copying from the VolatileImage, we need it in a good state.
+            if (vimage.validate(gc) != VolatileImage.IMAGE_OK) {
+                vimage = createVolatileImage(vimage.getWidth(), vimage.getHeight(),
+                        vimage.getTransparency());
+                render(); // This is coming up in Code Example 4.
+                }
+
+            g.drawImage(vimage,x,y,null); }
+
+        }
+        @Override
+        public BufferedImage getSnapshot() {
+            return null;
+        }
+
+        @Override
+        public int getWidth() {
+            return 0;
+        }
+
+        @Override
+        public int getHeight() {
+            return 0;
+        }
+
+        @Override
+        public Graphics2D createGraphics() {
+            return null;
+        }
+
+        @Override
+        public int validate(GraphicsConfiguration gc) {
+            return 0;
+        }
+
+        @Override
+        public boolean contentsLost() {
+            return false;
+        }
+
+        @Override
+        public ImageCapabilities getCapabilities() {
+            return null;
+        }
+
+        @Override
+        public int getWidth(ImageObserver observer) {
+            return 0;
+        }
+
+        @Override
+        public int getHeight(ImageObserver observer) {
+            return 0;
+        }
+
+        @Override
+        public Object getProperty(String name, ImageObserver observer) {
+            return null;
+        }
+    }*/
 }
 
 
