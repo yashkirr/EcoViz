@@ -50,6 +50,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     private int simStartX;
     private int simStartY;
     private double viewingThreshold = 0.001;// if plants are less than 1% of VizPanel, don't render until in view. Default.
+    private int terrainRenderType = 1;
 
     // private HashMap<Point,Plant> canopyMap;
    // private HashMap<Point,Plant> undergrowthMap;
@@ -190,7 +191,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
     private void drawBackground(Graphics2D g){
         try {
-            Image vizscaled = grid.getGreyscale().getScaledInstance(
+            Image vizscaled = grid.getGreyscale(terrainRenderType).getScaledInstance(
                     getWidth(),
                     getHeight(),
                     Image.SCALE_SMOOTH);
@@ -228,44 +229,15 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 //if(heightSliderValue!=sliderVal){break;}
                 while (j.hasNext()) {
                     Plant plant = pdbUnder.get(count).get(count2);
+                    //plant.updateVisualPosition(getWidth(),getHeight());
                     z = x * 2 * plant.getRad();
                     a = x * plant.getRectX() + at.getTranslateX(); //x transform
                     b = x * plant.getRectY() + at.getTranslateY(); //y transform
                     c = x * plant.getRad() / getWidth();    // ratio scaled radius to vizpanel
                     if (sliderVal <= plant.getHeight() && a+z >= 0 && a <= getWidth() && b+z >= 0 && b <= getHeight()) {
-                        //SELECTIVE PRINTING MECHANICS
-                        /*if (c <= 0.005&&c>0.001) {//draw small
-                            if(small==20){
-                                g.fill(plant.getShape());
-                                small=0;
-                            }
-                            small +=1;
-                        } else if (c>0.005&&c<=0.01) {  //draw medium
-                            if(med==5){
-                                g.fill(plant.getShape());
-                                med = 0;
-                            }
-                            med += 1;
-                        } else */
                             if (c > viewingThreshold) {                //draw large
-                                //g.setColor(pdbUnder.get(count).get(0).getColor());
-                                //////g.fill(plant.getShape());
-//                                if(check<50){
-//                                    stop = System.nanoTime();
-//                                    System.out.println("preloop: "+(stop-start));
-//
-//                                }
-                                //start = System.nanoTime();
                                 g.drawImage(FileLoader.getIMG(plant.getID()), plant.at,this);
-//                                if(check<50){
-//                                    stop = System.nanoTime();
-//                                    System.out.println("drawn: "+(stop-start));
-//                                    check++;
-//                                }
-                                //start = System.nanoTime();
-                                //g.setColor(Color.black);
-                                //g.draw(plant.getShape());
-                                //drawCircle(g,plant.getShape());
+//
                             }
                         }
                         j.next();
@@ -292,33 +264,16 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                     //if(this.heightSliderValue!=sliderVal){break; }
                     while (j.hasNext()) {
                         Plant plant = pdbCan.get(count).get(count2);
+                        //plant.updateVisualPosition(getWidth(),getHeight());
                         z = x * 2 * plant.getRad();
                         a = x * plant.getRectX() + at.getTranslateX(); //x transform
                         b = x * plant.getRectY() + at.getTranslateY(); //y transform
                         c = x * plant.getRad() / getWidth();    // ratio scaled radius to vizpanel
                         if (sliderVal <= plant.getHeight() && a+z >= 0 && a <= getWidth() && b+z >= 0 && b <= getHeight()) {
-                            //SELECTIVE PRINTING MECHANICS
-                        /*if (c <= 0.01&&c>0.005) {//draw small
-                            if(small==100){
-                                g.fill(plant.getShape());
-                                small=0;
-                            }
-                            small +=1;
-                        } else if (c>0.01&&c<=0.02) {  //draw medium
-                            if(med==8){
-                                g.fill(plant.getShape());
-                                med = 0;
-                            }
-                            med += 1;
-                        } else */
-                            if (c > viewingThreshold) {                //draw large
-                                //g.setColor(pdbUnder.get(count).get(0).getColor());
-                                //g.fill(plant.getShape());
 
+                            if (c > viewingThreshold) {
+                                //draw large
                                 g.drawImage(FileLoader.getIMG(plant.getID()), plant.at,this);
-                                //g.setColor(Color.black);
-                                //g.draw(plant.getShape());
-                                //drawCircle(g,plant.getShape());
                             }
                         }
 
@@ -445,5 +400,17 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         zoomWithButton = true;
         zoomFactor /= 1.1;
         repaint();
+    }
+
+    public void setViewingThreshold(int value) {
+        this.viewingThreshold = value/100.0;
+    }
+
+    public int getTerrainRenderType() {
+        return terrainRenderType;
+    }
+
+    public void setTerrainRenderType(int terrainRenderType) {
+        this.terrainRenderType = terrainRenderType;
     }
 }
