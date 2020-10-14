@@ -37,6 +37,7 @@ public class UserView extends JFrame{
     private javax.swing.JComboBox<String> cbxSimulationType;
     private javax.swing.JCheckBox chbCanopy;
     private javax.swing.JComboBox<String> chbControlsList;
+    private javax.swing.JCheckBox chbRealisticTerrain;
     private javax.swing.JCheckBox chbUndergrowth;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -51,8 +52,11 @@ public class UserView extends JFrame{
     private javax.swing.JLabel lblControlPanel;
     private javax.swing.JLabel lblCurrentZoomLevel;
     private javax.swing.JLabel lblCurrentZoomValue;
+    private javax.swing.JLabel lblElevationHeightMax;
+    private javax.swing.JLabel lblElevationHeightMin;
     private javax.swing.JLabel lblFilters;
     private javax.swing.JLabel lblHelp;
+    private javax.swing.JLabel lblHelpGuide;
     private javax.swing.JLabel lblMaxCanopy;
     private javax.swing.JLabel lblMinCanopy;
     private javax.swing.JLabel lblPlantHeightSlider2;
@@ -71,10 +75,12 @@ public class UserView extends JFrame{
     private javax.swing.JMenuItem miLoadFIles;
     private javax.swing.JMenuItem miRestart;
     private javax.swing.JPanel pnlControls;
+    private javax.swing.JPanel pnlElevationHeight;
     private javax.swing.JPanel pnlFIlters;
     private javax.swing.JPanel pnlHelp;
     private javax.swing.JPanel pnlLegend;
     private javax.swing.JPanel pnlPlantDetail;
+    private javax.swing.JScrollPane pnlPlantLegendList;
     private javax.swing.JPanel pnlSelectedFilters;
     private javax.swing.JScrollPane pnlSelectedVis;
     private javax.swing.JPanel pnlSimControls;
@@ -300,6 +306,7 @@ public class UserView extends JFrame{
         pnlControls = new javax.swing.JPanel();
         pnlHelp = new javax.swing.JPanel();
         lblHelp = new javax.swing.JLabel();
+        lblHelpGuide = new javax.swing.JLabel();
         pnlFIlters = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -321,8 +328,9 @@ public class UserView extends JFrame{
         lblViewSettings = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         btnDefaultThreshold = new javax.swing.JButton();
-        lblThreshold = new javax.swing.JLabel();
         sldRenderingThreshold = new javax.swing.JSpinner();
+        lblThreshold = new javax.swing.JLabel();
+        chbRealisticTerrain = new javax.swing.JCheckBox();
         pnlSimulation = new javax.swing.JPanel();
         cbxSimulationType = new javax.swing.JComboBox<String>();
         lblSimType = new javax.swing.JLabel();
@@ -342,6 +350,10 @@ public class UserView extends JFrame{
         lblSelectedVis = new javax.swing.JLabel();
         pnlPlantDetail = new javax.swing.JPanel();
         pnlLegend = new javax.swing.JPanel();
+        pnlElevationHeight = new javax.swing.JPanel();
+        lblElevationHeightMin = new javax.swing.JLabel();
+        lblElevationHeightMax = new javax.swing.JLabel();
+        pnlPlantLegendList = new javax.swing.JScrollPane();
         pnlZoom = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         lblZoom = new javax.swing.JLabel();
@@ -413,6 +425,9 @@ public class UserView extends JFrame{
         lblHelp.setFont(new java.awt.Font("Ubuntu Light", 0, 24)); // NOI18N
         lblHelp.setText("Help Guide");
 
+        lblHelpGuide.setFont(new java.awt.Font("Ubuntu Light", 0, 15)); // NOI18N
+        lblHelpGuide.setText("<html>\n<p style=\"text-align: center;\"><strong>EcoViz - Forest Ecosystem Visualizer</strong></p>\n<p style=\"text-align: center;\">&nbsp;Load files by clicking on File &gt; Load Files</p>\n<p style=\"text-align: justify;\">&nbsp;</p>\n<p style=\"text-align: justify;\"><strong>Settings</strong></p>\n<p style=\"text-align: justify;\">Select an option in the above drop-down menu to browse through visualizer options.</p>\n<p style=\"text-align: justify;\"><br /> <strong>Filters</strong></p>\n<p style=\"text-align: justify;\">Filter through the visualizer by plant height and canopy radii.</p>\n<p style=\"text-align: justify;\"><br /><strong> Visibility</strong></p>\n<p style=\"text-align: justify;\">View specific forest layers or specific species or genus.</p>\n<p style=\"text-align: justify;\"><br /><strong> Simulation</strong></p>\n<p style=\"text-align: justify;\">Start and control a fire simulation.</p>\n<p style=\"text-align: justify;\"><br /><strong> Legend</strong></p>\n<p style=\"text-align: justify;\">View the visualizer key.</p>\n<p style=\"text-align: justify;\"><br /><strong> Plant Detail</strong></p>\n<p style=\"text-align: justify;\">View specific plant details.&nbsp;</p>\n<p style=\"text-align: justify;\">&nbsp;</p>\n<p style=\"text-align: justify;\"><strong> Zoom</strong></p>\n<p style=\"text-align: justify;\">View the zoom level and context map.</p>\n<p style=\"text-align: justify;\"><br /><strong> Help</strong></p>\n<p style=\"text-align: justify;\">A helpful guideline for EcoViz functions.</p>");
+
         javax.swing.GroupLayout pnlHelpLayout = new javax.swing.GroupLayout(pnlHelp);
         pnlHelp.setLayout(pnlHelpLayout);
         pnlHelpLayout.setHorizontalGroup(
@@ -421,13 +436,19 @@ public class UserView extends JFrame{
                                 .addGap(90, 90, 90)
                                 .addComponent(lblHelp)
                                 .addContainerGap(89, Short.MAX_VALUE))
+                        .addGroup(pnlHelpLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(lblHelpGuide, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addContainerGap())
         );
         pnlHelpLayout.setVerticalGroup(
                 pnlHelpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(pnlHelpLayout.createSequentialGroup()
                                 .addGap(24, 24, 24)
                                 .addComponent(lblHelp)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblHelpGuide, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
+                                .addContainerGap())
         );
 
         pnlControls.add(pnlHelp, "pnlHelp");
@@ -589,7 +610,7 @@ public class UserView extends JFrame{
                         .addGroup(pnlFIltersLayout.createSequentialGroup()
                                 .addGap(24, 24, 24)
                                 .addComponent(lblFilters)
-                                .addGap(113, 113, 113)
+                                .addGap(76, 76, 76)
                                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -598,7 +619,7 @@ public class UserView extends JFrame{
                                 .addGap(18, 18, 18)
                                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(pnlSelectedFilters, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE))
+                                .addComponent(pnlSelectedFilters, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE))
         );
 
         pnlControls.add(pnlFIlters, "pnlFilters");
@@ -606,25 +627,25 @@ public class UserView extends JFrame{
         lblViewSettings.setFont(new java.awt.Font("Ubuntu Light", 0, 24)); // NOI18N
         lblViewSettings.setText("Rendering");
 
-        btnDefaultThreshold.setToolTipText("");
+        btnDefaultThreshold.setText("⟲");
+        btnDefaultThreshold.setToolTipText("Reset to default");
 
-        lblThreshold.setText("<html><center>Rendering<br>Threshold</center>");
-
-        sldRenderingThreshold.setModel(new javax.swing.SpinnerNumberModel(0, 0, 100, 0));
         sldRenderingThreshold.setName(""); // NOI18N
+
+        lblThreshold.setText("<html>Rendering<br>Threshold");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
                 jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(lblThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0)
+                                .addComponent(lblThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(sldRenderingThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(sldRenderingThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnDefaultThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())
+                                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
                 jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -637,27 +658,36 @@ public class UserView extends JFrame{
                                 .addContainerGap())
         );
 
+        chbRealisticTerrain.setText("Realistic Terrain");
+        chbRealisticTerrain.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        chbRealisticTerrain.setIconTextGap(68);
+
         javax.swing.GroupLayout pnlViewSettingsLayout = new javax.swing.GroupLayout(pnlViewSettings);
         pnlViewSettings.setLayout(pnlViewSettingsLayout);
         pnlViewSettingsLayout.setHorizontalGroup(
                 pnlViewSettingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(pnlViewSettingsLayout.createSequentialGroup()
-                                .addGap(96, 96, 96)
-                                .addComponent(lblViewSettings)
-                                .addContainerGap(89, Short.MAX_VALUE))
-                        .addGroup(pnlViewSettingsLayout.createSequentialGroup()
-                                .addGap(44, 44, 44)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(pnlViewSettingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(pnlViewSettingsLayout.createSequentialGroup()
+                                                .addGap(96, 96, 96)
+                                                .addComponent(lblViewSettings))
+                                        .addGroup(pnlViewSettingsLayout.createSequentialGroup()
+                                                .addGap(44, 44, 44)
+                                                .addGroup(pnlViewSettingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                        .addComponent(chbRealisticTerrain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addContainerGap(54, Short.MAX_VALUE))
         );
         pnlViewSettingsLayout.setVerticalGroup(
                 pnlViewSettingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(pnlViewSettingsLayout.createSequentialGroup()
                                 .addGap(24, 24, 24)
                                 .addComponent(lblViewSettings)
-                                .addGap(30, 30, 30)
+                                .addGap(26, 26, 26)
+                                .addComponent(chbRealisticTerrain, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(507, Short.MAX_VALUE))
+                                .addContainerGap(482, Short.MAX_VALUE))
         );
 
         pnlControls.add(pnlViewSettings, "pnlViewSettings");
@@ -795,29 +825,53 @@ public class UserView extends JFrame{
         pnlControls.add(pnlVisibility, "pnlVisibility");
 
         pnlPlantDetail.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        javax.swing.GroupLayout pnlPlantDetailLayout = new javax.swing.GroupLayout(pnlPlantDetail);
-        pnlPlantDetail.setLayout(pnlPlantDetailLayout);
-        pnlPlantDetailLayout.setHorizontalGroup(
-                pnlPlantDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 292, Short.MAX_VALUE)
-        );
-        pnlPlantDetailLayout.setVerticalGroup(
-                pnlPlantDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 646, Short.MAX_VALUE)
-        );
-
+        pnlPlantDetail.setLayout(new java.awt.GridBagLayout());
         pnlControls.add(pnlPlantDetail, "pnlPlantDetail");
+
+        pnlElevationHeight.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        javax.swing.GroupLayout pnlElevationHeightLayout = new javax.swing.GroupLayout(pnlElevationHeight);
+        pnlElevationHeight.setLayout(pnlElevationHeightLayout);
+        pnlElevationHeightLayout.setHorizontalGroup(
+                pnlElevationHeightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 0, Short.MAX_VALUE)
+        );
+        pnlElevationHeightLayout.setVerticalGroup(
+                pnlElevationHeightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 34, Short.MAX_VALUE)
+        );
+
+        lblElevationHeightMin.setText("Min");
+
+        lblElevationHeightMax.setText("Max");
 
         javax.swing.GroupLayout pnlLegendLayout = new javax.swing.GroupLayout(pnlLegend);
         pnlLegend.setLayout(pnlLegendLayout);
         pnlLegendLayout.setHorizontalGroup(
                 pnlLegendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 296, Short.MAX_VALUE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLegendLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(pnlLegendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(pnlPlantLegendList)
+                                        .addComponent(pnlElevationHeight, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlLegendLayout.createSequentialGroup()
+                                                .addComponent(lblElevationHeightMin)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 218, Short.MAX_VALUE)
+                                                .addComponent(lblElevationHeightMax)))
+                                .addContainerGap())
         );
         pnlLegendLayout.setVerticalGroup(
                 pnlLegendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 650, Short.MAX_VALUE)
+                        .addGroup(pnlLegendLayout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addGroup(pnlLegendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(lblElevationHeightMin)
+                                        .addComponent(lblElevationHeightMax))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(pnlElevationHeight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(30, 30, 30)
+                                .addComponent(pnlPlantLegendList, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
+                                .addContainerGap())
         );
 
         pnlControls.add(pnlLegend, "pnlLegend");
@@ -968,11 +1022,11 @@ public class UserView extends JFrame{
                         .addGroup(layout.createSequentialGroup()
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, 0)
-                                .addComponent(pnlControls, javax.swing.GroupLayout.DEFAULT_SIZE, 654, Short.MAX_VALUE))
+                                .addComponent(pnlControls, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
-    }// </editor-fold>                        // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>
 
     private void sldRenderingThresholdStateChanged(ChangeEvent evt) {
         JSpinner source = (JSpinner) evt.getSource(); //gets the event type
