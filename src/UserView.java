@@ -46,8 +46,11 @@ public class UserView extends JFrame{
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lblControlPanel;
+    private javax.swing.JLabel lblCurrentZoomLevel;
+    private javax.swing.JLabel lblCurrentZoomValue;
     private javax.swing.JLabel lblFilters;
     private javax.swing.JLabel lblHelp;
     private javax.swing.JLabel lblMaxCanopy;
@@ -70,12 +73,16 @@ public class UserView extends JFrame{
     private javax.swing.JPanel pnlControls;
     private javax.swing.JPanel pnlFIlters;
     private javax.swing.JPanel pnlHelp;
+    private javax.swing.JPanel pnlLegend;
+    private javax.swing.JPanel pnlPlantDetail;
     private javax.swing.JPanel pnlSelectedFilters;
     private javax.swing.JScrollPane pnlSelectedVis;
     private javax.swing.JPanel pnlSimControls;
     private javax.swing.JPanel pnlSimulation;
     private javax.swing.JPanel pnlViewSettings;
     private javax.swing.JPanel pnlVisibility;
+    private javax.swing.JPanel pnlZoom;
+    private javax.swing.JPanel pnlZoomContextMap;
     private javax.swing.JSlider sldMaxCanopyRadius;
     private javax.swing.JSlider sldMinCanopyRadius;
     private javax.swing.JSlider sldPlantHeightMin;
@@ -127,8 +134,6 @@ public class UserView extends JFrame{
         }else{
 
         }
-
-
 
     }
 
@@ -263,7 +268,18 @@ public class UserView extends JFrame{
             case "Rendering":
                 card.show(pnlControls,"pnlViewSettings");
                 break;
-
+            case "Legend":
+                card.show(pnlControls,"pnlLegend");
+                break;
+            case "Plant Detail":
+                card.show(pnlControls,"pnlPlantDetail");
+                break;
+            case "Help":
+                card.show(pnlControls,"pnlHelp");
+                break;
+            case "Zoom":
+                card.show(pnlControls,"pnlZoom");
+                break;
         }
     }
 
@@ -278,10 +294,6 @@ public class UserView extends JFrame{
     private void initComponents() {
 
         pnlVizualizer = new VizPanel();
-        jPanel1 = new javax.swing.JPanel();
-        btnZoomOut = new javax.swing.JButton();
-        lblZoom = new javax.swing.JLabel();
-        btnZoomIn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         chbControlsList = new javax.swing.JComboBox<String>();
         lblControlPanel = new javax.swing.JLabel();
@@ -328,6 +340,17 @@ public class UserView extends JFrame{
         lblSelectedVisible = new javax.swing.JLabel();
         pnlSelectedVis = new javax.swing.JScrollPane();
         lblSelectedVis = new javax.swing.JLabel();
+        pnlPlantDetail = new javax.swing.JPanel();
+        pnlLegend = new javax.swing.JPanel();
+        pnlZoom = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        lblZoom = new javax.swing.JLabel();
+        btnZoomIn = new javax.swing.JButton();
+        btnZoomOut = new javax.swing.JButton();
+        jPanel8 = new javax.swing.JPanel();
+        lblCurrentZoomLevel = new javax.swing.JLabel();
+        lblCurrentZoomValue = new javax.swing.JLabel();
+        pnlZoomContextMap = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         mbFIleOption = new javax.swing.JMenu();
         miLoadFIles = new javax.swing.JMenuItem();
@@ -340,58 +363,20 @@ public class UserView extends JFrame{
 
         pnlVizualizer.setName("");
 
-        btnZoomOut.setText("-");
-
-        lblZoom.setFont(new java.awt.Font("Ubuntu", 0, 24)); // NOI18N
-        lblZoom.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblZoom.setText("Zoom");
-
-        btnZoomIn.setText("+");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(lblZoom)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(btnZoomOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnZoomIn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(btnZoomIn)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(btnZoomOut)
-                                        .addComponent(lblZoom))
-                                .addContainerGap())
-        );
-
         javax.swing.GroupLayout pnlVizualizerLayout = new javax.swing.GroupLayout(pnlVizualizer);
         pnlVizualizer.setLayout(pnlVizualizerLayout);
         pnlVizualizerLayout.setHorizontalGroup(
                 pnlVizualizerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlVizualizerLayout.createSequentialGroup()
-                                .addGap(0, 581, Short.MAX_VALUE)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 718, Short.MAX_VALUE)
         );
         pnlVizualizerLayout.setVerticalGroup(
                 pnlVizualizerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlVizualizerLayout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())
+                        .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jPanel2.setBorder(null);
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        chbControlsList.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Legend", "Plant Detail", "Filters", "Visibility", "Simulation", "Rendering", "Help" }));
+        chbControlsList.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Legend", "Filters", "Zoom Distance", "Visibility", "Simulation", "Plant Detail", "Rendering", "Help" }));
 
         lblControlPanel.setFont(new java.awt.Font("Ubuntu Light", 0, 24)); // NOI18N
         lblControlPanel.setText("Settings");
@@ -809,6 +794,131 @@ public class UserView extends JFrame{
 
         pnlControls.add(pnlVisibility, "pnlVisibility");
 
+        pnlPlantDetail.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        javax.swing.GroupLayout pnlPlantDetailLayout = new javax.swing.GroupLayout(pnlPlantDetail);
+        pnlPlantDetail.setLayout(pnlPlantDetailLayout);
+        pnlPlantDetailLayout.setHorizontalGroup(
+                pnlPlantDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 294, Short.MAX_VALUE)
+        );
+        pnlPlantDetailLayout.setVerticalGroup(
+                pnlPlantDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 648, Short.MAX_VALUE)
+        );
+
+        pnlControls.add(pnlPlantDetail, "pnlPlantDetail");
+
+        javax.swing.GroupLayout pnlLegendLayout = new javax.swing.GroupLayout(pnlLegend);
+        pnlLegend.setLayout(pnlLegendLayout);
+        pnlLegendLayout.setHorizontalGroup(
+                pnlLegendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 298, Short.MAX_VALUE)
+        );
+        pnlLegendLayout.setVerticalGroup(
+                pnlLegendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 652, Short.MAX_VALUE)
+        );
+
+        pnlControls.add(pnlLegend, "pnlLegend");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 94, Short.MAX_VALUE)
+        );
+
+        lblZoom.setFont(new java.awt.Font("Ubuntu Light", 0, 24)); // NOI18N
+        lblZoom.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblZoom.setText("Zoom");
+
+        btnZoomIn.setText("+");
+
+        btnZoomOut.setText("-");
+
+        lblCurrentZoomLevel.setText("Current Zoom Level:");
+
+        lblCurrentZoomValue.setText("0%");
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+                jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addContainerGap(51, Short.MAX_VALUE)
+                                .addComponent(lblCurrentZoomLevel)
+                                .addGap(39, 39, 39)
+                                .addComponent(lblCurrentZoomValue)
+                                .addGap(45, 45, 45))
+        );
+        jPanel8Layout.setVerticalGroup(
+                jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addGap(0, 0, 0)
+                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(lblCurrentZoomLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblCurrentZoomValue))
+                                .addGap(0, 0, 0))
+        );
+
+        javax.swing.GroupLayout pnlZoomContextMapLayout = new javax.swing.GroupLayout(pnlZoomContextMap);
+        pnlZoomContextMap.setLayout(pnlZoomContextMapLayout);
+        pnlZoomContextMapLayout.setHorizontalGroup(
+                pnlZoomContextMapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 0, Short.MAX_VALUE)
+        );
+        pnlZoomContextMapLayout.setVerticalGroup(
+                pnlZoomContextMapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout pnlZoomLayout = new javax.swing.GroupLayout(pnlZoom);
+        pnlZoom.setLayout(pnlZoomLayout);
+        pnlZoomLayout.setHorizontalGroup(
+                pnlZoomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnlZoomLayout.createSequentialGroup()
+                                .addGroup(pnlZoomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(pnlZoomLayout.createSequentialGroup()
+                                                .addGap(119, 119, 119)
+                                                .addComponent(lblZoom))
+                                        .addGroup(pnlZoomLayout.createSequentialGroup()
+                                                .addGap(80, 80, 80)
+                                                .addComponent(btnZoomOut, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(btnZoomIn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(pnlZoomContextMap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(236, 236, 236))
+        );
+        pnlZoomLayout.setVerticalGroup(
+                pnlZoomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnlZoomLayout.createSequentialGroup()
+                                .addGap(24, 24, 24)
+                                .addComponent(lblZoom)
+                                .addGap(18, 18, 18)
+                                .addGroup(pnlZoomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(btnZoomOut)
+                                        .addComponent(btnZoomIn))
+                                .addGap(22, 22, 22)
+                                .addGroup(pnlZoomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(pnlZoomLayout.createSequentialGroup()
+                                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addContainerGap(433, Short.MAX_VALUE))
+                                        .addGroup(pnlZoomLayout.createSequentialGroup()
+                                                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(pnlZoomContextMap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+
+        pnlControls.add(pnlZoom, "pnlZoom");
+
         menuBar.setName(""); // NOI18N
 
         mbFIleOption.setText("File");
@@ -857,7 +967,7 @@ public class UserView extends JFrame{
                         .addComponent(pnlVizualizer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createSequentialGroup()
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(0, 0, 0)
                                 .addComponent(pnlControls, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1100,21 +1210,9 @@ public class UserView extends JFrame{
         try {
             UIManager.setLookAndFeel( new FlatLightLaf());
 
-            /*for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }*/
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(UserView.class.getName()).log(Level.SEVERE, null, ex);
-        } /*catch (InstantiationException ex) {
-            Logger.getLogger(UserView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(UserView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(UserView.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        }
         //</editor-fold>
         Thread currentThread = currentThread();
         System.out.println(currentThread());
