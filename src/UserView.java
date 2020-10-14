@@ -6,6 +6,7 @@
 
 
 
+import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.*;
@@ -1395,13 +1396,8 @@ public class UserView extends JFrame{
      * @param args the command line arguments
      */
     public static void main(String args[]) throws Exception {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            UIManager.setLookAndFeel( new FlatLightLaf());
+            UIManager.setLookAndFeel( new FlatDarkLaf());
 
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(UserView.class.getName()).log(Level.SEVERE, null, ex);
