@@ -141,7 +141,7 @@ public class UserView extends JFrame{
         localController.restrictControls(true);
     }
 
-    private void setTheme(Theme theme) {
+    private void setTheme(Theme theme){
         ArrayList<Component> components = getAllComponents(this);
         if(theme == Theme.DARK_MODE){
             for (Component component:
@@ -1397,7 +1397,7 @@ public class UserView extends JFrame{
      */
     public static void main(String args[]) throws Exception {
         try {
-            UIManager.setLookAndFeel( new FlatDarkLaf());
+            UIManager.setLookAndFeel( new FlatLightLaf());
 
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(UserView.class.getName()).log(Level.SEVERE, null, ex);
