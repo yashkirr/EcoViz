@@ -108,7 +108,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     }
     private boolean first = true;
     private int check;
-
+//////////
     @Override
     protected void paintComponent(Graphics g) {
 
