@@ -45,9 +45,13 @@ public class UserView extends JFrame{
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lblControlPanel;
+    private javax.swing.JLabel lblFilters;
     private javax.swing.JLabel lblHelp;
-    private javax.swing.JLabel lblPlantHeightMinValue;
+    private javax.swing.JLabel lblMaxCanopy;
+    private javax.swing.JLabel lblMinCanopy;
     private javax.swing.JLabel lblPlantHeightSlider2;
     private javax.swing.JLabel lblPlantHeightSlider3;
     private javax.swing.JLabel lblPlantHeightValue;
@@ -66,11 +70,14 @@ public class UserView extends JFrame{
     private javax.swing.JPanel pnlControls;
     private javax.swing.JPanel pnlFIlters;
     private javax.swing.JPanel pnlHelp;
+    private javax.swing.JPanel pnlSelectedFilters;
     private javax.swing.JScrollPane pnlSelectedVis;
     private javax.swing.JPanel pnlSimControls;
     private javax.swing.JPanel pnlSimulation;
     private javax.swing.JPanel pnlViewSettings;
     private javax.swing.JPanel pnlVisibility;
+    private javax.swing.JSlider sldMaxCanopyRadius;
+    private javax.swing.JSlider sldMinCanopyRadius;
     private javax.swing.JSlider sldPlantHeightMin;
     private javax.swing.JSpinner sldRenderingThreshold;
     private javax.swing.JScrollPane tabFilterPlants;
@@ -220,7 +227,7 @@ public class UserView extends JFrame{
             }
         });
 
-        /* Menu Items */
+        /* Menu Items
         miLoadFIles.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 miLoadFIlesActionPerformed(evt);
@@ -237,7 +244,7 @@ public class UserView extends JFrame{
             public void actionPerformed(ActionEvent evt) {
                 miExitActionPerformed(evt);
             }
-        });
+        });*/
 
     }
 
@@ -283,14 +290,21 @@ public class UserView extends JFrame{
         lblHelp = new javax.swing.JLabel();
         pnlFIlters = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        sldPlantHeightMin = new javax.swing.JSlider();
-        lblPlantHeightMinValue = new javax.swing.JLabel();
-        lblPlantHeightSlider2 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         sldPlantHeight = new javax.swing.JSlider();
-        lblPlantHeightValue = new javax.swing.JLabel();
         lblPlantHeightSlider3 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        sldPlantHeightMin = new javax.swing.JSlider();
+        lblPlantHeightSlider2 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        sldMaxCanopyRadius = new javax.swing.JSlider();
+        lblMaxCanopy = new javax.swing.JLabel();
+        pnlSelectedFilters = new javax.swing.JPanel();
+        lblPlantHeightValue = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        sldMinCanopyRadius = new javax.swing.JSlider();
+        lblMinCanopy = new javax.swing.JLabel();
+        lblFilters = new javax.swing.JLabel();
         pnlViewSettings = new javax.swing.JPanel();
         lblViewSettings = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -377,7 +391,7 @@ public class UserView extends JFrame{
 
         jPanel2.setBorder(null);
 
-        chbControlsList.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Filters", "Visibility", "Simulation", "Rendering", " " }));
+        chbControlsList.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Legend", "Plant Detail", "Filters", "Visibility", "Simulation", "Rendering", "Help" }));
 
         lblControlPanel.setFont(new java.awt.Font("Ubuntu Light", 0, 24)); // NOI18N
         lblControlPanel.setText("Settings");
@@ -435,123 +449,171 @@ public class UserView extends JFrame{
 
         pnlFIlters.setBorder(null);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-                jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 228, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-                jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 124, Short.MAX_VALUE)
-        );
-
-        sldPlantHeightMin.setOrientation(javax.swing.JSlider.VERTICAL);
-        sldPlantHeightMin.setPaintLabels(true);
-        sldPlantHeightMin.setPaintTicks(true);
-        sldPlantHeightMin.setValue(0);
-        sldPlantHeightMin.setBorder(null);
-
-        lblPlantHeightMinValue.setText("0");
-
-        lblPlantHeightSlider2.setFont(new java.awt.Font("Ubuntu Light", 0, 15)); // NOI18N
-        lblPlantHeightSlider2.setText("<html><center>Min Plant<br> Height");
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-                jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel5Layout.createSequentialGroup()
-                                                .addContainerGap()
-                                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(lblPlantHeightSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addGroup(jPanel5Layout.createSequentialGroup()
-                                                                .addGap(29, 29, 29)
-                                                                .addComponent(lblPlantHeightMinValue))))
-                                        .addGroup(jPanel5Layout.createSequentialGroup()
-                                                .addGap(32, 32, 32)
-                                                .addComponent(sldPlantHeightMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap(22, Short.MAX_VALUE))
-        );
-        jPanel5Layout.setVerticalGroup(
-                jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addContainerGap(30, Short.MAX_VALUE)
-                                .addComponent(lblPlantHeightSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblPlantHeightMinValue)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(sldPlantHeightMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        sldPlantHeight.setOrientation(javax.swing.JSlider.VERTICAL);
         sldPlantHeight.setPaintLabels(true);
         sldPlantHeight.setPaintTicks(true);
         sldPlantHeight.setValue(0);
         sldPlantHeight.setBorder(null);
 
-        lblPlantHeightValue.setText("0");
-
         lblPlantHeightSlider3.setFont(new java.awt.Font("Ubuntu Light", 0, 15)); // NOI18N
-        lblPlantHeightSlider3.setText("<html><center>Max Plant<br> Height");
+        lblPlantHeightSlider3.setText("<html>Max Plant<br> Height");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
                 jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel6Layout.createSequentialGroup()
-                                                .addContainerGap()
-                                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(lblPlantHeightSlider3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addGroup(jPanel6Layout.createSequentialGroup()
-                                                                .addGap(29, 29, 29)
-                                                                .addComponent(lblPlantHeightValue))))
-                                        .addGroup(jPanel6Layout.createSequentialGroup()
-                                                .addGap(32, 32, 32)
-                                                .addComponent(sldPlantHeight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap(22, Short.MAX_VALUE))
+                                .addComponent(lblPlantHeightSlider3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(sldPlantHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
                 jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addContainerGap(30, Short.MAX_VALUE)
-                                .addComponent(lblPlantHeightSlider3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblPlantHeightValue)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(sldPlantHeight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(sldPlantHeight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblPlantHeightSlider3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, 0))
         );
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+                jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+                jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
+        );
+
+        sldPlantHeightMin.setPaintLabels(true);
+        sldPlantHeightMin.setPaintTicks(true);
+        sldPlantHeightMin.setValue(0);
+        sldPlantHeightMin.setBorder(null);
+
+        lblPlantHeightSlider2.setFont(new java.awt.Font("Ubuntu Light", 0, 15)); // NOI18N
+        lblPlantHeightSlider2.setText("<html>Min Plant<br> Height");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+                jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(lblPlantHeightSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(sldPlantHeightMin, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+                jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(sldPlantHeightMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblPlantHeightSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
+        sldMaxCanopyRadius.setPaintLabels(true);
+        sldMaxCanopyRadius.setPaintTicks(true);
+        sldMaxCanopyRadius.setValue(0);
+        sldMaxCanopyRadius.setBorder(null);
+
+        lblMaxCanopy.setFont(new java.awt.Font("Ubuntu Light", 0, 15)); // NOI18N
+        lblMaxCanopy.setText("<html>Max Canopy<br> Radius");
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+                jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addComponent(lblMaxCanopy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(sldMaxCanopyRadius, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+                jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(sldMaxCanopyRadius, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblMaxCanopy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
+        pnlSelectedFilters.setLayout(new java.awt.GridBagLayout());
+
+        lblPlantHeightValue.setText("Selected filters will appear here");
+        pnlSelectedFilters.add(lblPlantHeightValue, new java.awt.GridBagConstraints());
+
+        sldMinCanopyRadius.setPaintLabels(true);
+        sldMinCanopyRadius.setPaintTicks(true);
+        sldMinCanopyRadius.setValue(0);
+        sldMinCanopyRadius.setBorder(null);
+
+        lblMinCanopy.setFont(new java.awt.Font("Ubuntu Light", 0, 15)); // NOI18N
+        lblMinCanopy.setText("<html>Min Canopy<br> Radius");
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+                jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel9Layout.createSequentialGroup()
+                                .addComponent(lblMinCanopy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(sldMinCanopyRadius, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+                jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(sldMinCanopyRadius, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblMinCanopy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
+        lblFilters.setFont(new java.awt.Font("Ubuntu Light", 0, 24)); // NOI18N
+        lblFilters.setText("Filters");
 
         javax.swing.GroupLayout pnlFIltersLayout = new javax.swing.GroupLayout(pnlFIlters);
         pnlFIlters.setLayout(pnlFIltersLayout);
         pnlFIltersLayout.setHorizontalGroup(
                 pnlFIltersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFIltersLayout.createSequentialGroup()
-                                .addContainerGap(38, Short.MAX_VALUE)
-                                .addGroup(pnlFIltersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(pnlFIltersLayout.createSequentialGroup()
+                                .addGroup(pnlFIltersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(57, 57, 57))
+                        .addGroup(pnlFIltersLayout.createSequentialGroup()
+                                .addGroup(pnlFIltersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(pnlSelectedFilters, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGroup(pnlFIltersLayout.createSequentialGroup()
-                                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(32, 32, 32))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlFIltersLayout.createSequentialGroup()
-                                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addContainerGap())))
+                                                .addGap(119, 119, 119)
+                                                .addComponent(lblFilters)))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlFIltersLayout.setVerticalGroup(
                 pnlFIltersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(pnlFIltersLayout.createSequentialGroup()
-                                .addGap(76, 76, 76)
+                                .addGap(24, 24, 24)
+                                .addComponent(lblFilters)
+                                .addGap(113, 113, 113)
                                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(91, 91, 91)
-                                .addGroup(pnlFIltersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(57, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(pnlSelectedFilters, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
         );
 
         pnlControls.add(pnlFIlters, "pnlFilters");
@@ -610,7 +672,7 @@ public class UserView extends JFrame{
                                 .addComponent(lblViewSettings)
                                 .addGap(30, 30, 30)
                                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(503, Short.MAX_VALUE))
+                                .addContainerGap(509, Short.MAX_VALUE))
         );
 
         pnlControls.add(pnlViewSettings, "pnlViewSettings");
@@ -667,7 +729,7 @@ public class UserView extends JFrame{
                                         .addComponent(lblSimType))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(pnlSimControls, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(337, Short.MAX_VALUE))
+                                .addContainerGap(343, Short.MAX_VALUE))
         );
 
         pnlControls.add(pnlSimulation, "pnlSimulation");
@@ -741,7 +803,7 @@ public class UserView extends JFrame{
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(lblSelectedVisible)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(pnlSelectedVis, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                                .addComponent(pnlSelectedVis, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
                                 .addContainerGap())
         );
 
