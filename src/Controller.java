@@ -52,6 +52,7 @@ public class Controller {
                 FileLoader.readPdbCan(path);
             }
         }
+        System.gc(); //clean arbitrary trash to optimise performance
 
     }
     /**
@@ -119,6 +120,7 @@ public class Controller {
         print("initializeTerrainGrid");
         UserView.pnlVizualizer.setGrid(new Grid(FileLoader.getDimx(),FileLoader.getDimy(),FileLoader.getSpacing(),FileLoader.getLatitude(), FileLoader.getTerrain()));
         updateView();
+        UserView.pnlVizualizer.setPlants();
     }
 
     public BufferedImage buildGrid() throws IOException {
