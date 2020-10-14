@@ -50,6 +50,7 @@ public class FileLoaderDialog extends javax.swing.JDialog {
         super(parent, modal);
         parentFrame = parent;
         initComponents();
+        this.setLocationRelativeTo(null);
         localController = new Controller();
         this.setResizable(false);
     }

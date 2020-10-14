@@ -303,6 +303,7 @@ public class UserView extends JFrame{
     }
 
     private void setupMisc(){
+        this.setLocationRelativeTo(null);
         chbControlsList.setSelectedIndex(chbControlsList.getItemCount()-1);
     }
 

@@ -17,6 +17,7 @@ public class WindSetDialog extends javax.swing.JDialog {
     public WindSetDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
