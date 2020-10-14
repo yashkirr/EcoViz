@@ -18,7 +18,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class VizPanel extends JPanel implements MouseWheelListener, MouseListener, MouseMotionListener {
 
@@ -53,6 +53,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     private int simStartY;
     public Fire fire;
     private boolean simRunning;
+    private double viewingThreshold = 0.001;// if plants are less than 1% of VizPanel, don't render until in view. Default.
+    private int terrainRenderType = 1;
 
     // private HashMap<Point,Plant> canopyMap;
    // private HashMap<Point,Plant> undergrowthMap;
@@ -144,19 +146,21 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                     xOffset = (zoomDiv) * (xOffset) + (1 - zoomDiv) * xRel;
                     yOffset = (zoomDiv) * (yOffset) + (1 - zoomDiv) * yRel;
 
-                    at.translate(xOffset, yOffset);
-                    at.scale(zoomFactor, zoomFactor);
-                    prevZoomFactor = zoomFactor;
-                    g2.transform(at);
-                    setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                    zoomer = false;
-                } else if (dragger) {
-                    setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
-                    //System.out.println("Dragging");
-                    at = new AffineTransform();
-                    at.translate(xOffset + xDiff, yOffset + yDiff);
-                    at.scale(zoomFactor, zoomFactor);
-                    g2.transform(at);
+                at.translate(xOffset, yOffset);
+                at.scale(zoomFactor, zoomFactor);
+                prevZoomFactor = zoomFactor;
+                g2.transform(at);
+                setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                zoomer = false;
+            }
+
+            else if (dragger) {
+                setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+                System.out.println("Dragging");
+                at = new AffineTransform();
+                at.translate(xOffset + xDiff, yOffset + yDiff);
+                at.scale(zoomFactor, zoomFactor);
+                g2.transform(at);
 
                     if (released) {
                         xOffset += xDiff;
@@ -211,13 +215,13 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             }
             //g.drawImage(fire.getImage(),0,0,null);
 
-        }else{ g.drawString("Select Files > Load Files to start a visualization",getWidth()/2,getHeight()/2); }
+        }
 
     }
 
     private void drawBackground(Graphics2D g){
         try {
-            Image vizscaled = grid.getGreyscale().getScaledInstance(
+            Image vizscaled = grid.getGreyscale(terrainRenderType).getScaledInstance(
                     getWidth(),
                     getHeight(),
                     Image.SCALE_SMOOTH);
@@ -245,57 +249,25 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         Iterator j;
         int count = 0;
         int count2 = 0;
-        if(undergrowthCHB==true) {
+        if(undergrowthCHB) {
             while (i.hasNext()) {
                 int id = FileLoader.getSpeciesUnder()[count].getID();
                 if (FileLoader.getSpcDraw()[id]) {
-                    j = pdbUnder.get(count).iterator();
-                    if (pdbUnder.get(count).get(count2).getBurnt()==false) {
-                        g.setColor(pdbUnder.get(count).get(count2).getColor());
-                    }else{
-                        g.setColor(new Color(1.0f,1.0f,1.0f,0.3f));
-                    }
-                    //if(heightSliderValue!=sliderVal){break;}
-                    while (j.hasNext()) {
-                        Plant plant = pdbUnder.get(count).get(count2);
-                        z = x * 2 * plant.getRad();
-                        a = x * plant.getRectX() + at.getTranslateX(); //x transform
-                        b = x * plant.getRectY() + at.getTranslateY(); //y transform
-                        c = x * plant.getRad() / getWidth();    // ratio scaled radius to vizpanel
-                        if (sliderVal <= plant.getHeight() && a+z >= 0 && a <= getWidth() && b+z >= 0 && b <= getHeight()) {
-                            //SELECTIVE PRINTING MECHANICS
-                        /*if (c <= 0.005&&c>0.001) {//draw small
-                            if(small==20){
-                                g.fill(plant.getShape());
-                                small=0;
-                            }
-                            small +=1;
-                        } else if (c>0.005&&c<=0.01) {  //draw medium
-                            if(med==5){
-                                g.fill(plant.getShape());
-                                med = 0;
-                            }
-                            med += 1;
-                        } else */
-                            if (c > 0.001) {                //draw large
-                                //g.setColor(pdbUnder.get(count).get(0).getColor());
-                                //////g.fill(plant.getShape());
-//                                if(check<50){
-//                                    stop = System.nanoTime();
-//                                    System.out.println("preloop: "+(stop-start));
-//
-//                                }
-                                //start = System.nanoTime();
+
+                j = pdbUnder.get(count).iterator();
+                g.setColor(pdbUnder.get(count).get(0).getColor());
+                //if(heightSliderValue!=sliderVal){break;}
+                while (j.hasNext()) {
+                    Plant plant = pdbUnder.get(count).get(count2);
+                    //plant.updateVisualPosition(getWidth(),getHeight());
+                    z = x * 2 * plant.getRad();
+                    a = x * plant.getRectX() + at.getTranslateX(); //x transform
+                    b = x * plant.getRectY() + at.getTranslateY(); //y transform
+                    c = x * plant.getRad() / getWidth();    // ratio scaled radius to vizpanel
+                    if (sliderVal <= plant.getHeight() && a+z >= 0 && a <= getWidth() && b+z >= 0 && b <= getHeight()) {
+                            if (c > viewingThreshold) {                //draw large
                                 g.drawImage(FileLoader.getIMG(plant.getID()), plant.at,this);
-//                                if(check<50){
-//                                    stop = System.nanoTime();
-//                                    System.out.println("drawn: "+(stop-start));
-//                                    check++;
-//                                }
-                                //start = System.nanoTime();
-                                //g.setColor(Color.black);
-                                //g.draw(plant.getShape());
-                                //drawCircle(g,plant.getShape());
+//
                             }
                         }
                         j.next();
@@ -313,7 +285,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         count = 0;
         count2 = 0;
 
-        if (canopyCHB == true) {
+        if (canopyCHB) {
             while (i.hasNext()) {
                 int id = FileLoader.getSpeciesCan()[count].getID();//get id of present species
                 if (FileLoader.getSpcDraw()[id]) {                //check if Species ID should be drawn
@@ -326,33 +298,16 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                     //if(this.heightSliderValue!=sliderVal){break; }
                     while (j.hasNext()) {
                         Plant plant = pdbCan.get(count).get(count2);
+                        //plant.updateVisualPosition(getWidth(),getHeight());
                         z = x * 2 * plant.getRad();
                         a = x * plant.getRectX() + at.getTranslateX(); //x transform
                         b = x * plant.getRectY() + at.getTranslateY(); //y transform
                         c = x * plant.getRad() / getWidth();    // ratio scaled radius to vizpanel
                         if (sliderVal <= plant.getHeight() && a+z >= 0 && a <= getWidth() && b+z >= 0 && b <= getHeight()) {
-                            //SELECTIVE PRINTING MECHANICS
-                        /*if (c <= 0.01&&c>0.005) {//draw small
-                            if(small==100){
-                                g.fill(plant.getShape());
-                                small=0;
-                            }
-                            small +=1;
-                        } else if (c>0.01&&c<=0.02) {  //draw medium
-                            if(med==8){
-                                g.fill(plant.getShape());
-                                med = 0;
-                            }
-                            med += 1;
-                        } else */
-                            if (c > 0.001) {                //draw large
-                                //g.setColor(pdbUnder.get(count).get(0).getColor());
-                                //g.fill(plant.getShape());
 
+                            if (c > viewingThreshold) {
+                                //draw large
                                 g.drawImage(FileLoader.getIMG(plant.getID()), plant.at,this);
-                                //g.setColor(Color.black);
-                                //g.draw(plant.getShape());
-                                //drawCircle(g,plant.getShape());
                             }
                         }
 
@@ -375,6 +330,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
      */
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
+
         simStartX = mouseEvent.getX();
         //System.out.println(simStartX);
         //System.out.println(simStartY);
@@ -480,5 +436,17 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         zoomWithButton = true;
         zoomFactor /= 1.1;
         repaint();
+    }
+
+    public void setViewingThreshold(int value) {
+        this.viewingThreshold = value/100.0;
+    }
+
+    public int getTerrainRenderType() {
+        return terrainRenderType;
+    }
+
+    public void setTerrainRenderType(int terrainRenderType) {
+        this.terrainRenderType = terrainRenderType;
     }
 }
