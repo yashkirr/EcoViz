@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.Vector;
+import java.util.*;
 
 
 /**
@@ -48,7 +49,11 @@ public class FileLoader {
     private static int numSpeciesCan;
     private static int numSpeciesUnder;
     private static ArrayList<ArrayList<Plant>> speciesListCan;
+    private static ArrayList<Plant> speciesListCan1D;
+
     private static ArrayList<ArrayList<Plant>> speciesListUnder;
+    private static ArrayList<Plant> speciesListUnder1D;
+
 
     public static ArrayList<ArrayList<Plant>> getCanopy(){ return speciesListCan;}
     public static ArrayList<ArrayList<Plant>> getUnder(){ return speciesListUnder;}
@@ -101,6 +106,7 @@ public class FileLoader {
             System.out.println("elv file not found");
         }
     }
+
 
     /**
      * @author Victor Bantchovski
@@ -349,6 +355,14 @@ public class FileLoader {
 
     public static float[][] getTerrain(){return terrain;}
 
+    public static ArrayList<Plant> getSpeciesListCan1D(){
+        return speciesListCan1D;
+    }
+
+    public static ArrayList<Plant> getSpeciesListUnder1D(){
+        return speciesListUnder1D;
+    }
+
     public static ArrayList<ArrayList<Plant>> getSpeciesListCan(){
         return speciesListCan;
     }
@@ -357,9 +371,56 @@ public class FileLoader {
         return speciesListUnder;
     }
 
+
+
+
+    public static void convertTo1DCan(){
+        speciesListCan1D = new ArrayList<Plant>();
+        Iterator i = speciesListCan.iterator();
+        Iterator j;
+
+        int count1 = 0;
+        int count2 = 0;
+
+        while (i.hasNext()){
+            j = speciesListCan.get(count1).iterator();
+            while(j.hasNext()){
+                speciesListCan1D.add(speciesListCan.get(count1).get(count2));
+
+                j.next();
+                count2++;
+            }
+
+            i.next();
+            count1++;
+            count2 = 0;
+        }
+    }
+
+    public static void convertTo1DUnder(){
+        speciesListUnder1D = new ArrayList<Plant>();
+        Iterator i = speciesListUnder.iterator();
+        Iterator j;
+
+        int count1 = 0;
+        int count2 = 0;
+
+        while (i.hasNext()){
+            j = speciesListUnder.get(count1).iterator();
+            while(j.hasNext()){
+                speciesListUnder1D.add(speciesListUnder.get(count1).get(count2));
+                count2++;
+                j.next();
+            }
+            count1++;
+            i.next();
+            count2 = 0;
+        }
+    }
     public static Color[] getSpcColor(){
         return spcColor;
     }
+
     public static int n=500;
     private static boolean first = true;
     public static BufferedImage drawIMG(Color col){
@@ -372,88 +433,62 @@ public class FileLoader {
         return img;
     }
     public static BufferedImage getIMG(int i){ return spcCircle[i];}
-/*
-    public class Circle extends VolatileImage {
-        private VolatileImage createVolatileImage(int width, int height, int transparency) {
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            GraphicsConfiguration gc = ge.getDefaultScreenDevice().getDefaultConfiguration();
-            VolatileImage image = null;
 
-            image = gc.createCompatibleVolatileImage(width, height, transparency);
-
-            int valid = image.validate(gc);
-
-            if (valid == VolatileImage.IMAGE_INCOMPATIBLE) {
-                image = this.createVolatileImage(width, height, transparency);
-                return image;
+    public static float getMinCanopyRadius(){
+        Iterator i = speciesListCan1D.iterator();
+        int count = 0;
+        float min = 100000;
+        while (i.hasNext()){
+            Plant plant = speciesListCan1D.get(count);
+            if (plant.getCanopyRadius()<min){
+                min = plant.getCanopyRadius();
             }
-
-            return image;
-        }
-        public void draw(Graphics2D g, int x, int y) {
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            GraphicsConfiguration gc = ge.getDefaultScreenDevice().getDefaultConfiguration();
-
-// Since we're copying from the VolatileImage, we need it in a good state.
-            if (vimage.validate(gc) != VolatileImage.IMAGE_OK) {
-                vimage = createVolatileImage(vimage.getWidth(), vimage.getHeight(),
-                        vimage.getTransparency());
-                render(); // This is coming up in Code Example 4.
-                }
-
-            g.drawImage(vimage,x,y,null); }
-
-        }
-        @Override
-        public BufferedImage getSnapshot() {
-            return null;
+            i.next();
+            count++;
         }
 
-        @Override
-        public int getWidth() {
-            return 0;
+        i = speciesListUnder1D.iterator();
+        count = 0;
+        float minUnder = 10000;
+        while (i.hasNext()){
+            Plant plant = speciesListUnder1D.get(count);
+            if (plant.getCanopyRadius()<minUnder){
+                minUnder = plant.getCanopyRadius();
+            }
+            i.next();
+            count++;
         }
 
-        @Override
-        public int getHeight() {
-            return 0;
+        return Math.min(min,minUnder);
+    }
+
+    public static float getMaxCanopyRadius(){
+        Iterator i = speciesListCan1D.iterator();
+        int count = 0;
+        float max = -100000;
+        while (i.hasNext()){
+            Plant plant = speciesListCan1D.get(count);
+            if (plant.getCanopyRadius()>max){
+                max = plant.getCanopyRadius();
+            }
+            i.next();
+            count++;
         }
 
-        @Override
-        public Graphics2D createGraphics() {
-            return null;
+        i = speciesListUnder1D.iterator();
+        count = 0;
+        float maxUnder = -10000;
+        while (i.hasNext()){
+            Plant plant = speciesListUnder1D.get(count);
+            if (plant.getCanopyRadius()>maxUnder){
+                maxUnder = plant.getCanopyRadius();
+            }
+            i.next();
+            count++;
         }
 
-        @Override
-        public int validate(GraphicsConfiguration gc) {
-            return 0;
-        }
-
-        @Override
-        public boolean contentsLost() {
-            return false;
-        }
-
-        @Override
-        public ImageCapabilities getCapabilities() {
-            return null;
-        }
-
-        @Override
-        public int getWidth(ImageObserver observer) {
-            return 0;
-        }
-
-        @Override
-        public int getHeight(ImageObserver observer) {
-            return 0;
-        }
-
-        @Override
-        public Object getProperty(String name, ImageObserver observer) {
-            return null;
-        }
-    }*/
+        return Math.max(max,maxUnder);
+    }
 }
 
 

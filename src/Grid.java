@@ -51,8 +51,13 @@ public class Grid {
     //    return part*0x10101;
     //}
 
-    public BufferedImage getGreyscale() throws IOException {
-        buildGreyscale2();
+    public BufferedImage getGreyscale(int renderType) throws IOException {
+        if (renderType==1){
+            buildGreyscale();
+        }
+        if(renderType ==2){
+            buildGreyscale2();
+        }
         File out = new File("img.png");
         ImageIO.write(greyscale,"png",out);
         return greyscale;

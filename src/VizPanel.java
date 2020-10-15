@@ -1,8 +1,10 @@
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,17 +18,21 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class VizPanel extends JPanel implements MouseWheelListener, MouseListener, MouseMotionListener {
 
     private static volatile boolean complete;
+    public int heightSliderValue;
+    public int heightMinSliderValue;
+    public int canopyMinSliderValue;
+    public int canopyMaxSliderValue;
     private ArrayList<ArrayList<Plant>> undergrowthList;
     private ArrayList<ArrayList<Plant>> canopyList;
     private Grid grid;
     private boolean initialized = false;
     private Image terrainLayer;
-    public int heightSliderValue;
+
 
     private double zoomFactor = 1;
     private double prevZoomFactor = 1;
@@ -49,6 +55,10 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
     private int simStartX;
     private int simStartY;
+    public Fire fire;
+    private boolean simRunning;
+    private double viewingThreshold = 0.001;// if plants are less than 1% of VizPanel, don't render until in view. Default.
+    private int terrainRenderType = 1;
 
     // private HashMap<Point,Plant> canopyMap;
    // private HashMap<Point,Plant> undergrowthMap;
@@ -63,7 +73,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
        //undergrowthMap = new HashMap<Point, Plant>();
         //canopyList = FileLoader.getCanopy();
         //undergrowthList = FileLoader.getUnder();
-        heightSliderValue = UserView.getPlantHeightMin();
+        //heightSliderValue = UserView.getPlantHeightMin();
         zoomWithButton = false;
         canopyCHB = true;
         undergrowthCHB = true;
@@ -74,7 +84,10 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     public VizPanel() {
         super();
         complete = false;
-        heightSliderValue = UserView.getPlantHeightMin();
+        heightSliderValue = UserView.getPlantHeightMax();
+        heightMinSliderValue = UserView.getPlantHeightMin();
+        canopyMinSliderValue = UserView.getCanopyRadiusMin();
+        canopyMaxSliderValue = UserView.getCanopyRadiusMax();
        // canopyMap = new HashMap<Point, Plant>();
         //undergrowthMap = new HashMap<Point, Plant>();
         //canopyList = FileLoader.getCanopy();
@@ -82,8 +95,9 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         canopyCHB = true;
         undergrowthCHB = true;
         startFireClicked = false;
-        simStartX = 0;
-        simStartY = 0;
+        simStartX = -1;
+        simStartY = -1;
+        simRunning = false;
         addMouseListeners();
     }
     public void setPlants(){
@@ -104,7 +118,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         print("setGrid");
         this.grid = grid;
         initialized = true;
-
+        fire = new Fire(getWidth(),getHeight(),simStartX,simStartY,UserView.getWindX(),UserView.getWindY(),FileLoader.getSpeciesListUnder1D(),FileLoader.getSpeciesListCan1D());
     }
     private boolean first = true;
     private int check;
@@ -114,30 +128,30 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
         super.paintComponent(g);
         /* If files have been loaded, set initialized to true and enable these features*/
-        if(initialized){
+        if (initialized) {
 
             Graphics2D g2 = (Graphics2D) g;
+            if (!simRunning) {
+                if (zoomer) {
+                    setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+                    //System.out.println("Zooming");
+                    at = new AffineTransform();
+                    double xRel = 0.0;
+                    double yRel = 0.0;
+                    if (zoomWithButton) {
+                        xRel = this.getLocationOnScreen().getX();
+                        yRel = this.getLocationOnScreen().getY();
+                        zoomWithButton = false;
+                    } else {
+                        xRel = MouseInfo.getPointerInfo().getLocation().getX() - getLocationOnScreen().getX();
+                        yRel = MouseInfo.getPointerInfo().getLocation().getY() - getLocationOnScreen().getY();
+                    }
 
-            if (zoomer) {
-                setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-                //System.out.println("Zooming");
-                at = new AffineTransform();
-                double xRel =0.0;
-                double yRel = 0.0;
-                if(zoomWithButton){
-                    xRel = this.getLocationOnScreen().getX();
-                    yRel = this.getLocationOnScreen().getY();
-                    zoomWithButton = false;
-                }else{
-                     xRel = MouseInfo.getPointerInfo().getLocation().getX() - getLocationOnScreen().getX();
-                     yRel = MouseInfo.getPointerInfo().getLocation().getY() - getLocationOnScreen().getY();
-                }
 
+                    double zoomDiv = zoomFactor / prevZoomFactor;
 
-                double zoomDiv = zoomFactor / prevZoomFactor;
-
-                xOffset = (zoomDiv) * (xOffset) + (1 - zoomDiv) * xRel;
-                yOffset = (zoomDiv) * (yOffset) + (1 - zoomDiv) * yRel;
+                    xOffset = (zoomDiv) * (xOffset) + (1 - zoomDiv) * xRel;
+                    yOffset = (zoomDiv) * (yOffset) + (1 - zoomDiv) * yRel;
 
                 at.translate(xOffset, yOffset);
                 at.scale(zoomFactor, zoomFactor);
@@ -149,47 +163,73 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
             else if (dragger) {
                 setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
-                //System.out.println("Dragging");
+                System.out.println("Dragging");
                 at = new AffineTransform();
                 at.translate(xOffset + xDiff, yOffset + yDiff);
                 at.scale(zoomFactor, zoomFactor);
                 g2.transform(at);
 
-                if (released) {
-                    xOffset += xDiff;
-                    yOffset += yDiff;
-                    setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                    dragger = false;
+                    if (released) {
+                        xOffset += xDiff;
+                        yOffset += yDiff;
+                        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                        dragger = false;
 
+                    }
+
+                } else {
+                    g2.transform(at);
                 }
 
-            }
-            else{ g2.transform(at);}
-
-            if(!one){
-                drawBackground(g2); //for drawing the terrain
-                one = true;
-            }
-            drawBackground(g2);
-            try {
-                if (true){
-                    filterHeight(heightSliderValue,g2);
-
+                if (!one) {
+                    drawBackground(g2); //for drawing the terrain
+                    one = true;
                 }
-                else{
-                    int s = 2;//drawPlantLayer(g2); //for drawing plants over terrain
+                drawBackground(g2);
+                try {
+                    if (true) {
+                        filterHeightAndCanopyRadius(heightMinSliderValue,heightSliderValue,
+                                canopyMinSliderValue,canopyMaxSliderValue, g2);
+
+                    } else {
+                        int s = 2;//drawPlantLayer(g2); //for drawing plants over terrain
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
-        }else{ g.drawString("Select Files > Load Files to start a visualization",getWidth()/2,getHeight()/2); }
+            if (startFireClicked){
+                simRunning = true;
+                drawBackground(g2);
+
+                try {
+                    filterHeightAndCanopyRadius(0,0,0,0,g2);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+                UserView.localController.updateView();
+                Thread fireT = new Thread(fire);
+                fire.setStartX(simStartX);
+                fire.setStartY(simStartY);
+                fire.setWindX(UserView.getWindX());
+                fire.setWindY(UserView.getWindY());
+                fireT.start();
+
+                //fire.simulateOverGrid(g,UserView.localController);
+
+            }
+            //g.drawImage(fire.getImage(),0,0,null);
+
+        }
 
     }
 
     private void drawBackground(Graphics2D g){
         try {
-            Image vizscaled = grid.getGreyscale().getScaledInstance(
+            Image vizscaled = grid.getGreyscale(terrainRenderType).getScaledInstance(
                     getWidth(),
                     getHeight(),
                     Image.SCALE_SMOOTH);
@@ -200,7 +240,9 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         }
     }
 
-    public void filterHeight(int sliderVal,Graphics2D g) throws IOException{
+    public void filterHeightAndCanopyRadius(int HeightValMin,int HeightValMax, int RadValMin, int RadValMax, Graphics2D g) throws IOException{
+        //System.out.println(sliderValMin);
+        //System.out.println(sliderValMax);
         double x = at.getScaleX();
         double a;
         double b;
@@ -217,121 +259,90 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         Iterator j;
         int count = 0;
         int count2 = 0;
-        if(undergrowthCHB==true) {
-            while (i.hasNext()) {
-                int id = FileLoader.getSpeciesUnder()[count].getID();
-                if (FileLoader.getSpcDraw()[id]) {
+            if (undergrowthCHB) {
+                if (HeightValMin < HeightValMax && RadValMin<RadValMax) {
+                    while (i.hasNext()) {
+                        int id = FileLoader.getSpeciesUnder()[count].getID();
+                        if (FileLoader.getSpcDraw()[id]) {
 
-                j = pdbUnder.get(count).iterator();
-                g.setColor(pdbUnder.get(count).get(0).getColor());
-                //if(heightSliderValue!=sliderVal){break;}
-                while (j.hasNext()) {
-                    Plant plant = pdbUnder.get(count).get(count2);
-                    z = x * 2 * plant.getRad();
-                    a = x * plant.getRectX() + at.getTranslateX(); //x transform
-                    b = x * plant.getRectY() + at.getTranslateY(); //y transform
-                    c = x * plant.getRad() / getWidth();    // ratio scaled radius to vizpanel
-                    if (sliderVal <= plant.getHeight() && a+z >= 0 && a <= getWidth() && b+z >= 0 && b <= getHeight()) {
-                        //SELECTIVE PRINTING MECHANICS
-                        /*if (c <= 0.005&&c>0.001) {//draw small
-                            if(small==20){
-                                g.fill(plant.getShape());
-                                small=0;
-                            }
-                            small +=1;
-                        } else if (c>0.005&&c<=0.01) {  //draw medium
-                            if(med==5){
-                                g.fill(plant.getShape());
-                                med = 0;
-                            }
-                            med += 1;
-                        } else */
-                            if (c > 0.001) {                //draw large
-                                //g.setColor(pdbUnder.get(count).get(0).getColor());
-                                //////g.fill(plant.getShape());
-//                                if(check<50){
-//                                    stop = System.nanoTime();
-//                                    System.out.println("preloop: "+(stop-start));
+                            j = pdbUnder.get(count).iterator();
+                            g.setColor(pdbUnder.get(count).get(0).getColor());
+                            //if(heightSliderValue!=sliderVal){break;}
+                            while (j.hasNext()) {
+                                Plant plant = pdbUnder.get(count).get(count2);
+                                //plant.updateVisualPosition(getWidth(),getHeight());
+                                z = x * 2 * plant.getRad();
+                                a = x * plant.getRectX() + at.getTranslateX(); //x transform
+                                b = x * plant.getRectY() + at.getTranslateY(); //y transform
+                                c = x * plant.getRad() / getWidth();    // ratio scaled radius to vizpanel
+                                if (HeightValMin <= plant.getHeight() && HeightValMax >= plant.getHeight() && RadValMin<=plant.getCanopyRadius()
+                                        && RadValMax>=plant.getCanopyRadius() && a + z >= 0 && a <= getWidth() && b + z >= 0 && b <= getHeight()) {
+                                    if (c > viewingThreshold) {                //draw large
+                                        g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
 //
-//                                }
-                                //start = System.nanoTime();
-                                g.drawImage(FileLoader.getIMG(plant.getID()), plant.at,this);
-//                                if(check<50){
-//                                    stop = System.nanoTime();
-//                                    System.out.println("drawn: "+(stop-start));
-//                                    check++;
-//                                }
-                                //start = System.nanoTime();
-                                //g.setColor(Color.black);
-                                //g.draw(plant.getShape());
-                                //drawCircle(g,plant.getShape());
+                                    }
+                                }
+                                j.next();
+                                count2++;
                             }
                         }
-                        j.next();
-                        count2++;
+                        i.next();
+                        count++;
+                        count2 = 0;
                     }
                 }
-                i.next();
-                count++;
-                count2 = 0;
+            } else {
+                System.out.println("MIN > MAX OH NOOOO ");
             }
-        }
 
-        i = pdbCan.iterator();
+            i = pdbCan.iterator();
 
-        count = 0;
-        count2 = 0;
+            count = 0;
+            count2 = 0;
 
-        if (canopyCHB == true) {
-            while (i.hasNext()) {
-                int id = FileLoader.getSpeciesCan()[count].getID();//get id of present species
-                if (FileLoader.getSpcDraw()[id]) {                //check if Species ID should be drawn
-                    j = pdbCan.get(count).iterator();
-                    g.setColor(pdbCan.get(count).get(0).getColor());
-                    //if(this.heightSliderValue!=sliderVal){break; }
-                    while (j.hasNext()) {
-                        Plant plant = pdbCan.get(count).get(count2);
-                        z = x * 2 * plant.getRad();
-                        a = x * plant.getRectX() + at.getTranslateX(); //x transform
-                        b = x * plant.getRectY() + at.getTranslateY(); //y transform
-                        c = x * plant.getRad() / getWidth();    // ratio scaled radius to vizpanel
-                        if (sliderVal <= plant.getHeight() && a+z >= 0 && a <= getWidth() && b+z >= 0 && b <= getHeight()) {
-                            //SELECTIVE PRINTING MECHANICS
-                        /*if (c <= 0.01&&c>0.005) {//draw small
-                            if(small==100){
-                                g.fill(plant.getShape());
-                                small=0;
+            if (canopyCHB) {
+                if (HeightValMin < HeightValMax && RadValMin<RadValMax) {
+                    while (i.hasNext()) {
+                        int id = FileLoader.getSpeciesCan()[count].getID();//get id of present species
+                        if (FileLoader.getSpcDraw()[id]) {                //check if Species ID should be drawn
+                            j = pdbCan.get(count).iterator();
+                            if (pdbUnder.get(count).get(count2).getBurnt() == false) {
+                                g.setColor(pdbUnder.get(count).get(count2).getColor());
+                            } else {
+                                g.setColor(new Color(1.0f, 1.0f, 1.0f, 0.3f));
                             }
-                            small +=1;
-                        } else if (c>0.01&&c<=0.02) {  //draw medium
-                            if(med==8){
-                                g.fill(plant.getShape());
-                                med = 0;
-                            }
-                            med += 1;
-                        } else */
-                            if (c > 0.001) {                //draw large
-                                //g.setColor(pdbUnder.get(count).get(0).getColor());
-                                //g.fill(plant.getShape());
+                            //if(this.heightSliderValue!=sliderVal){break; }
+                            while (j.hasNext()) {
+                                Plant plant = pdbCan.get(count).get(count2);
+                                //plant.updateVisualPosition(getWidth(),getHeight());
+                                z = x * 2 * plant.getRad();
+                                a = x * plant.getRectX() + at.getTranslateX(); //x transform
+                                b = x * plant.getRectY() + at.getTranslateY(); //y transform
+                                c = x * plant.getRad() / getWidth();    // ratio scaled radius to vizpanel
+                                if (HeightValMin <= plant.getHeight() && HeightValMax >= plant.getHeight() && RadValMin<=plant.getCanopyRadius()
+                                        && RadValMax>= plant.getCanopyRadius() && a + z >= 0 && a <= getWidth() && b + z >= 0 && b <= getHeight()) {
 
-                                g.drawImage(FileLoader.getIMG(plant.getID()), plant.at,this);
-                                //g.setColor(Color.black);
-                                //g.draw(plant.getShape());
-                                //drawCircle(g,plant.getShape());
+                                    if (c > viewingThreshold) {
+                                        //draw large
+                                        g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
+                                    }
+                                }
+
+                                j.next();
+                                count2++;
                             }
                         }
-
-                        j.next();
-                        count2++;
+                        i.next();
+                        count++;
+                        count2 = 0;
                     }
+                } else {
+                    System.out.println("MIN>MAX OH NOOOOO");
                 }
-                i.next();
-                count++;
-                count2 = 0;
             }
-        }
 
     }
+
 
     /**
      * Returns details of the plants intersecting the clicked point
@@ -340,6 +351,12 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
      */
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
+
+        simStartX = mouseEvent.getX();
+        //System.out.println(simStartX);
+        //System.out.println(simStartY);
+        simStartY = mouseEvent.getY();
+
         Point location = mouseEvent.getPoint();
         double x = (location.getX()-at.getTranslateX())/at.getScaleX();
         double y = (location.getY()-at.getTranslateY())/at.getScaleY();
@@ -361,9 +378,6 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         }
     }
 
-    public void fireSim(int windX, int windY,int xStart, int yStart,Graphics g){
-
-    }
 
     public Color getSelectedColor(Point location){
         try {
@@ -429,19 +443,45 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             zoomFactor /= 1.1;
             repaint();
         }
+        UserView.updateZoomLevel();
     }
 
     public void zoomInTenPercent(){
         zoomer = true;
         zoomWithButton = true;
-        zoomFactor *= 1.1;
+        zoomFactor = zoomFactor + 0.1;
         repaint();
     }
 
     public void zoomOutTenPercent(){
-        zoomer = true;
-        zoomWithButton = true;
-        zoomFactor /= 1.1;
-        repaint();
+        if(zoomFactor>1){
+            zoomer = true;
+            zoomWithButton = true;
+            zoomFactor = zoomFactor - 0.1;
+            repaint();
+        }else{
+            zoomer = true;
+            zoomWithButton = true;
+            zoomFactor = 1;
+            repaint();
+
+        }
+
+    }
+
+    public String getZoomPercentage(){
+        return String.format("%d%%",(int)(zoomFactor*100)-100);
+    }
+
+    public void setViewingThreshold(int value) {
+        this.viewingThreshold = value/100.0;
+    }
+
+    public int getTerrainRenderType() {
+        return terrainRenderType;
+    }
+
+    public void setTerrainRenderType(int terrainRenderType) {
+        this.terrainRenderType = terrainRenderType;
     }
 }

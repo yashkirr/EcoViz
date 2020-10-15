@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.logging.Level;
 import java.util.stream.Stream;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -50,88 +51,100 @@ public class FileLoaderDialog extends javax.swing.JDialog {
         super(parent, modal);
         parentFrame = parent;
         initComponents();
+        this.setLocationRelativeTo(null);
         localController = new Controller();
         this.setResizable(false);
     }
 
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtDirectoryInput = new JTextField();
-        btnDirectoryInput = new JButton();
-        lblElevationInput = new JLabel();
-        btnCancel = new JButton();
-        btnLoadFiles = new JButton();
+        txtDirectoryInput = new javax.swing.JTextField();
+        btnDirectoryInput = new javax.swing.JButton();
+        lblElevationInput = new javax.swing.JLabel();
+        btnCancel = new javax.swing.JButton();
+        btnLoadFiles = new javax.swing.JButton();
 
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         btnDirectoryInput.setText("...");
         btnDirectoryInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDirectoryInputActionPerformed(evt);
             }
         });
 
-        lblElevationInput.setText("Select directory containing .elv , .spc , .pbd files");
+        lblElevationInput.setText("Select a directory containing .elv, .spc, .pdb files");
 
         btnCancel.setText("Cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
             }
         });
 
+        btnLoadFiles.setBackground(new java.awt.Color(54, 128, 239));
+        btnLoadFiles.setForeground(new java.awt.Color(255, 255, 255));
         btnLoadFiles.setText("Load Files");
-       btnLoadFiles.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                btnLoadFilesActionPerformed(evt);
+        btnLoadFiles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    btnLoadFilesActionPerformed(evt);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
-        GroupLayout layout = new GroupLayout(getContentPane());
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(btnLoadFiles, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(txtDirectoryInput, GroupLayout.PREFERRED_SIZE, 351, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(btnDirectoryInput)))
-                    .addComponent(lblElevationInput)))
+                                .addGap(70, 70, 70)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(lblElevationInput)
+                                                .addContainerGap(130, Short.MAX_VALUE))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addComponent(txtDirectoryInput, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                .addComponent(btnDirectoryInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                .addComponent(btnLoadFiles, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addGap(69, 69, 69))))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(81, 81, 81)
-                .addComponent(lblElevationInput)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnDirectoryInput, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDirectoryInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCancel)
-                    .addComponent(btnLoadFiles))
-                .addContainerGap(70, Short.MAX_VALUE))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap(70, Short.MAX_VALUE)
+                                .addComponent(lblElevationInput)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(txtDirectoryInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnDirectoryInput, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(btnLoadFiles)
+                                        .addComponent(btnCancel))
+                                .addGap(79, 79, 79))
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }   // </editor-fold>//GEN-END:initComponents
 
     private void btnDirectoryInputActionPerformed(ActionEvent evt) {
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new java.io.File("."));
         chooser.setDialogTitle("Select Folder");
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setFileFilter(new FileNameExtensionFilter("Folders only","/"));
         chooser.setAcceptAllFileFilterUsed(false);
 
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
@@ -153,7 +166,18 @@ public class FileLoaderDialog extends javax.swing.JDialog {
         System.out.println("FileLoaderDialog: "+s);
     }
 
-    private void btnLoadFilesActionPerformed(ActionEvent evt) {
+    private void btnLoadFilesActionPerformed(ActionEvent evt) throws IOException {
+        final LoadingSplashDialog[] loadingDialog = new LoadingSplashDialog[1];
+       new Thread(new Runnable() {
+           @Override
+           public void run() {
+               loadingDialog[0] = new LoadingSplashDialog();
+               loadingDialog[0].setVisible(true);
+           }
+       }).start();
+
+
+        this.setVisible(false);
         print("btnLoadFilesActionPerformed");
         dataDirectory = txtDirectoryInput.getText();
 
@@ -173,14 +197,30 @@ public class FileLoaderDialog extends javax.swing.JDialog {
             3: .pdb (undergrowth)
 
              */
-            localController.loadFile(filePathList.get(0),"elv");
+            long startTime = System.nanoTime();
+           localController.loadFile(filePathList.get(0), filePathList.get(1),filePathList.get(2),filePathList.get(3));
+            /*localController.loadFile(filePathList.get(0),"elv");
             localController.loadFile(filePathList.get(1),"spc");
             localController.loadFile(filePathList.get(2),"pdb");
-            localController.loadFile(filePathList.get(3),"pdb");
+            localController.loadFile(filePathList.get(3),"pdb");*/
+            long endTime = System.nanoTime();
 
-            localController.initializeTerrainGrid();
-            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            dispose();
+            long duration = (endTime - startTime);
+            System.out.println(duration/1000000);
+
+            /*
+            localController.loadFIle(filePathList.get(0),"elv");
+            localController.loadFile(filePathList.get(1),"spc");
+            localController.loadFile(filePathList.get(2),"pdb");
+            localController.loadFile(filePathList.get(3),"pdb");*/
+
+                localController.initializeTerrainGrid();
+                loadingDialog[0].dispose();
+                this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                dispose();
+
+
+
         }catch(IOException e){
             JOptionPane.showMessageDialog(this,"Please check the directory contents for correctness.",
                     "Error",JOptionPane.WARNING_MESSAGE);
@@ -188,7 +228,6 @@ public class FileLoaderDialog extends javax.swing.JDialog {
         catch(Exception e){
             e.printStackTrace();
         }
-
     }
 
     public boolean validateDataDirectory(ArrayList<String> fileList) throws IOException {
