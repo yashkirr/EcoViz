@@ -59,9 +59,10 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
     public boolean startFireClicked;
 
-    private int simStartX;
-    private int simStartY;
+    public int simStartX;
+    public int simStartY;
     public Fire fire;
+
     private boolean simRunning;
     private double viewingThreshold = 0.001;// if plants are less than 1% of VizPanel, don't render until in view. Default.
     private int terrainRenderType = 1;
@@ -213,14 +214,16 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 //                }
 
 
-                UserView.localController.updateView();
-                Thread fireT = new Thread(fire);
-                fire.setStartX(simStartX);
-                fire.setStartY(simStartY);
-                fire.setWindX(UserView.getWindSpeed(),UserView.getWindDirection());
-                fire.setWindY(UserView.getWindSpeed(),UserView.getWindDirection());
-                fireT.run();
-
+                //UserView.localController.updateView();
+//                Thread fireT = new Thread(fire);
+//                fire.setStartX(simStartX);
+//                fire.setStartY(simStartY);
+//                fire.setWindX(UserView.getWindSpeed(),UserView.getWindDirection());
+//                fire.setWindY(UserView.getWindSpeed(),UserView.getWindDirection());
+//                if(called) {
+//                    fireT.run();
+//                    called = false;
+//                }
                 //fire.simulateOverGrid(g,UserView.localController);
 
             }
@@ -359,6 +362,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         //System.out.println(simStartX);
         //System.out.println(simStartY);
         simStartY = mouseEvent.getY();
+        fire.setStartX(simStartX);
+        fire.setStartY(simStartY);
 
         Point location = mouseEvent.getPoint();
         double x = (location.getX()-at.getTranslateX())/at.getScaleX();
