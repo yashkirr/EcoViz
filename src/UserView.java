@@ -95,8 +95,8 @@ public class UserView extends JFrame{
     private javax.swing.JPanel pnlVisibility;
     private javax.swing.JPanel pnlZoom;
     private javax.swing.JPanel pnlZoomContextMap;
-    private javax.swing.JSlider sldMaxCanopyRadius;
-    private javax.swing.JSlider sldMinCanopyRadius;
+    private static javax.swing.JSlider sldMaxCanopyRadius;
+    private static javax.swing.JSlider sldMinCanopyRadius;
     private static javax.swing.JSlider sldPlantHeightMin;
     private javax.swing.JSpinner sldRenderingThreshold;
     private javax.swing.JScrollPane tabFilterPlants;
@@ -132,7 +132,7 @@ public class UserView extends JFrame{
     public UserView() {
 
         initComponents(); //Initializes GUI Components
-        setTheme(Theme.LIGHT_MODE);
+        setTheme(Theme.DARK_MODE);
         setupListeners(); //Connects ActionListeners to Components
         setupMisc();
         //getContentPane().setBackground(new Color(56,60,74));
@@ -150,11 +150,7 @@ public class UserView extends JFrame{
                 component.setForeground(new Color(255,255,255));
             }
         }else{
-            for (Component component:
-                    components) {
-                component.setBackground(new Color(242,242,242));
-                component.setForeground(new Color(0,0,0));
-            }
+
         }
 
     }
@@ -186,14 +182,15 @@ public class UserView extends JFrame{
 
         sldMinCanopyRadius.addChangeListener(new ChangeListener() {
             @Override
-            public void stateChanged(ChangeEvent changeEvent) {
-
+            public void stateChanged(ChangeEvent e) {
+                sldMinCanopyRadiusStateChanged(e);
             }
         });
 
         sldMaxCanopyRadius.addChangeListener(new ChangeListener() {
             @Override
-            public void stateChanged(ChangeEvent changeEvent) {
+            public void stateChanged(ChangeEvent e) {
+                sldMaxCanopyRadiusStateChanged(e);
 
             }
         });
@@ -310,7 +307,6 @@ public class UserView extends JFrame{
         });*/
 
     }
-
 
 
     private void btnDefaultThresholdActionPerformed(ActionEvent actionEvent) {
@@ -1390,9 +1386,10 @@ public class UserView extends JFrame{
     * @param evt
     */
     private void miRestartActionPerformed(ActionEvent evt) {//GEN-FIRST:event_miRestartActionPerformed
-          if(JOptionPane.showConfirmDialog(null, "Are you sure you want to restart?") == JOptionPane.YES_OPTION) {
+          if(JOptionPane.showConfirmDialog(null, "Are you sure you want to restart?") == JOptionPane.YES_OPTION){
               // TODO: Write clear program code here
           }
+        
     }//GEN-LAST:event_miRestartActionPerformed
 
     private void chbCanopyActionPerformed(ActionEvent evt) {//GEN-FIRST:event_chbCanopyActionPerformed
@@ -1420,37 +1417,38 @@ public class UserView extends JFrame{
         pnlVizualizer.repaint();
     }
 
-    private void setSelectedFilterLabel(){
-        String plantHeightMax = Integer.toString(sldPlantHeight.getValue());
-        String plantHeightMin = Integer.toString(sldPlantHeightMin.getValue());
-        String canopyRadiusMin = Integer.toString(sldMinCanopyRadius.getValue());
-       String canopyRadiusMax = Integer.toString(sldMaxCanopyRadius.getValue());
-       String[] list = {plantHeightMax,plantHeightMin,canopyRadiusMax,canopyRadiusMin};
-        for(int i = 0; i<4;i++){
-            if(list[i].equals("-1")){
-                list[i] = "None";
-            }
-        }
-        String label = "<html>"+"<p><strong>Plant Height: </strong></p>\n" +
-                "<p>Max: %1$s</p>\n" +
-                "<p>Min: %2$s</p>\n" +
-                "<p><b>Range:</b> %1$s - %2$s</p>\n"+
-                "<p><strong>Canopy Radius:</strong>&nbsp;</p>\n" +
-                "<p><b>Max</b>: %3$s</p>\n" +
-                "<p><b>Min</b>: %4$s</p>"+
-                "<p><b>Range:</b> %3$s - %4$s</p>\n";
-        lblPlantHeightValue.setText(String.format(label,plantHeightMin,plantHeightMax,canopyRadiusMin,canopyRadiusMax));
-    }
-
     private void sldPlantHeightMinStateChanged(ChangeEvent e) {
         JSlider source = (JSlider) e.getSource(); //gets the event type
         pnlVizualizer.heightMinSliderValue = source.getValue();
-        setSelectedFilterLabel();
         //sliders only work in integers
         if(source.getValue()<=sldPlantHeightMin.getMinimum()){
             //if slider value minimum, slider label resets to default
         }else{
             setSelectedFilterLabel();
+        }
+        pnlVizualizer.repaint();
+    }
+
+    private void sldMinCanopyRadiusStateChanged(ChangeEvent e) {
+        JSlider source = (JSlider) e.getSource(); //gets the event type
+        pnlVizualizer.canopyMinSliderValue = source.getValue();
+        //sliders only work in integers
+        if(source.getValue()<=sldMinCanopyRadius.getMinimum()){
+            //if slider value minimum, slider label resets to default
+        }else{
+            lblPlantHeightValue.setText(Double.toString(source.getValue()));
+        }
+        pnlVizualizer.repaint();
+    }
+
+    private void sldMaxCanopyRadiusStateChanged(ChangeEvent e) {
+        JSlider source = (JSlider) e.getSource(); //gets the event type
+        pnlVizualizer.canopyMaxSliderValue = source.getValue();
+        //sliders only work in integers
+        if(source.getValue()>=sldMaxCanopyRadius.getMaximum()){
+            //if slider value minimum, slider label resets to default
+        }else{
+            lblPlantHeightValue.setText(Double.toString(source.getValue()));
         }
         pnlVizualizer.repaint();
     }
@@ -1487,6 +1485,15 @@ public class UserView extends JFrame{
         sldPlantHeightMin.setMaximum(Math.round(max+1));
     }
 
+    public static void setCanopyRadiusSliderValues(float minCanopyRadius, float maxCanopyRadius) {
+        sldMaxCanopyRadius.setMinimum(Math.round(minCanopyRadius-1));
+        sldMaxCanopyRadius.setValue(Math.round(maxCanopyRadius+1));
+        sldMaxCanopyRadius.setMaximum(Math.round(maxCanopyRadius+1));
+        sldMinCanopyRadius.setMinimum(Math.round(minCanopyRadius-1));
+        sldMinCanopyRadius.setValue(Math.round(minCanopyRadius-1));
+        sldMinCanopyRadius.setMaximum(Math.round(maxCanopyRadius+1));
+    }
+
     public static int getPlantHeightMin(){
         if (sldPlantHeight !=null) {
             return sldPlantHeight.getMinimum();
@@ -1496,9 +1503,27 @@ public class UserView extends JFrame{
         }
     }
 
+    public static int getCanopyRadiusMin() {
+        if (sldMinCanopyRadius!=null){
+            return sldMinCanopyRadius.getMinimum();
+        }
+        else{
+            return -1;
+        }
+    }
+
     public static int getPlantHeightMax() {
         if (sldPlantHeight !=null) {
             return sldPlantHeight.getMaximum();
+        }
+        else{
+            return 10000;
+        }
+    }
+
+    public static int getCanopyRadiusMax() {
+        if (sldMaxCanopyRadius!=null){
+            return sldMinCanopyRadius.getMaximum();
         }
         else{
             return 10000;

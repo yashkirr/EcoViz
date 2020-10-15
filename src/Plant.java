@@ -185,4 +185,8 @@ public class Plant extends Species {
     public Ellipse2D getCircle(){
         return circle;
     }
+
+    public float getCanopyRadius(){
+        return canopyRadius;
+    }
 }

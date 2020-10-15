@@ -433,6 +433,62 @@ public class FileLoader {
         return img;
     }
     public static BufferedImage getIMG(int i){ return spcCircle[i];}
+
+    public static float getMinCanopyRadius(){
+        Iterator i = speciesListCan1D.iterator();
+        int count = 0;
+        float min = 100000;
+        while (i.hasNext()){
+            Plant plant = speciesListCan1D.get(count);
+            if (plant.getCanopyRadius()<min){
+                min = plant.getCanopyRadius();
+            }
+            i.next();
+            count++;
+        }
+
+        i = speciesListUnder1D.iterator();
+        count = 0;
+        float minUnder = 10000;
+        while (i.hasNext()){
+            Plant plant = speciesListUnder1D.get(count);
+            if (plant.getCanopyRadius()<minUnder){
+                minUnder = plant.getCanopyRadius();
+            }
+            i.next();
+            count++;
+        }
+
+        return Math.min(min,minUnder);
+    }
+
+    public static float getMaxCanopyRadius(){
+        Iterator i = speciesListCan1D.iterator();
+        int count = 0;
+        float max = -100000;
+        while (i.hasNext()){
+            Plant plant = speciesListCan1D.get(count);
+            if (plant.getCanopyRadius()>max){
+                max = plant.getCanopyRadius();
+            }
+            i.next();
+            count++;
+        }
+
+        i = speciesListUnder1D.iterator();
+        count = 0;
+        float maxUnder = -10000;
+        while (i.hasNext()){
+            Plant plant = speciesListUnder1D.get(count);
+            if (plant.getCanopyRadius()>maxUnder){
+                maxUnder = plant.getCanopyRadius();
+            }
+            i.next();
+            count++;
+        }
+
+        return Math.max(max,maxUnder);
+    }
 }
 
 

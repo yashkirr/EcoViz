@@ -178,6 +178,7 @@ public class Controller {
         print("updateView");
         if(!initialized){
             UserView.setPlantHeightSliderValues(FileLoader.getMinPlantHeight(),FileLoader.getMaxPlantHeight());
+            UserView.setCanopyRadiusSliderValues(FileLoader.getMinCanopyRadius(),FileLoader.getMaxCanopyRadius());
             setVisualizerCursor(Cursor.HAND_CURSOR);
             initialized = true;
         }
