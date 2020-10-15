@@ -122,11 +122,11 @@ public class Fire extends Thread{
     }
 
     public void setWindY(int wS, int wD){
-        windY = (int) Math.round(wS*Math.sin(wD));
+        windY = (int) Math.round(wS*Math.sin(Math.toRadians(wD)));
     }
 
     public void setWindX(int wS, int wD){
-        windX = (int) Math.round(wS*Math.cos(wD));
+        windX = (int) Math.round(wS*Math.cos(Math.toRadians(wD)));
     }
 
     public void setStartY(int sy){
@@ -134,8 +134,8 @@ public class Fire extends Thread{
     }
 
     public void simulateOverGrid(Graphics g,Controller ctrl) throws IOException {
-        System.out.println(startX);
-        System.out.println(startY);
+//        System.out.println(startX);
+//        System.out.println(startY);
         int countX = startX;
         setFire(startX,startY,true);
         if (windX>0 && windY>0) {

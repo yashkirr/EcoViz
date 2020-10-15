@@ -202,15 +202,15 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
             if (startFireClicked){
                 simRunning = true;
-                System.out.println("CHECK");
+                //System.out.println("CHECK");
 //                this.printAll(gCache);
 //                g2.drawImage(cache,0,0,this);
 
-                try {
-                    filterHeightAndCanopyRadius(0,heightSliderValue,0,canopyMaxSliderValue,g2);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    filterHeightAndCanopyRadius(0,heightSliderValue,0,canopyMaxSliderValue,g2);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
 
 
                 UserView.localController.updateView();
@@ -219,7 +219,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 fire.setStartY(simStartY);
                 fire.setWindX(UserView.getWindSpeed(),UserView.getWindDirection());
                 fire.setWindY(UserView.getWindSpeed(),UserView.getWindDirection());
-                fireT.start();
+                fireT.run();
 
                 //fire.simulateOverGrid(g,UserView.localController);
 
