@@ -139,48 +139,58 @@ public class Fire extends Thread{
         int countX = startX;
         setFire(startX,startY,true);
         if (windX>0 && windY>0) {
-            for (int x = startX; x < dimX-1; x++) {
-                for (int y = startY; y < dimY-1; y++) {
+            for (int x = startX; x < dimX - 1; x++) {
+                for (int y = startY; y < dimY - 1; y++) {
                     setFire(countX + 1, y + 1, true);
                     setFire(countX, y + 1, true);
                     setFire(countX + 1, y, true);
                     countX++;
-                    g.drawImage(getImage(),0,0,null);
+                    g.drawImage(getImage(), 0, 0, null);
                 }
+                countX = x;
 
             }
-        }
 
+        }
         else if (windX<0 && windY>0) {
+            countX = startX;
             for (int x = startX; x > 0; x--) {
                 for (int y = startY; y < dimY; y++) {
-                    setFire(x - 1, y + 1, true);
-                    setFire(x-1, y , true);
-                    setFire(x, y+1, true);
+                    setFire(countX - 1, y + 1, true);
+                    setFire(countX-1, y , true);
+                    setFire(countX, y+1, true);
                     g.drawImage(getImage(),0,0,null);
+                    countX--;
                 }
+                countX = x;
             }
         }
 
         else if (windX>0 && windY<0) {
+            countX = startX;
             for (int x = startX; x < dimX; x++) {
                 for (int y = startY; y > 0; y--) {
-                    setFire(x + 1, y - 1, true);
-                    setFire(x, y - 1, true);
-                    setFire(x + 1, y, true);
+                    setFire(countX + 1, y - 1, true);
+                    setFire(countX, y - 1, true);
+                    setFire(countX + 1, y, true);
                     g.drawImage(getImage(),0,0,null);
+                    countX++;
                 }
+                countX = x;
             }
         }
 
         else if (windX<0 && windY<0) {
+            countX = startX;
             for (int x = startX; x > 0; x--) {
                 for (int y = startY; y > 0; y--) {
-                    setFire(x - 1, y - 1, true);
-                    setFire(x, y - 1, true);
-                    setFire(x - 1, y, true);
+                    setFire(countX - 1, y - 1, true);
+                    setFire(countX, y - 1, true);
+                    setFire(countX - 1, y, true);
                     g.drawImage(getImage(),0,0,null);
+                    countX--;
                 }
+                countX = x;
             }
         }
 
