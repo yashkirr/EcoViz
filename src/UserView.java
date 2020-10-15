@@ -95,8 +95,8 @@ public class UserView extends JFrame{
     private javax.swing.JPanel pnlVisibility;
     private javax.swing.JPanel pnlZoom;
     private javax.swing.JPanel pnlZoomContextMap;
-    private javax.swing.JSlider sldMaxCanopyRadius;
-    private javax.swing.JSlider sldMinCanopyRadius;
+    private static javax.swing.JSlider sldMaxCanopyRadius;
+    private static javax.swing.JSlider sldMinCanopyRadius;
     private static javax.swing.JSlider sldPlantHeightMin;
     private javax.swing.JSpinner sldRenderingThreshold;
     private javax.swing.JScrollPane tabFilterPlants;
@@ -177,6 +177,21 @@ public class UserView extends JFrame{
             @Override
             public void stateChanged(ChangeEvent e) {
                 sldPlantHeightMinStateChanged(e);
+            }
+        });
+
+        sldMinCanopyRadius.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                sldMinCanopyRadiusStateChanged(e);
+            }
+        });
+
+        sldMaxCanopyRadius.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                sldMaxCanopyRadiusStateChanged(e);
+
             }
         });
 
@@ -292,7 +307,6 @@ public class UserView extends JFrame{
         });*/
 
     }
-
 
 
     private void btnDefaultThresholdActionPerformed(ActionEvent actionEvent) {
@@ -1414,6 +1428,30 @@ public class UserView extends JFrame{
         pnlVizualizer.repaint();
     }
 
+    private void sldMinCanopyRadiusStateChanged(ChangeEvent e) {
+        JSlider source = (JSlider) e.getSource(); //gets the event type
+        pnlVizualizer.canopyMinSliderValue = source.getValue();
+        //sliders only work in integers
+        if(source.getValue()<=sldMinCanopyRadius.getMinimum()){
+            //if slider value minimum, slider label resets to default
+        }else{
+            lblPlantHeightValue.setText(Double.toString(source.getValue()));
+        }
+        pnlVizualizer.repaint();
+    }
+
+    private void sldMaxCanopyRadiusStateChanged(ChangeEvent e) {
+        JSlider source = (JSlider) e.getSource(); //gets the event type
+        pnlVizualizer.canopyMaxSliderValue = source.getValue();
+        //sliders only work in integers
+        if(source.getValue()>=sldMaxCanopyRadius.getMaximum()){
+            //if slider value minimum, slider label resets to default
+        }else{
+            lblPlantHeightValue.setText(Double.toString(source.getValue()));
+        }
+        pnlVizualizer.repaint();
+    }
+
     //list filtration
     private void selectListSPC(ActionEvent evt){
     }
@@ -1445,6 +1483,15 @@ public class UserView extends JFrame{
         sldPlantHeightMin.setMaximum(Math.round(max+1));
     }
 
+    public static void setCanopyRadiusSliderValues(float minCanopyRadius, float maxCanopyRadius) {
+        sldMaxCanopyRadius.setMinimum(Math.round(minCanopyRadius-1));
+        sldMaxCanopyRadius.setValue(Math.round(maxCanopyRadius+1));
+        sldMaxCanopyRadius.setMaximum(Math.round(maxCanopyRadius+1));
+        sldMinCanopyRadius.setMinimum(Math.round(minCanopyRadius-1));
+        sldMinCanopyRadius.setValue(Math.round(minCanopyRadius-1));
+        sldMinCanopyRadius.setMaximum(Math.round(maxCanopyRadius+1));
+    }
+
     public static int getPlantHeightMin(){
         if (sldPlantHeight !=null) {
             return sldPlantHeight.getMinimum();
@@ -1454,9 +1501,27 @@ public class UserView extends JFrame{
         }
     }
 
+    public static int getCanopyRadiusMin() {
+        if (sldMinCanopyRadius!=null){
+            return sldMinCanopyRadius.getMinimum();
+        }
+        else{
+            return -1;
+        }
+    }
+
     public static int getPlantHeightMax() {
         if (sldPlantHeight !=null) {
             return sldPlantHeight.getMaximum();
+        }
+        else{
+            return 10000;
+        }
+    }
+
+    public static int getCanopyRadiusMax() {
+        if (sldMaxCanopyRadius!=null){
+            return sldMinCanopyRadius.getMaximum();
         }
         else{
             return 10000;

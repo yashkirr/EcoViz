@@ -23,13 +23,16 @@ import javax.swing.*;
 public class VizPanel extends JPanel implements MouseWheelListener, MouseListener, MouseMotionListener {
 
     private static volatile boolean complete;
+    public int heightSliderValue;
     public int heightMinSliderValue;
+    public int canopyMinSliderValue;
+    public int canopyMaxSliderValue;
     private ArrayList<ArrayList<Plant>> undergrowthList;
     private ArrayList<ArrayList<Plant>> canopyList;
     private Grid grid;
     private boolean initialized = false;
     private Image terrainLayer;
-    public int heightSliderValue;
+
 
     private double zoomFactor = 1;
     private double prevZoomFactor = 1;
@@ -83,6 +86,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         complete = false;
         heightSliderValue = UserView.getPlantHeightMax();
         heightMinSliderValue = UserView.getPlantHeightMin();
+        canopyMinSliderValue = UserView.getCanopyRadiusMin();
+        canopyMaxSliderValue = UserView.getCanopyRadiusMax();
        // canopyMap = new HashMap<Point, Plant>();
         //undergrowthMap = new HashMap<Point, Plant>();
         //canopyList = FileLoader.getCanopy();
@@ -183,7 +188,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 drawBackground(g2);
                 try {
                     if (true) {
-                        filterHeight(heightMinSliderValue,heightSliderValue, g2);
+                        filterHeightAndCanopyRadius(heightMinSliderValue,heightSliderValue,
+                                canopyMinSliderValue,canopyMaxSliderValue, g2);
 
                     } else {
                         int s = 2;//drawPlantLayer(g2); //for drawing plants over terrain
@@ -198,7 +204,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 drawBackground(g2);
 
                 try {
-                    filterHeight(0,0,g2);
+                    filterHeightAndCanopyRadius(0,0,0,0,g2);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -234,7 +240,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         }
     }
 
-    public void filterHeight(int sliderValMin,int sliderValMax,Graphics2D g) throws IOException{
+    public void filterHeightAndCanopyRadius(int HeightValMin,int HeightValMax, int RadValMin, int RadValMax, Graphics2D g) throws IOException{
         //System.out.println(sliderValMin);
         //System.out.println(sliderValMax);
         double x = at.getScaleX();
@@ -254,7 +260,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         int count = 0;
         int count2 = 0;
             if (undergrowthCHB) {
-                if (sliderValMin < sliderValMax) {
+                if (HeightValMin < HeightValMax && RadValMin<RadValMax) {
                     while (i.hasNext()) {
                         int id = FileLoader.getSpeciesUnder()[count].getID();
                         if (FileLoader.getSpcDraw()[id]) {
@@ -269,7 +275,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                                 a = x * plant.getRectX() + at.getTranslateX(); //x transform
                                 b = x * plant.getRectY() + at.getTranslateY(); //y transform
                                 c = x * plant.getRad() / getWidth();    // ratio scaled radius to vizpanel
-                                if (sliderValMin <= plant.getHeight() && sliderValMax >= plant.getHeight() && a + z >= 0 && a <= getWidth() && b + z >= 0 && b <= getHeight()) {
+                                if (HeightValMin <= plant.getHeight() && HeightValMax >= plant.getHeight() && RadValMin<=plant.getCanopyRadius()
+                                        && RadValMax>=plant.getCanopyRadius() && a + z >= 0 && a <= getWidth() && b + z >= 0 && b <= getHeight()) {
                                     if (c > viewingThreshold) {                //draw large
                                         g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
 //
@@ -294,7 +301,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             count2 = 0;
 
             if (canopyCHB) {
-                if (sliderValMin < sliderValMax) {
+                if (HeightValMin < HeightValMax && RadValMin<RadValMax) {
                     while (i.hasNext()) {
                         int id = FileLoader.getSpeciesCan()[count].getID();//get id of present species
                         if (FileLoader.getSpcDraw()[id]) {                //check if Species ID should be drawn
@@ -312,7 +319,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                                 a = x * plant.getRectX() + at.getTranslateX(); //x transform
                                 b = x * plant.getRectY() + at.getTranslateY(); //y transform
                                 c = x * plant.getRad() / getWidth();    // ratio scaled radius to vizpanel
-                                if (sliderValMin <= plant.getHeight() && sliderValMax >= plant.getHeight() && a + z >= 0 && a <= getWidth() && b + z >= 0 && b <= getHeight()) {
+                                if (HeightValMin <= plant.getHeight() && HeightValMax >= plant.getHeight() && RadValMin<=plant.getCanopyRadius()
+                                        && RadValMax>= plant.getCanopyRadius() && a + z >= 0 && a <= getWidth() && b + z >= 0 && b <= getHeight()) {
 
                                     if (c > viewingThreshold) {
                                         //draw large
@@ -334,6 +342,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             }
 
     }
+
 
     /**
      * Returns details of the plants intersecting the clicked point
