@@ -1407,7 +1407,14 @@ public class UserView extends JFrame{
     }//GEN-LAST:event_cbxSimulationTypeActionPerformed
 
     private void startFireSim() {
+        Thread fire = new Thread(pnlVizualizer.fire);
+
+        pnlVizualizer.fire.setStartX(pnlVizualizer.simStartX);
+        pnlVizualizer.fire.setStartY(pnlVizualizer.simStartY);
+        pnlVizualizer.fire.setWindX(UserView.getWindSpeed(),UserView.getWindDirection());
+        pnlVizualizer.fire.setWindY(UserView.getWindSpeed(),UserView.getWindDirection());
         pnlVizualizer.startFireClicked=true;
+        fire.start();
 
     }
 

@@ -10,7 +10,7 @@ public class Fire extends Thread{
     boolean[][] isBurning;
     int dimX;
     int dimY;
-    BufferedImage fireLayer;
+    static BufferedImage fireLayer;
     int windX;
     int windY;
     int startX;
@@ -19,6 +19,7 @@ public class Fire extends Thread{
     public volatile  boolean stopped;
     private ArrayList<Plant> undergrowth;
     private ArrayList<Plant> canopy;
+    static Graphics2D gBurn;
 
     public Fire(int dimx,int dimy, int sx, int sy, int wS, int wD, ArrayList<Plant> undergrowth, ArrayList<Plant> canopy){
         windX = (int) Math.round(wS*Math.cos(wD));; ;
@@ -45,6 +46,7 @@ public class Fire extends Thread{
          //   System.out.println("out of bounds");
        // }
         //else{
+//            System.out.println("FIRE  "+x+"   "+y);
             isBurning[x][y] = burning;
        // }
     }
@@ -56,13 +58,15 @@ public class Fire extends Thread{
     public int getDimY(){
         return dimY;
     }
-
+    public void pixel(int x, int y){
+        fireLayer.setRGB(x,y,Color.red.getRGB());
+    }
     public BufferedImage getImage(){
         for (int x = 0; x<dimX; x++){
             for (int y=0; y<dimY; y++){
                 Color color;
                 if (isBurning[x][y]==true){
-                    color = new Color(1.0f,0.0f,0.0f,1.0f);
+                    color = new Color(1.0f,0.0f,0.0f,0.7f);
                 }
                 else{
                     color = new Color(0.0f,0.0f,0.0f,0.0f);
@@ -122,11 +126,11 @@ public class Fire extends Thread{
     }
 
     public void setWindY(int wS, int wD){
-        windY = (int) Math.round(wS*Math.sin(wD));
+        windY = (int) Math.round(wS*Math.sin(Math.toRadians(wD)));
     }
 
     public void setWindX(int wS, int wD){
-        windX = (int) Math.round(wS*Math.cos(wD));
+        windX = (int) Math.round(wS*Math.cos(Math.toRadians(wD)));
     }
 
     public void setStartY(int sy){
@@ -134,65 +138,95 @@ public class Fire extends Thread{
     }
 
     public void simulateOverGrid(Graphics g,Controller ctrl) throws IOException {
-        System.out.println(startX);
-        System.out.println(startY);
+        this.gBurn = (Graphics2D)g;
+        System.out.println("TRY0");
+
+        burn(startX,startY);
+//        Burn burn = new Burn(startX,startY);
+//        burn.start();
+    }
+    public void burn(int x, int y){
+        gBurn.setColor(new Color(255,0,0));
+        double start = System.nanoTime();
+        double stop = System.nanoTime();
+
+//        pixel(x,y);
+//        gBurn.drawImage(getImage(), 0, 0, null);
+        for(int r=0; r<200; r++) {
+            start = System.nanoTime();
+            gBurn.drawOval(x-r,y-r,2*r,2*r);
+            stop = System.nanoTime();
+            System.out.println("stop-start");
+//            for(int xPix = -r; xPix<=r; xPix++) {
+//                for(int yPix = -r; yPix<=r; yPix++) {
+//                    if ((int) Math.sqrt(xPix*xPix + yPix*yPix) == r) {
+////                        fireLayer.setRGB(x+xPix, y+yPix, Color.red.getRGB());
+////                        gBurn.drawImage(Fire.fireLayer, 0, 0, null);
+//                        gBurn.drawLine(x+xPix,y+yPix,x+xPix,y+yPix);
+//                    }
+//                }
+//            }
+        }
+    }
+
+    public void simulateOverGrid2(Graphics g,Controller ctrl) throws IOException {
+//        System.out.println(startX);
+//        System.out.println(startY);
+        System.out.println("TRY");
         int countX = startX;
-        setFire(startX,startY,true);
-        if (windX>0 && windY>0) {
-            for (int x = startX; x < dimX - 1; x++) {
-                for (int y = startY; y < dimY - 1; y++) {
-                    setFire(countX + 1, y + 1, true);
-                    setFire(countX, y + 1, true);
-                    setFire(countX + 1, y, true);
-                    countX++;
-                    g.drawImage(getImage(), 0, 0, null);
-                }
-                countX = x;
+        try {
+            setFire(startX, startY, true);
+            if (windX > 0 && windY > 0) {
+                for (int x = startX; x < dimX - 1; x++) {
+                    for (int y = startY; y < dimY - 1; y++) {
+                        setFire(countX + 1, y + 1, true);
+                        setFire(countX, y + 1, true);
+                        setFire(countX + 1, y, true);
+                        countX++;
+                        g.drawImage(getImage(), 0, 0, null);
+                    }
+                    countX = x;
 
-            }
-
-        }
-        else if (windX<0 && windY>0) {
-            countX = startX;
-            for (int x = startX; x > 0; x--) {
-                for (int y = startY; y < dimY; y++) {
-                    setFire(countX - 1, y + 1, true);
-                    setFire(countX-1, y , true);
-                    setFire(countX, y+1, true);
-                    g.drawImage(getImage(),0,0,null);
-                    countX--;
                 }
-                countX = x;
-            }
-        }
 
-        else if (windX>0 && windY<0) {
-            countX = startX;
-            for (int x = startX; x < dimX; x++) {
-                for (int y = startY; y > 0; y--) {
-                    setFire(countX + 1, y - 1, true);
-                    setFire(countX, y - 1, true);
-                    setFire(countX + 1, y, true);
-                    g.drawImage(getImage(),0,0,null);
-                    countX++;
+            } else if (windX < 0 && windY > 0) {
+                countX = startX;
+                for (int x = startX; x > 0; x--) {
+                    for (int y = startY; y < dimY; y++) {
+                        setFire(countX - 1, y + 1, true);
+                        setFire(countX - 1, y, true);
+                        setFire(countX, y + 1, true);
+                        g.drawImage(getImage(), 0, 0, null);
+                        countX--;
+                    }
+                    countX = x;
                 }
-                countX = x;
-            }
-        }
-
-        else if (windX<0 && windY<0) {
-            countX = startX;
-            for (int x = startX; x > 0; x--) {
-                for (int y = startY; y > 0; y--) {
-                    setFire(countX - 1, y - 1, true);
-                    setFire(countX, y - 1, true);
-                    setFire(countX - 1, y, true);
-                    g.drawImage(getImage(),0,0,null);
-                    countX--;
+            } else if (windX > 0 && windY < 0) {
+                countX = startX;
+                for (int x = startX; x < dimX; x++) {
+                    for (int y = startY; y > 0; y--) {
+                        setFire(countX + 1, y - 1, true);
+                        setFire(countX, y - 1, true);
+                        setFire(countX + 1, y, true);
+                        g.drawImage(getImage(), 0, 0, null);
+                        countX++;
+                    }
+                    countX = x;
                 }
-                countX = x;
+            } else if (windX < 0 && windY < 0) {
+                countX = startX;
+                for (int x = startX; x > 0; x--) {
+                    for (int y = startY; y > 0; y--) {
+                        setFire(countX - 1, y - 1, true);
+                        setFire(countX, y - 1, true);
+                        setFire(countX - 1, y, true);
+                        g.drawImage(getImage(), 0, 0, null);
+                        countX--;
+                    }
+                    countX = x;
+                }
             }
-        }
+        }catch(Exception e){};//this.sleep(10);}
 
         /*
                 double gradient = ((double) windX) / ((double) windY);
@@ -271,12 +305,19 @@ public class Fire extends Thread{
     }
 
     public void run(){
-
+        while(startX==-1) {
+            try {
+                System.out.println("WAITING");
+                this.wait(50);
+            } catch (Exception e) {
+            }
+        }
         try {
+            System.out.println("TRYING");
             simulateOverGrid(UserView.pnlVizualizer.getGraphics(),UserView.localController);
             //UserView.pnlVizualizer.filterHeight(0, (Graphics2D) UserView.pnlVizualizer.getGraphics());
             //UserView.localController.updateView();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
