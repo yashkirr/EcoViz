@@ -2,8 +2,11 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * SwingWorker class used to stop blocking on EDT when loading files
+ * @author Yashkir Ramsamy
+ */
 public class FileLoadingWorker extends SwingWorker<Void,Void> {
-
 
     private ArrayList<String> filePathList;
 
