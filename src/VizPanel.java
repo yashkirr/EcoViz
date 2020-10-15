@@ -365,6 +365,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             for(Plant plant : alist){
                 if (plant.getShape().contains(x,y)) {
                     System.out.println("Undergrowth: "+FileLoader.getSpcKey()[plant.getID()][0]);
+                    System.out.println(plant.detail().toString());
                 }
             }
         }
