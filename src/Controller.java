@@ -14,6 +14,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -38,24 +42,23 @@ public class Controller {
     /**
     * Connects FileLoader to FileLoaderDialog
     */
-    public void loadFile(String path, String fileType){
-        if (fileType == "elv"){
+    public void loadFile(String path, String fileType) {
+        if (fileType.equals("elv")) {
             FileLoader.readELV(path);
-        }
-        else if (fileType == "spc") {
+        } else if (fileType.equals("spc")) {
             FileLoader.readSPC(path);
-        }
-        else if (fileType == "pdb") {
-            if (path.contains("undergrowth")){
+        } else if (fileType.equals("pdb")) {
+            if (path.contains("undergrowth")) {
                 FileLoader.readPdbUnder(path);
-            }
-            else if (path.contains("canopy")){
+            } else if (path.contains("canopy")) {
                 FileLoader.readPdbCan(path);
             }
+            System.gc(); //clean arbitrary trash to optimise performance
         }
-        System.gc(); //clean arbitrary trash to optimise performance
-
     }
+
+
+
 
     /**
      * Disables control panel and settings menu on start to restrict the user to only entering files or exiting
@@ -86,19 +89,31 @@ public class Controller {
      * @param parentFrame
      */
     public void showLoadingScreen(java.awt.Frame parentFrame) throws IOException {
-        
-        closeLoadingScreenAfterTime(4).start();
-        
-        JOptionPane.showOptionDialog(parentFrame, "Loading files, please wait...","Initializing EcoViz", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null);
+        JDialog loadingDialog = new JDialog(parentFrame, "Initializing EcoViz");
+
+        JLabel info = new JLabel("<html>" +
+                "<b>Initializing EcoViz</b>" +
+                "<br>Loading files, please wait...");
+        loadingDialog.setLayout(new GridBagLayout());
+        //loadingDialog.add((Component) UIManager.getIcon("OptionPane.informationIcon"));
+        loadingDialog.add(info);
+        loadingDialog.setSize(250, 150);
+        loadingDialog.setLocationRelativeTo(null);
+        loadingDialog.setUndecorated(true);
+        loadingDialog.setResizable(false);
+        loadingDialog.setVisible(true);
+
+
+        //JOptionPane.showOptionDialog(parentFrame, "Loading files, please wait...","Initializing EcoViz", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null);
         //initializeTerrainGrid();
     }
 
     /**
-    *Temporary utility method for detecting if dialog is open that is needed to be closed.
+    *Utility method for detecting if dialog is open that is needed to be closed.
     *Creates a new timer thread to emulate loading time
     */
-    private static Timer closeLoadingScreenAfterTime(int seconds) {
-        ActionListener close = (ActionEvent e) -> {
+    private static void closeLoadingScreen() {
+      //  ActionListener close = (ActionEvent e) -> {
             Window[] windows = Window.getWindows();
             for (Window window : windows) {
                 if (window instanceof JDialog) {
@@ -109,10 +124,8 @@ public class Controller {
                     }
                 }
             }
-        };
-        Timer t = new Timer(seconds * 1000, close);
-        t.setRepeats(false);
-        return t;
+       // };
+
     }
 
     public void print(String s){
@@ -125,6 +138,7 @@ public class Controller {
      */
     public void initializeTerrainGrid() throws IOException {
         print("initializeTerrainGrid");
+        closeLoadingScreen();
         restrictControls(false);
         UserView.pnlVizualizer.setGrid(new Grid(FileLoader.getDimx(),FileLoader.getDimy(),FileLoader.getSpacing(),FileLoader.getLatitude(), FileLoader.getTerrain()));
         updateView();
@@ -179,6 +193,66 @@ public class Controller {
 
     }
 
+    public void loadFile(String s, String s1, String s2, String s3) {
+       /* 0: .elv
+        1: .spc
+        2: .pdb (canopy)
+        3: .pdb (undergrowth)*/
+        /*String[] list = {s,s1,s2,s3};
+        String[] path = {"elv","spc","pdb","pdb"};
+        ExecutorService service = Executors.newFixedThreadPool(4);
+        for(int i =0; i<4;i++){
+            int finalI = i;
+            service.execute(new Runnable() {
+                @Override
+                public void run() {
+                    FileLoader.director(list[finalI],path[finalI]);
+                }
+            });
+        }
+        service.shutdown();
+
+            service.awaitTermination(1, TimeUnit.MINUTES);*/
+
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FileLoader.readELV(s);
+            }
+        });
+        t.start();
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FileLoader.readSPC(s1);
+            }
+        });
+        t1.start();
+        Thread t2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FileLoader.readPdbCan(s2);
+            }
+        });
+        t2.start();
+        Thread t3 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FileLoader.readPdbUnder(s3);
+            }
+        });
+        t3.start();
+
+        try {
+            t1.join();
+            t2.join();
+            t3.join();
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
 
 

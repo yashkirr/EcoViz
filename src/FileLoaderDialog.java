@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.logging.Level;
 import java.util.stream.Stream;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -88,7 +89,11 @@ public class FileLoaderDialog extends javax.swing.JDialog {
         btnLoadFiles.setText("Load Files");
         btnLoadFiles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLoadFilesActionPerformed(evt);
+                try {
+                    btnLoadFilesActionPerformed(evt);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -139,6 +144,7 @@ public class FileLoaderDialog extends javax.swing.JDialog {
         chooser.setCurrentDirectory(new java.io.File("."));
         chooser.setDialogTitle("Select Folder");
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setFileFilter(new FileNameExtensionFilter("Folders only","/"));
         chooser.setAcceptAllFileFilterUsed(false);
 
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
@@ -160,7 +166,22 @@ public class FileLoaderDialog extends javax.swing.JDialog {
         System.out.println("FileLoaderDialog: "+s);
     }
 
-    private void btnLoadFilesActionPerformed(ActionEvent evt) {
+    private void btnLoadFilesActionPerformed(ActionEvent evt) throws IOException {
+        JDialog loadingDialog = new JDialog(this.parentFrame);
+
+        JLabel info = new JLabel("<html>" +
+                "<b>Initializing EcoViz</b>" +
+                "<br>Loading files, please wait...");
+        loadingDialog.setLayout(new GridBagLayout());
+        //loadingDialog.add((Component) UIManager.getIcon("OptionPane.informationIcon"));
+        loadingDialog.add(info);
+        loadingDialog.setSize(250, 150);
+        loadingDialog.setLocationRelativeTo(null);
+        loadingDialog.setUndecorated(true);
+        loadingDialog.setResizable(false);
+        loadingDialog.setVisible(true);
+
+        this.setVisible(false);
         print("btnLoadFilesActionPerformed");
         dataDirectory = txtDirectoryInput.getText();
 
@@ -180,14 +201,30 @@ public class FileLoaderDialog extends javax.swing.JDialog {
             3: .pdb (undergrowth)
 
              */
-            localController.loadFile(filePathList.get(0),"elv");
+            long startTime = System.nanoTime();
+           localController.loadFile(filePathList.get(0), filePathList.get(1),filePathList.get(2),filePathList.get(3));
+            /*localController.loadFile(filePathList.get(0),"elv");
             localController.loadFile(filePathList.get(1),"spc");
             localController.loadFile(filePathList.get(2),"pdb");
-            localController.loadFile(filePathList.get(3),"pdb");
+            localController.loadFile(filePathList.get(3),"pdb");*/
+            long endTime = System.nanoTime();
 
-            localController.initializeTerrainGrid();
-            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            dispose();
+            long duration = (endTime - startTime);
+            System.out.println(duration/1000000);
+
+            /*
+            localController.loadFIle(filePathList.get(0),"elv");
+            localController.loadFile(filePathList.get(1),"spc");
+            localController.loadFile(filePathList.get(2),"pdb");
+            localController.loadFile(filePathList.get(3),"pdb");*/
+
+                localController.initializeTerrainGrid();
+                loadingDialog.dispose();
+                this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                dispose();
+
+
+
         }catch(IOException e){
             JOptionPane.showMessageDialog(this,"Please check the directory contents for correctness.",
                     "Error",JOptionPane.WARNING_MESSAGE);
@@ -195,7 +232,6 @@ public class FileLoaderDialog extends javax.swing.JDialog {
         catch(Exception e){
             e.printStackTrace();
         }
-
     }
 
     public boolean validateDataDirectory(ArrayList<String> fileList) throws IOException {
