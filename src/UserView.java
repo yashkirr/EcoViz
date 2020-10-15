@@ -66,7 +66,7 @@ public class UserView extends JFrame{
     private javax.swing.JLabel lblPlantDetails;
     private javax.swing.JLabel lblPlantHeightSlider2;
     private javax.swing.JLabel lblPlantHeightSlider3;
-    private javax.swing.JLabel lblPlantHeightValue;
+    private static javax.swing.JLabel lblPlantHeightValue;
     private javax.swing.JLabel lblSelectedVis;
     private javax.swing.JLabel lblSelectedVisible;
     private javax.swing.JLabel lblSimType;
@@ -1483,6 +1483,10 @@ public class UserView extends JFrame{
                 "<p><b>Max</b>: %4$s</p>"+
                 "<p><b>Range:</b> %3$s - %4$s</p>\n";
         lblPlantHeightValue.setText(String.format(label,plantHeightMin,plantHeightMax,canopyRadiusMin,canopyRadiusMax));
+    }
+
+    public static void setFilterLabel(String s){
+        lblPlantHeightValue.setText(s);
     }
 
 

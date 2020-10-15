@@ -292,7 +292,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                     }
                 }
             } else {
-                System.out.println("MIN > MAX OH NOOOO ");
+                UserView.setFilterLabel("<html>OH NO!<br>Your selected slider values overlap.<br>Please reselect an appropriate value.");
             }
 
             i = pdbCan.iterator();
@@ -337,7 +337,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                         count2 = 0;
                     }
                 } else {
-                    System.out.println("MIN>MAX OH NOOOOO");
+                    UserView.setFilterLabel("<html>OH NO!<br>Your selected slider values overlap.<br>Please reselect an appropriate value.");
                 }
             }
 
