@@ -1415,7 +1415,7 @@ public class UserView extends JFrame{
         pnlVizualizer.heightSliderValue = source.getValue();
         setSelectedFilterLabel();
         //sliders only work in integers
-        if(source.getValue()>=sldPlantHeight.getMaximum()){
+        if(source.getValue()<=sldPlantHeight.getMinimum()){
              //if slider value minimum, slider label resets to default
         }else{
             setSelectedFilterLabel();
@@ -1434,12 +1434,12 @@ public class UserView extends JFrame{
             }
         }
         String label = "<html>"+"<p><strong>Plant Height: </strong></p>\n" +
-                "<p>Max: %1$s</p>\n" +
-                "<p>Min: %2$s</p>\n" +
+                "<p>Min: %1$s</p>\n" +
+                "<p>Max: %2$s</p>\n" +
                 "<p><b>Range:</b> %1$s - %2$s</p>\n"+
                 "<p><strong>Canopy Radius:</strong>&nbsp;</p>\n" +
-                "<p><b>Max</b>: %3$s</p>\n" +
-                "<p><b>Min</b>: %4$s</p>"+
+                "<p><b>Min</b>: %3$s</p>\n" +
+                "<p><b>Max</b>: %4$s</p>"+
                 "<p><b>Range:</b> %3$s - %4$s</p>\n";
         lblPlantHeightValue.setText(String.format(label,plantHeightMin,plantHeightMax,canopyRadiusMin,canopyRadiusMax));
     }
@@ -1464,7 +1464,7 @@ public class UserView extends JFrame{
         if(source.getValue()<=sldMinCanopyRadius.getMinimum()){
             //if slider value minimum, slider label resets to default
         }else{
-            lblPlantHeightValue.setText(Double.toString(source.getValue()));
+            setSelectedFilterLabel();
         }
         pnlVizualizer.repaint();
     }
@@ -1473,10 +1473,10 @@ public class UserView extends JFrame{
         JSlider source = (JSlider) e.getSource(); //gets the event type
         pnlVizualizer.canopyMaxSliderValue = source.getValue();
         //sliders only work in integers
-        if(source.getValue()>=sldMaxCanopyRadius.getMaximum()){
+        if(source.getValue()<=sldMaxCanopyRadius.getMinimum()){
             //if slider value minimum, slider label resets to default
         }else{
-            lblPlantHeightValue.setText(Double.toString(source.getValue()));
+            setSelectedFilterLabel();
         }
         pnlVizualizer.repaint();
     }
