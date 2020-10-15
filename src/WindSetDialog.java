@@ -31,8 +31,8 @@ public class WindSetDialog extends javax.swing.JDialog {
 
         btnConfirmWindVector = new javax.swing.JButton();
         btnCancelWindVector = new javax.swing.JButton();
-        txtWindX = new javax.swing.JTextField();
-        txtWindY = new javax.swing.JTextField();
+        txtWindSpeed = new javax.swing.JTextField();
+        txtWindDirection = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -55,9 +55,9 @@ public class WindSetDialog extends javax.swing.JDialog {
             }
         });
 
-        jLabel1.setText("x");
+        jLabel1.setText("speed (m/s)");
 
-        jLabel2.setText("y");
+        jLabel2.setText("direction (degrees)");
 
         jLabel3.setText("<html>Enter Wind Vector<br> Components");
 
@@ -78,8 +78,8 @@ public class WindSetDialog extends javax.swing.JDialog {
                                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(37, 37, 37)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtWindY, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
-                                    .addComponent(txtWindX)))))
+                                    .addComponent(txtWindDirection, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                                    .addComponent(txtWindSpeed)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(33, 33, 33)
                         .addComponent(btnCancelWindVector, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -92,11 +92,11 @@ public class WindSetDialog extends javax.swing.JDialog {
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtWindX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtWindSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtWindY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtWindDirection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnConfirmWindVector)
@@ -168,12 +168,12 @@ public class WindSetDialog extends javax.swing.JDialog {
         });
     }
 
-    public int getwindX(){
-        return Integer.valueOf(txtWindX.getText());
+    public int getwindSpeed(){
+        return Integer.valueOf(txtWindSpeed.getText());
     }
 
-    public int getwindY(){
-        return Integer.valueOf(txtWindY.getText());
+    public int getwindDirection(){
+        return Integer.valueOf(txtWindDirection.getText());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -182,7 +182,7 @@ public class WindSetDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField txtWindX;
-    private javax.swing.JTextField txtWindY;
+    private javax.swing.JTextField txtWindSpeed;
+    private javax.swing.JTextField txtWindDirection;
     // End of variables declaration//GEN-END:variables
 }

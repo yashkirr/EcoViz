@@ -116,9 +116,10 @@ public class UserView extends JFrame{
     //Self-declared Variables
     public static Controller localController;
     private boolean selectedSimType = false;
+    private static int windSpeed;
+    private static int windDirection;
     private ArrayList<String> selectedVisibilityPlants;
-    private static int windX;
-    private static int windY;
+
 
 
     //Enum Types
@@ -1399,8 +1400,8 @@ public class UserView extends JFrame{
                     btnWind.addActionListener(actionEvent -> {
                         WindSetDialog dialog = new WindSetDialog(UserView.this,rootPaneCheckingEnabled);
                         dialog.setVisible(true);
-                        windX = dialog.getwindX();
-                        windY = dialog.getwindY();
+                        windSpeed = dialog.getwindSpeed();
+                        windDirection = dialog.getwindDirection();
 
                     });
                     pnlSimControls.add(btnWind);
@@ -1420,12 +1421,12 @@ public class UserView extends JFrame{
 
     }
 
-    public static int getWindX(){
-        return windX;
+    public static int getWindSpeed(){
+        return windSpeed;
     }
 
-    public static int getWindY(){
-        return windY;
+    public static int getWindDirection(){
+        return windDirection;
     }
     /**
     * onClickEventListener for "Restart" menu item

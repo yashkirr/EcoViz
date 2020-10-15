@@ -206,11 +206,11 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 //                this.printAll(gCache);
 //                g2.drawImage(cache,0,0,this);
 
-//                try {
-//                    filterHeightAndCanopyRadius(0,0,0,0,g2);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    filterHeightAndCanopyRadius(0,heightSliderValue,0,canopyMaxSliderValue,g2);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
 
                 UserView.localController.updateView();
@@ -478,7 +478,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     }
 
     public void setViewingThreshold(int value) {
-        this.viewingThreshold = value/1000.0;
+        this.viewingThreshold = value/100.0;
     }
 
     public int getTerrainRenderType() {
