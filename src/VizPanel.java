@@ -31,7 +31,13 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     private ArrayList<ArrayList<Plant>> canopyList;
     private Grid grid;
     private boolean initialized = false;
-    private Image terrainLayer;
+//    private BufferedImage cache;
+//    public void setCache(){
+//        this.cache = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+//        this.gCache = cache.createGraphics();
+//    }
+//    private Graphics2D gCache;
+//    private BufferedImage terrainLayer;
 
 
     private double zoomFactor = 1;
@@ -118,15 +124,14 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         print("setGrid");
         this.grid = grid;
         initialized = true;
-        fire = new Fire(getWidth(),getHeight(),simStartX,simStartY,UserView.getWindX(),UserView.getWindY(),FileLoader.getSpeciesListUnder1D(),FileLoader.getSpeciesListCan1D());
+        fire = new Fire(getWidth(),getHeight(),simStartX,simStartY,UserView.getWindSpeed(),UserView.getWindDirection(),FileLoader.getSpeciesListUnder1D(),FileLoader.getSpeciesListCan1D());
     }
     private boolean first = true;
     private int check;
 
     @Override
     protected void paintComponent(Graphics g) {
-
-        super.paintComponent(g);
+        //super.paintComponent(g);
         /* If files have been loaded, set initialized to true and enable these features*/
         if (initialized) {
 
@@ -181,10 +186,6 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                     g2.transform(at);
                 }
 
-                if (!one) {
-                    drawBackground(g2); //for drawing the terrain
-                    one = true;
-                }
                 drawBackground(g2);
                 try {
                     if (true) {
@@ -201,10 +202,12 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
             if (startFireClicked){
                 simRunning = true;
-                drawBackground(g2);
+                System.out.println("CHECK");
+//                this.printAll(gCache);
+//                g2.drawImage(cache,0,0,this);
 
                 try {
-                    filterHeightAndCanopyRadius(0,0,0,0,g2);
+                    filterHeightAndCanopyRadius(0,heightSliderValue,0,canopyMaxSliderValue,g2);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -214,8 +217,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 Thread fireT = new Thread(fire);
                 fire.setStartX(simStartX);
                 fire.setStartY(simStartY);
-                fire.setWindX(UserView.getWindX());
-                fire.setWindY(UserView.getWindY());
+                fire.setWindX(UserView.getWindSpeed(),UserView.getWindDirection());
+                fire.setWindY(UserView.getWindSpeed(),UserView.getWindDirection());
                 fireT.start();
 
                 //fire.simulateOverGrid(g,UserView.localController);
@@ -234,7 +237,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                     getHeight(),
                     Image.SCALE_SMOOTH);
             g.drawImage(vizscaled,0,0,null);
-            this.terrainLayer = vizscaled;
+            //this.terrainLayer = vizscaled; //UNUSED
         } catch (Exception e) {
             e.printStackTrace();
         }

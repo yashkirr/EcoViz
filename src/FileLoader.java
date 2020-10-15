@@ -203,7 +203,7 @@ public class FileLoader {
                     float height = pdbScanner.nextFloat();
                     float radius = pdbScanner.nextFloat();
                     Plant plant = new Plant(v, height, radius, dimx, dimy, spacing, pnlWidth, pnlHeight);
-                    plant.setColor(spcColor[i]);
+                    //plant.setColor(spcColor[i]);
                     plant.setType("Canopy");
                     plant.setID(s.getID());
                     plant.setEnglishName(spcKey[plant.getID()][0]);
@@ -264,7 +264,7 @@ public class FileLoader {
                     float height = pdbScanner.nextFloat();
                     float radius = pdbScanner.nextFloat();
                     Plant plant = new Plant(v, height, radius, dimx, dimy, spacing, pnlWidth, pnlHeight);
-                    plant.setColor(spcColor[i]);
+                    //plant.setColor(spcColor[i]);
                     plant.setType("Undergrowth");
                     plant.setID(s.getID());
                     plant.setEnglishName(spcKey[plant.getID()][0]);

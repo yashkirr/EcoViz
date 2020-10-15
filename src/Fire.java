@@ -20,9 +20,9 @@ public class Fire extends Thread{
     private ArrayList<Plant> undergrowth;
     private ArrayList<Plant> canopy;
 
-    public Fire(int dimx,int dimy, int sx, int sy, int wx, int wy, ArrayList<Plant> undergrowth, ArrayList<Plant> canopy){
-        windX = wx;
-        windY = wy;
+    public Fire(int dimx,int dimy, int sx, int sy, int wS, int wD, ArrayList<Plant> undergrowth, ArrayList<Plant> canopy){
+        windX = (int) Math.round(wS*Math.cos(wD));; ;
+        windY = (int) Math.round(wS*Math.sin(wD));;
         startX = sx;
         startY = sy;
         dimX = dimx;
@@ -117,23 +117,16 @@ public class Fire extends Thread{
 
     }
 
-    public void transferFire(int sourceX, int sourceY, int destX, int destY){
-        //System.out.println(destX);
-        //System.out.println(destY);
-        setFire(sourceX,sourceY,false);
-        setFire(destX,destY,true);
-    }
-
     public void setStartX(int sx){
         startX = sx;
     }
 
-    public void setWindY(int wy){
-        windY = wy;
+    public void setWindY(int wS, int wD){
+        windY = (int) Math.round(wS*Math.sin(wD));
     }
 
-    public void setWindX(int wx){
-        windX = wx;
+    public void setWindX(int wS, int wD){
+        windX = (int) Math.round(wS*Math.cos(wD));
     }
 
     public void setStartY(int sy){
@@ -141,6 +134,67 @@ public class Fire extends Thread{
     }
 
     public void simulateOverGrid(Graphics g,Controller ctrl) throws IOException {
+        System.out.println(startX);
+        System.out.println(startY);
+        int countX = startX;
+        setFire(startX,startY,true);
+        if (windX>0 && windY>0) {
+            for (int x = startX; x < dimX - 1; x++) {
+                for (int y = startY; y < dimY - 1; y++) {
+                    setFire(countX + 1, y + 1, true);
+                    setFire(countX, y + 1, true);
+                    setFire(countX + 1, y, true);
+                    countX++;
+                    g.drawImage(getImage(), 0, 0, null);
+                }
+                countX = x;
+
+            }
+
+        }
+        else if (windX<0 && windY>0) {
+            countX = startX;
+            for (int x = startX; x > 0; x--) {
+                for (int y = startY; y < dimY; y++) {
+                    setFire(countX - 1, y + 1, true);
+                    setFire(countX-1, y , true);
+                    setFire(countX, y+1, true);
+                    g.drawImage(getImage(),0,0,null);
+                    countX--;
+                }
+                countX = x;
+            }
+        }
+
+        else if (windX>0 && windY<0) {
+            countX = startX;
+            for (int x = startX; x < dimX; x++) {
+                for (int y = startY; y > 0; y--) {
+                    setFire(countX + 1, y - 1, true);
+                    setFire(countX, y - 1, true);
+                    setFire(countX + 1, y, true);
+                    g.drawImage(getImage(),0,0,null);
+                    countX++;
+                }
+                countX = x;
+            }
+        }
+
+        else if (windX<0 && windY<0) {
+            countX = startX;
+            for (int x = startX; x > 0; x--) {
+                for (int y = startY; y > 0; y--) {
+                    setFire(countX - 1, y - 1, true);
+                    setFire(countX, y - 1, true);
+                    setFire(countX - 1, y, true);
+                    g.drawImage(getImage(),0,0,null);
+                    countX--;
+                }
+                countX = x;
+            }
+        }
+
+        /*
                 double gradient = ((double) windX) / ((double) windY);
                 System.out.println(gradient);
                 double yInt = (-gradient * startX) + startY;
@@ -212,9 +266,12 @@ public class Fire extends Thread{
                     UserView.pnlVizualizer.startFireClicked = false;
                     stopped = true;
                 }
+
+         */
     }
 
     public void run(){
+
         try {
             simulateOverGrid(UserView.pnlVizualizer.getGraphics(),UserView.localController);
             //UserView.pnlVizualizer.filterHeight(0, (Graphics2D) UserView.pnlVizualizer.getGraphics());
@@ -222,6 +279,7 @@ public class Fire extends Thread{
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public void resetFireLayer(){
