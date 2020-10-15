@@ -83,7 +83,7 @@ public class UserView extends JFrame{
     private javax.swing.JPanel pnlPlantDetail;
     private javax.swing.JPanel pnlPlantDetailControls;
     private javax.swing.JPanel pnlPlantDetailsLabel;
-    private javax.swing.JScrollPane pnlPlantLegendList;
+
     private javax.swing.JPanel pnlSelectedFilters;
     private javax.swing.JScrollPane pnlSelectedVis;
     private javax.swing.JPanel pnlSimControls;
@@ -115,6 +115,7 @@ public class UserView extends JFrame{
     protected static  javax.swing.JLabel lblElevationHeightMax;
     protected static  javax.swing.JLabel lblElevationHeightMin;
     protected static ElevationKeyPanel pnlElevationHeight;
+    protected static javax.swing.JScrollPane pnlPlantLegendList;
     private static javax.swing.JLabel lblPlantDetails;
 
     //Self-declared Variables

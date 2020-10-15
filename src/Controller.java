@@ -184,6 +184,7 @@ public class Controller {
     private void generateKey(double minElevation, double maxElevation) {
         UserView.lblElevationHeightMin.setText(String.format("%.2fm",minElevation));
         UserView.lblElevationHeightMax.setText(String.format("%.2fm",maxElevation));
+
     }
 
     /**
@@ -240,29 +241,38 @@ public class Controller {
         switch (menu) {
             case "Filters":
                 card.show(UserView.pnlControls,"pnlFilters");
+                UserView.chbControlsList.setSelectedIndex(1);
                 break;
             case "Visibility":
                 card.show(UserView.pnlControls,"pnlVisibility");
+                UserView.chbControlsList.setSelectedIndex(3);
                 break;
             case "Simulation":
                 card.show(UserView.pnlControls,"pnlSimulation");
+                UserView.chbControlsList.setSelectedIndex(4);
                 break;
             case "Rendering":
                 card.show(UserView.pnlControls,"pnlViewSettings");
+                UserView.chbControlsList.setSelectedIndex(6);
                 break;
             case "Legend":
                 card.show(UserView.pnlControls,"pnlLegend");
+                UserView.chbControlsList.setSelectedIndex(0);
                 break;
             case "Plant Detail":
                 card.show(UserView.pnlControls,"pnlPlantDetail");
+                UserView.chbControlsList.setSelectedIndex(5);
                 break;
             case "Help":
                 card.show(UserView.pnlControls,"pnlHelp");
+                UserView.chbControlsList.setSelectedIndex(7);
                 break;
             case "Zoom Distance":
                 card.show(UserView.pnlControls,"pnlZoom");
+                UserView.chbControlsList.setSelectedIndex(2);
                 break;
         }
+
     }
 
     public static void loadFile(String s, String s1, String s2, String s3) {
