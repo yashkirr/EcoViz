@@ -55,7 +55,7 @@ public class UserView extends JFrame{
     private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lblControlPanel;
     private javax.swing.JLabel lblCurrentZoomLevel;
-    private javax.swing.JLabel lblCurrentZoomValue;
+    private static javax.swing.JLabel lblCurrentZoomValue;
     private javax.swing.JLabel lblElevationHeightMax;
     private javax.swing.JLabel lblElevationHeightMin;
     private javax.swing.JLabel lblFilters;
@@ -1203,10 +1203,16 @@ public class UserView extends JFrame{
 
     private void zoomOutButtonClick() {
         pnlVizualizer.zoomOutTenPercent();
+        lblCurrentZoomValue.setText(pnlVizualizer.getZoomPercentage());
     }
 
     private void zoomInButtonClick() {
         pnlVizualizer.zoomInTenPercent();
+        lblCurrentZoomValue.setText(pnlVizualizer.getZoomPercentage());
+    }
+
+    public static void updateZoomLevel(){
+        lblCurrentZoomValue.setText(pnlVizualizer.getZoomPercentage());
     }
 
 

@@ -167,19 +167,15 @@ public class FileLoaderDialog extends javax.swing.JDialog {
     }
 
     private void btnLoadFilesActionPerformed(ActionEvent evt) throws IOException {
-        JDialog loadingDialog = new JDialog(this.parentFrame);
+        final LoadingSplashDialog[] loadingDialog = new LoadingSplashDialog[1];
+       new Thread(new Runnable() {
+           @Override
+           public void run() {
+               loadingDialog[0] = new LoadingSplashDialog();
+               loadingDialog[0].setVisible(true);
+           }
+       }).start();
 
-        JLabel info = new JLabel("<html>" +
-                "<b>Initializing EcoViz</b>" +
-                "<br>Loading files, please wait...");
-        loadingDialog.setLayout(new GridBagLayout());
-        //loadingDialog.add((Component) UIManager.getIcon("OptionPane.informationIcon"));
-        loadingDialog.add(info);
-        loadingDialog.setSize(250, 150);
-        loadingDialog.setLocationRelativeTo(null);
-        loadingDialog.setUndecorated(true);
-        loadingDialog.setResizable(false);
-        loadingDialog.setVisible(true);
 
         this.setVisible(false);
         print("btnLoadFilesActionPerformed");
@@ -219,7 +215,7 @@ public class FileLoaderDialog extends javax.swing.JDialog {
             localController.loadFile(filePathList.get(3),"pdb");*/
 
                 localController.initializeTerrainGrid();
-                loadingDialog.dispose();
+                loadingDialog[0].dispose();
                 this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 dispose();
 

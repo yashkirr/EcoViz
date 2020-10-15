@@ -443,20 +443,34 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             zoomFactor /= 1.1;
             repaint();
         }
+        UserView.updateZoomLevel();
     }
 
     public void zoomInTenPercent(){
         zoomer = true;
         zoomWithButton = true;
-        zoomFactor *= 1.1;
+        zoomFactor = zoomFactor + 0.1;
         repaint();
     }
 
     public void zoomOutTenPercent(){
-        zoomer = true;
-        zoomWithButton = true;
-        zoomFactor /= 1.1;
-        repaint();
+        if(zoomFactor>1){
+            zoomer = true;
+            zoomWithButton = true;
+            zoomFactor = zoomFactor - 0.1;
+            repaint();
+        }else{
+            zoomer = true;
+            zoomWithButton = true;
+            zoomFactor = 1;
+            repaint();
+
+        }
+
+    }
+
+    public String getZoomPercentage(){
+        return String.format("%d%%",(int)(zoomFactor*100)-100);
     }
 
     public void setViewingThreshold(int value) {
