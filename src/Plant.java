@@ -156,6 +156,10 @@ public class Plant extends Species {
     public Ellipse2D getShape(){return this.circle;}
     public float getRad(){ return rectRad;}
 
+    public void setType(String s){
+        this.type = s;
+    }
+
     public Point getPoint(){
         return new Point(Math.round(rectX),Math.round(rectY));
     }
