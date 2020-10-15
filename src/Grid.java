@@ -80,7 +80,7 @@ public class Grid {
 
         for (int yComp = 0; yComp < dimy; yComp++) {
             for (int xComp = 0; xComp < dimx; xComp++) {
-                float norm = (terrain[yComp][xComp] - minElv)/(maxElv-minElv);
+                float norm =((terrain[yComp][xComp] - minElv)/(maxElv-minElv));
                 Color colour = new Color(norm, norm, norm, 1.0f);
                 greyscale.setRGB(xComp, yComp, colour.getRGB());
             }
@@ -90,25 +90,25 @@ public class Grid {
     public BufferedImage buildGreyscale2() {
         float maxSlope =  0;
         //float maxElv = -100000;
-        gradient = new float[dimx][dimy];
+        gradient = new float[dimy][dimx];
         float dist  = (float)Math.sqrt(2*spacing);
 
         for (int y = 0; y<dimy-1 ; y++){
             for (int x = 0 ; x<dimx-1 ; x++){
-                gradient[x][y]= Math.abs((terrain[x][y+1]+terrain[x+1][y]-2*terrain[x][y])/dist);
-                if (gradient[x][y]>maxSlope){
-                    maxSlope = gradient[x][y];
+                gradient[y][x]= Math.abs((terrain[y+1][x]+terrain[y][x+1]-2*terrain[y][x])/dist);
+                if (gradient[y][x]>maxSlope){
+                    maxSlope = gradient[y][x];
                 }
             }
             for(int x = 0; x<dimx; x++){
-                gradient[x][dimy-1]=gradient[x][dimy-2];
                 gradient[dimy-1][x]=gradient[dimy-2][x];
+                gradient[x][dimy-1]=gradient[x][dimy-2];
             }
         }
 
         for (int y = 0; y < dimy; y++) {
             for (int x = 0; x < dimx; x++) {
-                float norm = (1-(float)Math.sqrt(gradient[x][y]/(maxSlope)))*(float)0.95;//m
+                float norm = (1-(float)Math.sqrt(gradient[y][x]/(maxSlope)))*(float)0.95;//m
                 Color colour = new Color(norm, norm, norm, 1.0f);
                 greyscale.setRGB(x, y, colour.getRGB());
             }

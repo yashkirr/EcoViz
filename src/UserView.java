@@ -741,7 +741,7 @@ public class UserView extends JFrame{
                                 .addContainerGap())
         );
 
-        chbRealisticTerrain.setText("Realistic Terrain");
+        chbRealisticTerrain.setText("Gradient View");
         chbRealisticTerrain.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         chbRealisticTerrain.setIconTextGap(68);
 
