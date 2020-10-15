@@ -78,7 +78,7 @@ public class UserView extends JFrame{
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem miExit;
     private javax.swing.JMenuItem miLoadFIles;
-    private javax.swing.JMenuItem miRestart;
+    private javax.swing.JMenuItem miSave;
     private javax.swing.JPanel pnlElevationHeight;
     private javax.swing.JPanel pnlFIlters;
     private javax.swing.JPanel pnlHelp;
@@ -116,6 +116,7 @@ public class UserView extends JFrame{
     //Self-declared Variables
     public static Controller localController;
     private boolean selectedSimType = false;
+    private ArrayList<String> selectedVisibilityPlants;
     private static int windX;
     private static int windY;
 
@@ -326,7 +327,9 @@ public class UserView extends JFrame{
 
     private void setupMisc(){
         this.setLocationRelativeTo(null);
+        selectedVisibilityPlants = new ArrayList<>();
         chbControlsList.setSelectedIndex(chbControlsList.getItemCount()-1);
+        //sldRenderingThreshold.setValue(1);
     }
 
     private void chbControlsListActionPerformed() {
@@ -444,7 +447,7 @@ public class UserView extends JFrame{
         menuBar = new javax.swing.JMenuBar();
         mbFIleOption = new javax.swing.JMenu();
         miLoadFIles = new javax.swing.JMenuItem();
-        miRestart = new javax.swing.JMenuItem();
+        miSave = new javax.swing.JMenuItem();
         miExit = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -857,7 +860,7 @@ public class UserView extends JFrame{
 
         tabbedFilterPane.addTab("Plants", tabFilterPlants);
 
-        lblSelectedVisible.setText("Selected Options");
+        lblSelectedVisible.setText("Hidden Plants");
 
         pnlSelectedVis.setViewportView(lblSelectedVis);
 
@@ -1152,13 +1155,13 @@ public class UserView extends JFrame{
         });
         mbFIleOption.add(miLoadFIles);
 
-        miRestart.setText("Restart");
-        miRestart.addActionListener(new java.awt.event.ActionListener() {
+        miSave.setText("Save");
+        miSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 miRestartActionPerformed(evt);
             }
         });
-        mbFIleOption.add(miRestart);
+        mbFIleOption.add(miSave);
 
         miExit.setText("Exit");
         miExit.addActionListener(new java.awt.event.ActionListener() {
@@ -1223,6 +1226,7 @@ public class UserView extends JFrame{
     private void jListPlantSelect(ListSelectionEvent evt) {
         //set text on right here
         String s = (String) listFilterPlants.getSelectedValue();
+        updateSelectedVisibilityPlants(s);
         if(s==null){return;}
         String[][] spc = FileLoader.getSpcKey();
         for(int i=0;i<spc.length;i++){
@@ -1236,24 +1240,61 @@ public class UserView extends JFrame{
             }
         }
 
-        //UserView.pnlVizualizer.repaint();
+        updateSelectedVisibilitySettings();
         localController.updateView();
     }
     private void jListSpeciesSelect(ListSelectionEvent evt) {
         //set text on right here
         String s = (String) listFilterSpecies.getSelectedValue();
+        updateSelectedVisibilityPlants(s);
         if(s==null){return;}
         String[][] spc = FileLoader.getSpcKey();
         for(int i=0;i<spc.length;i++){
             if(s.equals(spc[i][0])&&!FileLoader.getSpcDraw()[i]){
                 FileLoader.setSpcDraw(i,true);
+
+                break;
             }
             else if(s.equals(spc[i][0])&&FileLoader.getSpcDraw()[i]){
                 FileLoader.setSpcDraw(i,false);
+                break;
+
             }
         }
-        //UserView.pnlVizualizer.repaint();
+        updateSelectedVisibilitySettings();
         localController.updateView();
+    }
+
+    /**
+     * Construct and display label on pnlSelectedVis to show selected hidden plants
+     * @author Yashkir Ramsamy
+     */
+    private void updateSelectedVisibilitySettings(){
+        String label = "";
+        for (String s:
+             selectedVisibilityPlants) {
+            if(s != null){
+                label = label+"<br>"+s;
+            }
+
+        }
+        System.out.println(label);
+        lblSelectedVis.setText("<html>"+label);
+    }
+
+    /**
+     * Used to determine whether an item has been added to the list of hidden plants
+     * remove if already added
+     * @author Yashkir Ramsamy
+     * @param s
+     */
+    private void updateSelectedVisibilityPlants(String s){
+        if(selectedVisibilityPlants.contains(s)){
+            selectedVisibilityPlants.remove(s);
+        }else{
+            selectedVisibilityPlants.add(s);
+        }
+
     }
 
     /**
