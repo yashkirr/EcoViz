@@ -131,14 +131,13 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
     @Override
     protected void paintComponent(Graphics g) {
-        //super.paintComponent(g);
+        super.paintComponent(g);
         /* If files have been loaded, set initialized to true and enable these features*/
         if (initialized) {
 
             Graphics2D g2 = (Graphics2D) g;
             if (!simRunning) {
                 if (zoomer) {
-                    setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
                     //System.out.println("Zooming");
                     at = new AffineTransform();
                     double xRel = 0.0;
@@ -237,15 +236,12 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                     getHeight(),
                     Image.SCALE_SMOOTH);
             g.drawImage(vizscaled,0,0,null);
-            //this.terrainLayer = vizscaled; //UNUSED
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void filterHeightAndCanopyRadius(int HeightValMin,int HeightValMax, int RadValMin, int RadValMax, Graphics2D g) throws IOException{
-        //System.out.println(sliderValMin);
-        //System.out.println(sliderValMax);
         double x = at.getScaleX();
         double a;
         double b;

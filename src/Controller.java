@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Vector;
 
 /**
@@ -173,10 +174,16 @@ public class Controller {
     public void initializeTerrainGrid() throws IOException {
         print("initializeTerrainGrid");
         restrictControls(false);
+        generateKey(FileLoader.getMinElevation(),FileLoader.getMaxElevation());
         UserView.pnlVizualizer.setGrid(new Grid(FileLoader.getDimx(),FileLoader.getDimy(),FileLoader.getSpacing(),FileLoader.getLatitude(), FileLoader.getTerrain()));
         updateView();
         closeLoadingScreen();
         UserView.pnlVizualizer.setPlants();
+    }
+
+    private void generateKey(double minElevation, double maxElevation) {
+        UserView.lblElevationHeightMin.setText(String.format("%.2fm",minElevation));
+        UserView.lblElevationHeightMax.setText(String.format("%.2fm",maxElevation));
     }
 
     /**
@@ -226,6 +233,36 @@ public class Controller {
         UserView.pnlVizualizer.revalidate();
         UserView.pnlVizualizer.repaint();
 
+    }
+
+    public void changeMenu(String menu){
+        CardLayout card = (CardLayout) UserView.pnlControls.getLayout();
+        switch (menu) {
+            case "Filters":
+                card.show(UserView.pnlControls,"pnlFilters");
+                break;
+            case "Visibility":
+                card.show(UserView.pnlControls,"pnlVisibility");
+                break;
+            case "Simulation":
+                card.show(UserView.pnlControls,"pnlSimulation");
+                break;
+            case "Rendering":
+                card.show(UserView.pnlControls,"pnlViewSettings");
+                break;
+            case "Legend":
+                card.show(UserView.pnlControls,"pnlLegend");
+                break;
+            case "Plant Detail":
+                card.show(UserView.pnlControls,"pnlPlantDetail");
+                break;
+            case "Help":
+                card.show(UserView.pnlControls,"pnlHelp");
+                break;
+            case "Zoom Distance":
+                card.show(UserView.pnlControls,"pnlZoom");
+                break;
+        }
     }
 
     public static void loadFile(String s, String s1, String s2, String s3) {

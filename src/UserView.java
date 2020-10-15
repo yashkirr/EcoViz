@@ -55,14 +55,13 @@ public class UserView extends JFrame{
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblControlPanel;
     private javax.swing.JLabel lblCurrentZoomLevel;
-    private javax.swing.JLabel lblElevationHeightMax;
-    private javax.swing.JLabel lblElevationHeightMin;
+
     private javax.swing.JLabel lblFilters;
     private javax.swing.JLabel lblHelp;
     private javax.swing.JLabel lblHelpGuide;
     private javax.swing.JLabel lblMaxCanopy;
     private javax.swing.JLabel lblMinCanopy;
-    private static javax.swing.JLabel lblPlantDetails;
+
     private javax.swing.JLabel lblPlantHeightSlider2;
     private javax.swing.JLabel lblPlantHeightSlider3;
     private javax.swing.JLabel lblSelectedVis;
@@ -77,7 +76,7 @@ public class UserView extends JFrame{
     private javax.swing.JMenuItem miExit;
     private javax.swing.JMenuItem miLoadFIles;
     private javax.swing.JMenuItem miRestart;
-    private javax.swing.JPanel pnlElevationHeight;
+
     private javax.swing.JPanel pnlFIlters;
     private javax.swing.JPanel pnlHelp;
     private javax.swing.JPanel pnlLegend;
@@ -113,6 +112,10 @@ public class UserView extends JFrame{
     protected static JSlider sldPlantHeightMin;
     protected static JLabel lblPlantHeightValue;
     protected static JLabel lblCurrentZoomValue;
+    protected static  javax.swing.JLabel lblElevationHeightMax;
+    protected static  javax.swing.JLabel lblElevationHeightMin;
+    protected static ElevationKeyPanel pnlElevationHeight;
+    private static javax.swing.JLabel lblPlantDetails;
 
     //Self-declared Variables
     public static Controller localController;
@@ -430,7 +433,7 @@ public class UserView extends JFrame{
         jScrollPane1 = new javax.swing.JScrollPane();
         lblPlantDetails = new javax.swing.JLabel();
         pnlLegend = new javax.swing.JPanel();
-        pnlElevationHeight = new javax.swing.JPanel();
+        pnlElevationHeight = new ElevationKeyPanel();
         lblElevationHeightMin = new javax.swing.JLabel();
         lblElevationHeightMax = new javax.swing.JLabel();
         pnlPlantLegendList = new javax.swing.JScrollPane();

@@ -53,6 +53,8 @@ public class FileLoader {
 
     private static ArrayList<ArrayList<Plant>> speciesListUnder;
     private static ArrayList<Plant> speciesListUnder1D;
+    private static double minElevation;
+    private static double maxElevation;
 
 
     public static ArrayList<ArrayList<Plant>> getCanopy(){ return speciesListCan;}
@@ -95,10 +97,18 @@ public class FileLoader {
             latitude = elvScanner.nextFloat();
             terrain = new float[dimx][dimy];
             finder = new ArrayList[(int)(dimx*spacing*10)][(int)spacing*dimy*10];
+            maxElevation = -Double.MAX_VALUE;
+            minElevation = Double.MAX_VALUE;
             while (elvScanner.hasNext()){
                 for (int y = 0;y<dimx;y++){
                     for (int x = 0; x<dimy;x++){
                         terrain[y][x] = elvScanner.nextFloat();
+                        if(terrain[y][x]>maxElevation){
+                            maxElevation=terrain[y][x];
+                        }
+                        if (terrain[y][x]<minElevation){
+                            minElevation=terrain[y][x];
+                        }
                     }
                 }
             }
@@ -494,6 +504,14 @@ public class FileLoader {
         }
 
         return Math.max(max,maxUnder);
+    }
+
+    public static double getMinElevation() {
+        return minElevation;
+    }
+
+    public static double getMaxElevation() {
+        return maxElevation;
     }
 }
 
