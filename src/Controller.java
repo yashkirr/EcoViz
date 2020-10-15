@@ -13,11 +13,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.management.ManagementFactory;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -50,15 +45,16 @@ public class Controller {
         } else if (fileType.equals("pdb")) {
             if (path.contains("undergrowth")) {
                 FileLoader.readPdbUnder(path);
-            } else if (path.contains("canopy")) {
-                FileLoader.readPdbCan(path);
+                FileLoader.convertTo1DUnder();
             }
-            System.gc(); //clean arbitrary trash to optimise performance
+            else if (path.contains("canopy")){
+                FileLoader.readPdbCan(path);
+                FileLoader.convertTo1DCan();
+            }
         }
+        System.gc(); //clean arbitrary trash to optimise performance
+
     }
-
-
-
 
     /**
      * Disables control panel and settings menu on start to restrict the user to only entering files or exiting
@@ -138,7 +134,6 @@ public class Controller {
      */
     public void initializeTerrainGrid() throws IOException {
         print("initializeTerrainGrid");
-        closeLoadingScreen();
         restrictControls(false);
         UserView.pnlVizualizer.setGrid(new Grid(FileLoader.getDimx(),FileLoader.getDimy(),FileLoader.getSpacing(),FileLoader.getLatitude(), FileLoader.getTerrain()));
         updateView();

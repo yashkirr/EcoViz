@@ -88,7 +88,6 @@ public class Plant extends Species {
         this.color = null;
     }
 
-
     /**
     * Constructor - initialises all variables to variables specified by the argument
     */
@@ -174,4 +173,16 @@ public class Plant extends Species {
     }
 
     public float getDiameter(){ return this.canopyRadius*2;}
+
+    public void setBurnt(boolean isBurnt){
+        this.isBurnt = isBurnt;
+    }
+
+    public boolean getBurnt(){
+        return isBurnt;
+    }
+
+    public Ellipse2D getCircle(){
+        return circle;
+    }
 }

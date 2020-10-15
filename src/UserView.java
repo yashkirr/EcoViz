@@ -6,7 +6,6 @@
 
 
 
-import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.*;
@@ -98,7 +97,7 @@ public class UserView extends JFrame{
     private javax.swing.JPanel pnlZoomContextMap;
     private javax.swing.JSlider sldMaxCanopyRadius;
     private javax.swing.JSlider sldMinCanopyRadius;
-    private javax.swing.JSlider sldPlantHeightMin;
+    private static javax.swing.JSlider sldPlantHeightMin;
     private javax.swing.JSpinner sldRenderingThreshold;
     private javax.swing.JScrollPane tabFilterPlants;
     private javax.swing.JScrollPane tabFilterSpecies;
@@ -119,6 +118,7 @@ public class UserView extends JFrame{
     private boolean selectedSimType = false;
     private static int windX;
     private static int windY;
+
 
     //Enum Types
     protected static enum Theme{
@@ -175,6 +175,12 @@ public class UserView extends JFrame{
         sldPlantHeight.addChangeListener(new ChangeListener(){
             public void stateChanged(ChangeEvent evt) {
                 sldPlantHeightStateChanged(evt);
+            }
+        });
+        sldPlantHeightMin.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                sldPlantHeightMinStateChanged(e);
             }
         });
 
@@ -290,6 +296,8 @@ public class UserView extends JFrame{
         });*/
 
     }
+
+
 
     private void btnDefaultThresholdActionPerformed(ActionEvent actionEvent) {
         sldRenderingThreshold.setValue(1);
@@ -1281,35 +1289,39 @@ public class UserView extends JFrame{
                             //pnlVizualizer.startFireClicked = true;
                             JButton pauseButton = new JButton("Pause");
                             JButton playButton = new JButton("Play");
-                            //JButton resetButton = new JButton("Reset");
+                            JButton resetButton = new JButton("Reset");
                             JButton stopButton = new JButton("Stop");
 
                             pauseButton.addActionListener(new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
-
+                                    pnlVizualizer.fire.paused = true;
+                                    pnlVizualizer.fire.stopped = false;
                                 }
                             });
 
                             playButton.addActionListener(new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
-
+                                    pnlVizualizer.fire.paused = false;
+                                    pnlVizualizer.fire.stopped = false;
                                 }
                             });
 
-                           /* resetButton.addActionListener(new ActionListener() {
+                            resetButton.addActionListener(new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
-                                    pnlVizualizer.paused = false;
-                                    pnlVizualizer.done = true;
+                                    pnlVizualizer.fire.paused = false;
+                                    pnlVizualizer.fire.stopped = true;
+                                    pnlVizualizer.fire.resetFireLayer();
                                 }
                             });
-                           */
+
                             stopButton.addActionListener(new ActionListener() {
                                 @Override
                                 public void actionPerformed(ActionEvent e) {
-
+                                    pnlVizualizer.fire.paused = false;
+                                    pnlVizualizer.fire.stopped = true;
                                 }
                             });
 
@@ -1348,6 +1360,7 @@ public class UserView extends JFrame{
 
     private void startFireSim() {
         pnlVizualizer.startFireClicked=true;
+
     }
 
     public static int getWindX(){
@@ -1381,17 +1394,29 @@ public class UserView extends JFrame{
     }//GEN-LAST:event_chbCanopyActionPerformed
 
     private void sldPlantHeightStateChanged(ChangeEvent evt) {
-
         JSlider source = (JSlider) evt.getSource(); //gets the event type
         pnlVizualizer.heightSliderValue = source.getValue();
         //sliders only work in integers
-        if(source.getValue()<=sldPlantHeight.getMinimum()){
+        if(source.getValue()>=sldPlantHeight.getMaximum()){
              //if slider value minimum, slider label resets to default
         }else{
             lblPlantHeightValue.setText(Double.toString(source.getValue()));
         }
         pnlVizualizer.repaint();
     }
+
+    private void sldPlantHeightMinStateChanged(ChangeEvent e) {
+        JSlider source = (JSlider) e.getSource(); //gets the event type
+        pnlVizualizer.heightMinSliderValue = source.getValue();
+        //sliders only work in integers
+        if(source.getValue()<=sldPlantHeightMin.getMinimum()){
+            //if slider value minimum, slider label resets to default
+        }else{
+            lblPlantHeightValue.setText(Double.toString(source.getValue()));
+        }
+        pnlVizualizer.repaint();
+    }
+
     //list filtration
     private void selectListSPC(ActionEvent evt){
     }
@@ -1417,9 +1442,13 @@ public class UserView extends JFrame{
 
     public static void setPlantHeightSliderValues(float min,float max){
         sldPlantHeight.setMinimum(Math.round(min-1));
-        sldPlantHeight.setValue(Math.round(min-1));
+        sldPlantHeight.setValue(Math.round(max+1));
         sldPlantHeight.setMaximum(Math.round(max+1));
+        sldPlantHeightMin.setMinimum(Math.round(min-1));
+        sldPlantHeightMin.setValue(Math.round(min-1));
+        sldPlantHeightMin.setMaximum(Math.round(max+1));
     }
+
     public static int getPlantHeightMin(){
         if (sldPlantHeight !=null) {
             return sldPlantHeight.getMinimum();
@@ -1429,7 +1458,16 @@ public class UserView extends JFrame{
         }
     }
 
-      /**
+    public static int getPlantHeightMax() {
+        if (sldPlantHeight !=null) {
+            return sldPlantHeight.getMaximum();
+        }
+        else{
+            return 10000;
+        }
+    }
+
+    /**
      * Gets Jlabel with embedded image to display on visualizer panel
      * @param
      * @throws IOException

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.Vector;
+import java.util.*;
 
 
 /**
@@ -48,7 +49,11 @@ public class FileLoader {
     private static int numSpeciesCan;
     private static int numSpeciesUnder;
     private static ArrayList<ArrayList<Plant>> speciesListCan;
+    private static ArrayList<Plant> speciesListCan1D;
+
     private static ArrayList<ArrayList<Plant>> speciesListUnder;
+    private static ArrayList<Plant> speciesListUnder1D;
+
 
     public static ArrayList<ArrayList<Plant>> getCanopy(){ return speciesListCan;}
     public static ArrayList<ArrayList<Plant>> getUnder(){ return speciesListUnder;}
@@ -350,6 +355,14 @@ public class FileLoader {
 
     public static float[][] getTerrain(){return terrain;}
 
+    public static ArrayList<Plant> getSpeciesListCan1D(){
+        return speciesListCan1D;
+    }
+
+    public static ArrayList<Plant> getSpeciesListUnder1D(){
+        return speciesListUnder1D;
+    }
+
     public static ArrayList<ArrayList<Plant>> getSpeciesListCan(){
         return speciesListCan;
     }
@@ -358,9 +371,56 @@ public class FileLoader {
         return speciesListUnder;
     }
 
+
+
+
+    public static void convertTo1DCan(){
+        speciesListCan1D = new ArrayList<Plant>();
+        Iterator i = speciesListCan.iterator();
+        Iterator j;
+
+        int count1 = 0;
+        int count2 = 0;
+
+        while (i.hasNext()){
+            j = speciesListCan.get(count1).iterator();
+            while(j.hasNext()){
+                speciesListCan1D.add(speciesListCan.get(count1).get(count2));
+
+                j.next();
+                count2++;
+            }
+
+            i.next();
+            count1++;
+            count2 = 0;
+        }
+    }
+
+    public static void convertTo1DUnder(){
+        speciesListUnder1D = new ArrayList<Plant>();
+        Iterator i = speciesListUnder.iterator();
+        Iterator j;
+
+        int count1 = 0;
+        int count2 = 0;
+
+        while (i.hasNext()){
+            j = speciesListUnder.get(count1).iterator();
+            while(j.hasNext()){
+                speciesListUnder1D.add(speciesListUnder.get(count1).get(count2));
+                count2++;
+                j.next();
+            }
+            count1++;
+            i.next();
+            count2 = 0;
+        }
+    }
     public static Color[] getSpcColor(){
         return spcColor;
     }
+
     public static int n=500;
     private static boolean first = true;
     public static BufferedImage drawIMG(Color col){
