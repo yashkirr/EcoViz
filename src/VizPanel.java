@@ -18,6 +18,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
+import java.util.Objects;
 import javax.naming.ldap.Control;
 import javax.swing.*;
 
@@ -374,7 +375,10 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             for(Plant plant : alist){
                 if (plant.getShape().contains(x,y)) {
                     theChosenOnes.add(plant);
-                    UserView.localController.changeMenu("Plant Detail");
+                    if(!Objects.requireNonNull(UserView.chbControlsList.getSelectedItem()).toString().equals("Simulation")){
+                        UserView.localController.changeMenu("Plant Detail");
+                    }
+
 
                 }
             }
@@ -384,7 +388,10 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             for (Plant plant : alist) {
                 if (plant.getShape().contains(x, y)) {
                     theChosenOnes.add(plant);
-                    UserView.localController.changeMenu("Plant Detail");
+                    if(!Objects.requireNonNull(UserView.chbControlsList.getSelectedItem()).toString().equals("Simulation")){
+                        UserView.localController.changeMenu("Plant Detail");
+                    }
+
                 }
             }
         }
