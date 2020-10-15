@@ -45,11 +45,11 @@ public class Controller {
         } else if (fileType.equals("pdb")) {
             if (path.contains("undergrowth")) {
                 FileLoader.readPdbUnder(path);
-                FileLoader.convertTo1DUnder();
+
             }
             else if (path.contains("canopy")){
                 FileLoader.readPdbCan(path);
-                FileLoader.convertTo1DCan();
+               ;
             }
         }
         System.gc(); //clean arbitrary trash to optimise performance
@@ -228,6 +228,7 @@ public class Controller {
             @Override
             public void run() {
                 FileLoader.readPdbCan(s2);
+                FileLoader.convertTo1DCan();
             }
         });
         t2.start();
@@ -235,6 +236,7 @@ public class Controller {
             @Override
             public void run() {
                 FileLoader.readPdbUnder(s3);
+                FileLoader.convertTo1DUnder();
             }
         });
         t3.start();

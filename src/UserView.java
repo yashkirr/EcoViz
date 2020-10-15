@@ -1416,6 +1416,28 @@ public class UserView extends JFrame{
         }
         pnlVizualizer.repaint();
     }
+    private void setSelectedFilterLabel(){
+        String plantHeightMax = Integer.toString(sldPlantHeight.getValue());
+        String plantHeightMin = Integer.toString(sldPlantHeightMin.getValue());
+        String canopyRadiusMin = Integer.toString(sldMinCanopyRadius.getValue());
+        String canopyRadiusMax = Integer.toString(sldMaxCanopyRadius.getValue());
+        String[] list = {plantHeightMax,plantHeightMin,canopyRadiusMax,canopyRadiusMin};
+        for(int i = 0; i<4;i++){
+            if(list[i].equals("-1")){
+                list[i] = "None";
+            }
+        }
+        String label = "<html>"+"<p><strong>Plant Height: </strong></p>\n" +
+                "<p>Max: %1$s</p>\n" +
+                "<p>Min: %2$s</p>\n" +
+                "<p><b>Range:</b> %1$s - %2$s</p>\n"+
+                "<p><strong>Canopy Radius:</strong>&nbsp;</p>\n" +
+                "<p><b>Max</b>: %3$s</p>\n" +
+                "<p><b>Min</b>: %4$s</p>"+
+                "<p><b>Range:</b> %3$s - %4$s</p>\n";
+        lblPlantHeightValue.setText(String.format(label,plantHeightMin,plantHeightMax,canopyRadiusMin,canopyRadiusMax));
+    }
+
 
     private void sldPlantHeightMinStateChanged(ChangeEvent e) {
         JSlider source = (JSlider) e.getSource(); //gets the event type
