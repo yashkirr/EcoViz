@@ -184,6 +184,18 @@ public class Controller {
     private void generateKey(double minElevation, double maxElevation) {
         UserView.lblElevationHeightMin.setText(String.format("%.2fm",minElevation));
         UserView.lblElevationHeightMax.setText(String.format("%.2fm",maxElevation));
+       String[][] key= FileLoader.getSpcKey();
+       Color[] colors = FileLoader.getSpcColor();
+        JPanel listItemPanel = new JPanel();
+        listItemPanel.setLayout(new BoxLayout(listItemPanel, BoxLayout.Y_AXIS));
+        for(int i = 0; i< key.length;i++){
+           PlantElementKeyPanel p= new PlantElementKeyPanel(colors[i],key[i][0]);
+           p.setPreferredSize(new Dimension(UserView.pnlPlantLegendList.getWidth(),100));
+           listItemPanel.add(p);
+        }
+        UserView.pnlPlantLegendList.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        UserView.pnlPlantLegendList.getViewport().add(listItemPanel);
+
 
     }
 
