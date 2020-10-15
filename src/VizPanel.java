@@ -124,7 +124,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         print("setGrid");
         this.grid = grid;
         initialized = true;
-        fire = new Fire(getWidth(),getHeight(),simStartX,simStartY,UserView.getWindX(),UserView.getWindY(),FileLoader.getSpeciesListUnder1D(),FileLoader.getSpeciesListCan1D());
+        fire = new Fire(getWidth(),getHeight(),simStartX,simStartY,UserView.getWindSpeed(),UserView.getWindDirection(),FileLoader.getSpeciesListUnder1D(),FileLoader.getSpeciesListCan1D());
     }
     private boolean first = true;
     private int check;
@@ -217,8 +217,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 Thread fireT = new Thread(fire);
                 fire.setStartX(simStartX);
                 fire.setStartY(simStartY);
-                fire.setWindX(UserView.getWindX());
-                fire.setWindY(UserView.getWindY());
+                fire.setWindX(UserView.getWindSpeed(),UserView.getWindDirection());
+                fire.setWindY(UserView.getWindSpeed(),UserView.getWindDirection());
                 fireT.start();
 
                 //fire.simulateOverGrid(g,UserView.localController);
