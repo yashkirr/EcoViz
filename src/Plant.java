@@ -19,6 +19,7 @@ import java.util.Vector;
  */
 public class Plant extends Species {
     private float height;
+    private String englishName;
     private int dimx;
     private int dimy;
     private float spacing;
@@ -35,6 +36,7 @@ public class Plant extends Species {
     private float rectRad; // for drawing, jpanel radius
     private boolean draw = true;
     public AffineTransform at;
+    private String latinName;
 
     /**
     *default constructor
@@ -71,21 +73,6 @@ public class Plant extends Species {
         circle.setFrame(this.rectX, this.rectY,rectRad*2,rectRad*2);
         float[] f = {this.getRad()*2/FileLoader.n, 0, 0, this.getRad()*2/FileLoader.n, this.getRectX(), this.getRectY()};
         this.at = new AffineTransform(f);
-    }
-
-    /**
-    * Constructor - initialises all variables to variables specified by the argument
-    */
-    public Plant(float height, float age, float canopyRadius, Vector location, String type, boolean isBurnt) {
-        this.height = height;
-        this.age = age;
-        this.canopyRadius = canopyRadius;
-        this.pos = location;
-        this.type = type;
-        this.isBurnt = isBurnt;
-        this.circle = new Ellipse2D.Float();
-        circle.setFrame((float) pos.get(0),(float) pos.get(1),2,2);
-        this.color = null;
     }
 
     /**
@@ -138,6 +125,8 @@ public class Plant extends Species {
     */
     public HashMap<String,Object> detail(){
         HashMap<String,Object> plantDetail = new HashMap<String,Object>();
+        plantDetail.put("englishName",englishName);
+        plantDetail.put("latinName",latinName);
         plantDetail.put("height", height);
         plantDetail.put("age", age);
         plantDetail.put("canopyRadius", canopyRadius);
@@ -192,5 +181,21 @@ public class Plant extends Species {
 
     public float getCanopyRadius(){
         return canopyRadius;
+    }
+
+    public void setEnglishName(String name) {
+        this.englishName = name;
+    }
+
+    public String getEnglishName() {
+        return englishName;
+    }
+
+    public void setLatinName(String latinName) {
+        this.latinName = latinName;
+    }
+
+    public String getLatinName() {
+        return latinName;
     }
 }

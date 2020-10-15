@@ -205,8 +205,10 @@ public class FileLoader {
                     Plant plant = new Plant(v, height, radius, dimx, dimy, spacing, pnlWidth, pnlHeight);
                     plant.setColor(spcColor[i]);
                     plant.setType("Canopy");
-                    plantList.add(plant);
                     plant.setID(s.getID());
+                    plant.setEnglishName(spcKey[plant.getID()][0]);
+                    plant.setLatinName(spcKey[plant.getID()][1]);
+                    plantList.add(plant);
                     totalCan++;
                 }
                 speciesListCan.add(plantList);
@@ -264,8 +266,10 @@ public class FileLoader {
                     Plant plant = new Plant(v, height, radius, dimx, dimy, spacing, pnlWidth, pnlHeight);
                     plant.setColor(spcColor[i]);
                     plant.setType("Undergrowth");
-                    plantList.add(plant);
                     plant.setID(s.getID());
+                    plant.setEnglishName(spcKey[plant.getID()][0]);
+                    plant.setLatinName(spcKey[plant.getID()][1]);
+                    plantList.add(plant);
                     totalUnder++;
                 }
                 speciesListUnder.add(plantList);

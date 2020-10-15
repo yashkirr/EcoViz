@@ -13,6 +13,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Vector;
 
 /**
  *
@@ -34,6 +36,41 @@ public class Controller {
     public Controller() {
 
     }
+
+    public static void updatePlantDetailText(ArrayList<Plant> theChosenOnes) {
+        String finalList ="";
+        for (Plant plant:
+             theChosenOnes) {
+            String template = "<hr />\n" +
+                    "<p><strong>English Name: </strong></p>\n" +
+                    "<p>%1$s</p>\n" +
+                    "<p><strong>Latin Name:</strong></p>\n" +
+                    "<p>%2$s</p>\n" +
+                    "<p><strong>Type:</strong></p>\n" +
+                    "<p>%3$s</p>\n" +
+                    "<p><strong>Location:</strong></p>\n" +
+                    "<p>%4$s</p>\n" +
+                    "<p><strong>Canopy Radius Size:&nbsp;</strong></p>\n" +
+                    "<p>%5$.2f</p>\n" +
+                    "<p><strong>Age:</strong></p>\n" +
+                    "<p>%6$.1f</p>\n" +
+                    "<p><strong>Height:</strong></p>\n" +
+                    "<p>%7$.2f</p>\n" +
+                    "<hr />";
+           String englishName = (String) plant.detail().get("englishName");
+           String latinName= (String) plant.detail().get("latinName");
+            float height= (float) plant.detail().get("height");
+           float age= (float) plant.detail().get("age");
+            float canopyRadius= (float) plant.detail().get("canopyRadius");
+            Vector<Float> location = (Vector<Float>) plant.detail().get("location");
+            String type= (String) plant.detail().get("type");
+
+            String currentPlant = String.format(template,englishName,latinName,type,location.toString(),canopyRadius,age,height);
+            finalList = finalList + "<br>"+currentPlant;
+        }
+        UserView.setLblPlantDetails("<html>"+finalList);
+    }
+
     /**
     * Connects FileLoader to FileLoaderDialog
     */

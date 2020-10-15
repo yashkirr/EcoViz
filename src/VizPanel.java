@@ -361,11 +361,12 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         double x = (location.getX()-at.getTranslateX())/at.getScaleX();
         double y = (location.getY()-at.getTranslateY())/at.getScaleY();
 
+        ArrayList<Plant> theChosenOnes = new ArrayList<>();
+
         for(ArrayList<Plant> alist : undergrowthList){
             for(Plant plant : alist){
                 if (plant.getShape().contains(x,y)) {
-                    System.out.println("Undergrowth: "+FileLoader.getSpcKey()[plant.getID()][0]);
-                    System.out.println(plant.detail().toString());
+                    theChosenOnes.add(plant);
                 }
             }
         }
@@ -373,10 +374,13 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         for(ArrayList<Plant> alist : canopyList) {
             for (Plant plant : alist) {
                 if (plant.getShape().contains(x, y)) {
-                    System.out.println("Canopy: "+FileLoader.getSpcKey()[plant.getID()][0]);
+                    theChosenOnes.add(plant);
                 }
             }
         }
+
+        Controller.updatePlantDetailText(theChosenOnes);
+
     }
 
 
