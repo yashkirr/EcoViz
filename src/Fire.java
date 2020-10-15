@@ -146,22 +146,26 @@ public class Fire extends Thread{
 //        burn.start();
     }
     public void burn(int x, int y){
-
+        gBurn.setColor(new Color(255,0,0));
+        double start = System.nanoTime();
+        double stop = System.nanoTime();
 
 //        pixel(x,y);
 //        gBurn.drawImage(getImage(), 0, 0, null);
         for(int r=0; r<200; r++) {
-            System.out.println("check");
-            for(int xPix = -r; xPix<=r; xPix++) {
-                for(int yPix = -r; yPix<=r; yPix++) {
-                    System.out.println("alpha: "+(int) Math.sqrt(xPix*xPix + yPix*yPix)+" for radius: "+r);
-                    if ((int) Math.sqrt(xPix*xPix + yPix*yPix) == r) {
-                        System.out.println("Drawing");
-                        fireLayer.setRGB(x+xPix, y+yPix, Color.red.getRGB());
-                        gBurn.drawImage(Fire.fireLayer, 0, 0, null);
-                    }
-                }
-            }
+            start = System.nanoTime();
+            gBurn.drawOval(x-r,y-r,2*r,2*r);
+            stop = System.nanoTime();
+            System.out.println("stop-start");
+//            for(int xPix = -r; xPix<=r; xPix++) {
+//                for(int yPix = -r; yPix<=r; yPix++) {
+//                    if ((int) Math.sqrt(xPix*xPix + yPix*yPix) == r) {
+////                        fireLayer.setRGB(x+xPix, y+yPix, Color.red.getRGB());
+////                        gBurn.drawImage(Fire.fireLayer, 0, 0, null);
+//                        gBurn.drawLine(x+xPix,y+yPix,x+xPix,y+yPix);
+//                    }
+//                }
+//            }
         }
     }
 

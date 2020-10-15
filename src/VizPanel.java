@@ -362,8 +362,10 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         //System.out.println(simStartX);
         //System.out.println(simStartY);
         simStartY = mouseEvent.getY();
-        fire.setStartX(simStartX);
-        fire.setStartY(simStartY);
+        if(fire!=null) {
+            fire.setStartX(simStartX);
+            fire.setStartY(simStartY);
+        }
 
         Point location = mouseEvent.getPoint();
         double x = (location.getX()-at.getTranslateX())/at.getScaleX();
