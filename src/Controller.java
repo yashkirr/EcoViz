@@ -105,24 +105,25 @@ public class Controller {
     }
 
     /**
-    *Utility method for detecting if dialog is open that is needed to be closed.
-    *Creates a new timer thread to emulate loading time
-    */
-    private static void closeLoadingScreen() {
-      //  ActionListener close = (ActionEvent e) -> {
-            Window[] windows = Window.getWindows();
-            for (Window window : windows) {
-                if (window instanceof JDialog) {
-                    JDialog dialog = (JDialog) window;
-                    if (dialog.getContentPane().getComponentCount() == 1
-                            && dialog.getContentPane().getComponent(0) instanceof JOptionPane){
-                        dialog.dispose();
-                    }
+     *Utility method for detecting if dialog is open that is needed to be closed.
+     *Creates a new timer thread to emulate loading time
+     */
+    public static void closeLoadingScreen() {
+        //  ActionListener close = (ActionEvent e) -> {
+        Window[] windows = Window.getWindows();
+        for (Window window : windows) {
+            if (window instanceof JDialog) {
+                JDialog dialog = (JDialog) window;
+                if (dialog.getContentPane().getComponentCount() == 1
+                        && dialog.getContentPane().getComponent(0) instanceof JOptionPane){
+                    dialog.dispose();
                 }
             }
-       // };
+        }
+        // };
 
     }
+
 
     public void print(String s){
         System.out.println("Controller: "+s);
@@ -137,6 +138,7 @@ public class Controller {
         restrictControls(false);
         UserView.pnlVizualizer.setGrid(new Grid(FileLoader.getDimx(),FileLoader.getDimy(),FileLoader.getSpacing(),FileLoader.getLatitude(), FileLoader.getTerrain()));
         updateView();
+        closeLoadingScreen();
         UserView.pnlVizualizer.setPlants();
     }
 
@@ -189,7 +191,7 @@ public class Controller {
 
     }
 
-    public void loadFile(String s, String s1, String s2, String s3) {
+    public static void loadFile(String s, String s1, String s2, String s3) {
        /* 0: .elv
         1: .spc
         2: .pdb (canopy)
