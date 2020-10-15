@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,6 +18,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.stream.Stream;
 import javax.swing.*;
@@ -91,6 +94,7 @@ public class FileLoaderDialog extends javax.swing.JDialog {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
                     btnLoadFilesActionPerformed(evt);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -167,16 +171,6 @@ public class FileLoaderDialog extends javax.swing.JDialog {
     }
 
     private void btnLoadFilesActionPerformed(ActionEvent evt) throws IOException {
-        final LoadingSplashDialog[] loadingDialog = new LoadingSplashDialog[1];
-       new Thread(new Runnable() {
-           @Override
-           public void run() {
-               loadingDialog[0] = new LoadingSplashDialog();
-               loadingDialog[0].setVisible(true);
-           }
-       }).start();
-
-
         this.setVisible(false);
         print("btnLoadFilesActionPerformed");
         dataDirectory = txtDirectoryInput.getText();
@@ -197,29 +191,33 @@ public class FileLoaderDialog extends javax.swing.JDialog {
             3: .pdb (undergrowth)
 
              */
-            long startTime = System.nanoTime();
-           localController.loadFile(filePathList.get(0), filePathList.get(1),filePathList.get(2),filePathList.get(3));
-            /*localController.loadFile(filePathList.get(0),"elv");
-            localController.loadFile(filePathList.get(1),"spc");
-            localController.loadFile(filePathList.get(2),"pdb");
-            localController.loadFile(filePathList.get(3),"pdb");*/
-            long endTime = System.nanoTime();
-
-            long duration = (endTime - startTime);
-            System.out.println(duration/1000000);
-
-            /*
-            localController.loadFIle(filePathList.get(0),"elv");
-            localController.loadFile(filePathList.get(1),"spc");
-            localController.loadFile(filePathList.get(2),"pdb");
-            localController.loadFile(filePathList.get(3),"pdb");*/
-
-                localController.initializeTerrainGrid();
-                loadingDialog[0].dispose();
-                this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                dispose();
-
-
+            LoadingSplashDialog loadingSplashDialog = new LoadingSplashDialog();
+            loadingSplashDialog.setVisible(true);
+            FileLoadingWorker fileLoadingWorker = new FileLoadingWorker(filePathList);
+            fileLoadingWorker.addPropertyChangeListener(new PropertyChangeListener() {
+                @Override
+                public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+                    System.out.println(propertyChangeEvent.getPropertyName());
+                    Object value = propertyChangeEvent.getNewValue();
+                    if (value instanceof SwingWorker.StateValue) {
+                        SwingWorker.StateValue state = (SwingWorker.StateValue) value;
+                        switch (state) {
+                            case DONE: {
+                                try {
+                                    fileLoadingWorker.get();
+                                    localController.initializeTerrainGrid();
+                                    loadingSplashDialog.dispose();
+                                } catch (InterruptedException | ExecutionException | IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            });
+            fileLoadingWorker.execute();
+            dispose();
 
         }catch(IOException e){
             JOptionPane.showMessageDialog(this,"Please check the directory contents for correctness.",
