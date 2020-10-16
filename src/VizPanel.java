@@ -304,14 +304,17 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                                 if (HeightValMin <= plant.getHeight() && HeightValMax >= plant.getHeight() && RadValMin<=plant.getCanopyRadius()
                                         && RadValMax>=plant.getCanopyRadius() && a + z >= 0 && a <= getWidth() && b + z >= 0 && b <= getHeight()) {
                                     if (c > viewingThreshold) {
+                                        g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
                                         if(UserView.viewingPlantsWithinRadius){
                                             circle = new Ellipse2D.Float();
-
-                                            circle.setFrame(mcX,mcY,withinRad*2,withinRad*2);
+                                            double newX = mcX - (withinRad*2) / 2.0;
+                                            double newY = mcY - (withinRad*2) / 2.0;
+                                            g.setColor(Color.red);
+                                            circle.setFrame(newX,newY,withinRad*2,withinRad*2);
                                             g.fill(circle);
                                             UserView.viewingPlantsWithinRadius = false;
                                         }
-                                        g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
+
 
 //
                                     }
@@ -358,14 +361,17 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
                                     if (c > viewingThreshold) {
                                         //draw large
+                                        g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
                                         if(UserView.viewingPlantsWithinRadius){
                                             circle = new Ellipse2D.Float();
-
-                                            circle.setFrame(mcX,mcY,withinRad*2,withinRad*2);
+                                            double newX = mcX - (withinRad*2) / 2.0;
+                                            double newY = mcY - (withinRad*2) / 2.0;
+                                            g.setColor(Color.red);
+                                            circle.setFrame(newX,newY,withinRad*2,withinRad*2);
                                             g.fill(circle);
                                             UserView.viewingPlantsWithinRadius = false;
                                         }
-                                        g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
+
                                     }
                                 }
 
