@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.TableHeaderUI;
 
 /**
  *
@@ -55,14 +56,13 @@ public class UserView extends JFrame{
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblControlPanel;
     private javax.swing.JLabel lblCurrentZoomLevel;
-    private javax.swing.JLabel lblElevationHeightMax;
-    private javax.swing.JLabel lblElevationHeightMin;
+
     private javax.swing.JLabel lblFilters;
     private javax.swing.JLabel lblHelp;
     private javax.swing.JLabel lblHelpGuide;
     private javax.swing.JLabel lblMaxCanopy;
     private javax.swing.JLabel lblMinCanopy;
-    private static javax.swing.JLabel lblPlantDetails;
+
     private javax.swing.JLabel lblPlantHeightSlider2;
     private javax.swing.JLabel lblPlantHeightSlider3;
     private javax.swing.JLabel lblSelectedVis;
@@ -77,14 +77,14 @@ public class UserView extends JFrame{
     private javax.swing.JMenuItem miExit;
     private javax.swing.JMenuItem miLoadFIles;
     private javax.swing.JMenuItem miRestart;
-    private javax.swing.JPanel pnlElevationHeight;
+
     private javax.swing.JPanel pnlFIlters;
     private javax.swing.JPanel pnlHelp;
     private javax.swing.JPanel pnlLegend;
     private javax.swing.JPanel pnlPlantDetail;
     private javax.swing.JPanel pnlPlantDetailControls;
     private javax.swing.JPanel pnlPlantDetailsLabel;
-    private javax.swing.JScrollPane pnlPlantLegendList;
+
     private javax.swing.JPanel pnlSelectedFilters;
     private javax.swing.JScrollPane pnlSelectedVis;
     private javax.swing.JPanel pnlSimControls;
@@ -113,6 +113,11 @@ public class UserView extends JFrame{
     protected static JSlider sldPlantHeightMin;
     protected static JLabel lblPlantHeightValue;
     protected static JLabel lblCurrentZoomValue;
+    protected static  javax.swing.JLabel lblElevationHeightMax;
+    protected static  javax.swing.JLabel lblElevationHeightMin;
+    protected static ElevationKeyPanel pnlElevationHeight;
+    protected static javax.swing.JScrollPane pnlPlantLegendList;
+    private static javax.swing.JLabel lblPlantDetails;
 
     //Self-declared Variables
     public static Controller localController;
@@ -120,7 +125,7 @@ public class UserView extends JFrame{
     private static int windSpeed;
     private static int windDirection;
     private ArrayList<String> selectedVisibilityPlants;
-
+    private boolean viewingPlantsWithinRadius;
 
 
     //Enum Types
@@ -152,8 +157,12 @@ public class UserView extends JFrame{
                 component.setBackground(new Color(56,60,74));
                 component.setForeground(new Color(255,255,255));
             }
-        }else{
-
+        }else if(theme == Theme.LIGHT_MODE){
+            for (Component component:
+                    components) {
+                component.setBackground(new Color(242,242,242));
+                component.setForeground(new Color(0,0,0));
+            }
         }
 
     }
@@ -250,6 +259,20 @@ public class UserView extends JFrame{
             }
         });
 
+        jButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                jButton1ActionPerformed(actionEvent);
+            }
+        });
+
+        btnViewPlantsWithinRadius.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                btnViewPlantsWithinRadiusActionPeformed(actionEvent);
+            }
+        });
+
         /* ComboBox */
 
         chbControlsList.addActionListener(new ActionListener() {
@@ -309,6 +332,21 @@ public class UserView extends JFrame{
             }
         });*/
 
+    }
+
+    private void btnViewPlantsWithinRadiusActionPeformed(ActionEvent actionEvent) {
+        viewingPlantsWithinRadius = true;
+        pnlVizualizer.plantWithinRadVal = Integer.valueOf(txtRadius.getText());
+        jButton1.setEnabled(true);
+        localController.updateView();
+    }
+
+    private void jButton1ActionPerformed(ActionEvent actionEvent) {
+        viewingPlantsWithinRadius = false;
+        txtRadius.setText("0");
+        pnlVizualizer.plantWithinRadVal = 0;
+        jButton1.setEnabled(false);
+        localController.updateView();
     }
 
 
@@ -423,6 +461,7 @@ public class UserView extends JFrame{
         pnlPlantDetail = new javax.swing.JPanel();
         pnlPlantDetailControls = new javax.swing.JPanel();
         txtRadius = new javax.swing.JTextField();
+        txtRadius.setText("0");
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         btnViewPlantsWithinRadius = new javax.swing.JButton();
@@ -430,7 +469,7 @@ public class UserView extends JFrame{
         jScrollPane1 = new javax.swing.JScrollPane();
         lblPlantDetails = new javax.swing.JLabel();
         pnlLegend = new javax.swing.JPanel();
-        pnlElevationHeight = new javax.swing.JPanel();
+        pnlElevationHeight = new ElevationKeyPanel();
         lblElevationHeightMin = new javax.swing.JLabel();
         lblElevationHeightMax = new javax.swing.JLabel();
         pnlPlantLegendList = new javax.swing.JScrollPane();
@@ -1127,8 +1166,31 @@ public class UserView extends JFrame{
         pnlControls.add(pnlZoom, "pnlZoom");
 
         menuBar.setName(""); // NOI18N
-
+        JMenu mbPreferencesOption = new JMenu();
+        mbPreferencesOption.setText("Preferences");
+        JMenu miTheme = new JMenu();
+        miTheme.setText("Theme");
+        mbPreferencesOption.add(miTheme);
+        JMenuItem darkMode = new JMenuItem();
+        darkMode.setText("Dark");
+        JMenuItem lightMode = new JMenuItem();
+        lightMode.setText("Light");
+        miTheme.add(darkMode);
+        miTheme.add(lightMode);
+        darkMode.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                setTheme(Theme.DARK_MODE);
+            }
+        });
+        lightMode.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                setTheme(Theme.LIGHT_MODE);
+            }
+        });
         mbFIleOption.setText("File");
+
 
         miLoadFIles.setText("Load Files");
         miLoadFIles.addActionListener(new java.awt.event.ActionListener() {
@@ -1155,7 +1217,7 @@ public class UserView extends JFrame{
         mbFIleOption.add(miExit);
 
         menuBar.add(mbFIleOption);
-
+        menuBar.add(mbPreferencesOption);
         setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1405,8 +1467,6 @@ public class UserView extends JFrame{
     private void startFireSim() {
         Thread fire = new Thread(pnlVizualizer.fire);
 
-        pnlVizualizer.fire.setStartX(pnlVizualizer.simStartX);
-        pnlVizualizer.fire.setStartY(pnlVizualizer.simStartY);
         pnlVizualizer.fire.setWindX(UserView.getWindSpeed(),UserView.getWindDirection());
         pnlVizualizer.fire.setWindY(UserView.getWindSpeed(),UserView.getWindDirection());
         pnlVizualizer.startFireClicked=true;
@@ -1462,9 +1522,10 @@ public class UserView extends JFrame{
         String plantHeightMin = Integer.toString(sldPlantHeightMin.getValue());
         String canopyRadiusMin = Integer.toString(sldMinCanopyRadius.getValue());
         String canopyRadiusMax = Integer.toString(sldMaxCanopyRadius.getValue());
-        String[] list = {plantHeightMax,plantHeightMin,canopyRadiusMax,canopyRadiusMin};
+        String[] list = {plantHeightMin,plantHeightMax,canopyRadiusMin,canopyRadiusMax};
         for(int i = 0; i<4;i++){
-            if(list[i].equals("-1")){
+
+            if(list[i].equals("-1")|| list[i].equals("0")){
                 list[i] = "None";
             }
         }
@@ -1472,11 +1533,12 @@ public class UserView extends JFrame{
                 "<p>Min: %1$s</p>\n" +
                 "<p>Max: %2$s</p>\n" +
                 "<p><b>Range:</b> %1$s - %2$s</p>\n"+
+                "<br>\n"+
                 "<p><strong>Canopy Radius:</strong>&nbsp;</p>\n" +
                 "<p><b>Min</b>: %3$s</p>\n" +
                 "<p><b>Max</b>: %4$s</p>"+
                 "<p><b>Range:</b> %3$s - %4$s</p>\n";
-        lblPlantHeightValue.setText(String.format(label,plantHeightMin,plantHeightMax,canopyRadiusMin,canopyRadiusMax));
+        lblPlantHeightValue.setText(String.format(label,list[0],list[1],list[2],list[3]));
     }
 
     public static void setFilterLabel(String s){

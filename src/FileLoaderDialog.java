@@ -55,6 +55,7 @@ public class FileLoaderDialog extends javax.swing.JDialog {
         parentFrame = parent;
         initComponents();
         this.setLocationRelativeTo(null);
+        btnLoadFiles.setEnabled(false);
         localController = new Controller();
         this.setResizable(false);
     }
@@ -159,7 +160,7 @@ public class FileLoaderDialog extends javax.swing.JDialog {
             System.out.println("getSelectedFile() : "
                     +  chooser.getSelectedFile());
             txtDirectoryInput.setText(chooser.getSelectedFile().toString());
-
+            btnLoadFiles.setEnabled(true);
         }
         else {
             System.out.println("No Selection ");
@@ -224,7 +225,8 @@ public class FileLoaderDialog extends javax.swing.JDialog {
                     "Error",JOptionPane.WARNING_MESSAGE);
         }
         catch(Exception e){
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(this,"Please ensure that you have selected a directory with the relevant files.",
+                    "Error",JOptionPane.WARNING_MESSAGE);
         }
     }
 

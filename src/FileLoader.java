@@ -53,6 +53,8 @@ public class FileLoader {
 
     private static ArrayList<ArrayList<Plant>> speciesListUnder;
     private static ArrayList<Plant> speciesListUnder1D;
+    private static double minElevation;
+    private static double maxElevation;
 
 
     public static ArrayList<ArrayList<Plant>> getCanopy(){ return speciesListCan;}
@@ -94,15 +96,23 @@ public class FileLoader {
             spacing = elvScanner.nextFloat();
             latitude = elvScanner.nextFloat();
             terrain = new float[dimx][dimy];
-            Grid.setBlockDIm(dimx,dimy);
+            BlockGrid.setBlockDIm(dimx,dimy);
             Fire.dimX = dimx;
             Fire.dimY = dimy;
             finder = new ArrayList[(int)(dimx*spacing*10)][(int)spacing*dimy*10];
+            maxElevation = -Double.MAX_VALUE;
+            minElevation = Double.MAX_VALUE;
             while (elvScanner.hasNext()){
                 for (int y = 0;y<dimx;y++){
                     for (int x = 0; x<dimy;x++){
                         terrain[y][x] = elvScanner.nextFloat();
-                        Grid.getGrid()[x][y] = new Block(terrain[y][x], x, y);
+                        BlockGrid.getGrid()[x][y] = new Block(terrain[y][x], x, y);
+                        if(terrain[y][x]>maxElevation){
+                            maxElevation=terrain[y][x];
+                        }
+                        if (terrain[y][x]<minElevation){
+                            minElevation=terrain[y][x];
+                        }
                     }
                 }
             }
@@ -213,13 +223,19 @@ public class FileLoader {
                     plant.setEnglishName(spcKey[plant.getID()][0]);
                     plant.setLatinName(spcKey[plant.getID()][1]);
                     plantList.add(plant);
-                    int r = (int)Math.ceil(radius);
-                    for(int t = 1-r; t<r; t++){
-                        for(int n = 1-r; n<r; n++){
-                            if(n+t>=r && n*n+t*t<r*r){
-                                Grid.getBlock(t,n).canopy.add(plant);
+                    int X = Math.round(x);
+                    int Y = Math.round(y);
+                    int r = (int)Math.ceil(radius/spacing);
+                    for(int t = 1-r; t<r && t<pnlWidth; t++){
+                        for(int n = 1-r; n<r && t<pnlHeight; n++){
+                            if(t>=0 && t<pnlWidth && n>=0 && n<pnlHeight) {
+                                if (n + t >= r && n * n + t * t < r * r) {
+                                    BlockGrid.getBlock(t+X, n+Y).canopy.add(plant);
+
+                                } else if (n + t < r) {
+                                    BlockGrid.getBlock(t+X, n+Y).canopy.add(plant);
+                                }
                             }
-                            else if(n+t<r){Grid.getBlock(t,n).canopy.add(plant);}
                         }
                     }
                     //Grid.getBlock(Math.round(x), Math.round(y)).canopy.add(plant);
@@ -284,13 +300,19 @@ public class FileLoader {
                     plant.setEnglishName(spcKey[plant.getID()][0]);
                     plant.setLatinName(spcKey[plant.getID()][1]);
                     plantList.add(plant);
-                    int r = (int)Math.ceil(radius);
-                    for(int t = 1-r; t<r; t++){
-                        for(int n = 1-r; n<r; n++){
-                            if(n+t>=r && n*n+t*t<r*r){
-                                Grid.getBlock(t,n).undergrowth.add(plant);
+                    int X = Math.round(x);
+                    int Y = Math.round(y);
+                    int r = (int)Math.ceil(radius/spacing);
+                    for(int t = 1-r; t<r && t<pnlWidth; t++){
+                        for(int n = 1-r; n<r && t<pnlHeight; n++){
+                            if(t>=0 && t<pnlWidth && n>=0 && n<pnlHeight) {
+                                if (n + t >= r && n * n + t * t < r * r) {
+                                    BlockGrid.getBlock(t+X, n+Y).undergrowth.add(plant);
+
+                                } else if (n + t < r) {
+                                    BlockGrid.getBlock(t+X, n+Y).undergrowth.add(plant);
+                                }
                             }
-                            else if(n+t<r){Grid.getBlock(t,n).undergrowth.add(plant);}
                         }
                     }
                     //Grid.getBlock(Math.round(x), Math.round(y)).undergrowth.add(plant);
@@ -518,6 +540,14 @@ public class FileLoader {
         }
 
         return Math.max(max,maxUnder);
+    }
+
+    public static double getMinElevation() {
+        return minElevation;
+    }
+
+    public static double getMaxElevation() {
+        return maxElevation;
     }
 }
 

@@ -50,7 +50,7 @@ public Fire(int pnlWidth,int pnlHeight, int sx, int sy, int wS, int wD, ArrayLis
         this.pnlWidth = pnlWidth;
         this.pnlHeight = pnlHeight;
         scale = (float)pnlWidth/(float)dimX;
-        scaleInt = Math.round(scale);
+        scaleInt = (int)Math.ceil(scale);
     }
 
     public void setFire(int x, int y, boolean burning){
@@ -153,31 +153,137 @@ public Fire(int pnlWidth,int pnlHeight, int sx, int sy, int wS, int wD, ArrayLis
     }
     public void blockBurn(int x, int y){
         burning.add(new int[]{x,y});
-        Grid.getBlock(x,y).unburnt = false;
+        BlockGrid.getBlock(x,y).unburnt = false;
         gBurn.fillRect(Math.round(x*scale),Math.round(y*scale),scaleInt,scaleInt);
-        //fireLayer.setRGB(x,y,Color.red.getRGB());
+//        fireLayer.setRGB(Math.round(x*scale),Math.round(y*scale),scaleInt,scaleInt, Color.red.getRGB());
+//        fireLayer.createGraphics()
+
 
     }
+    int wN = 0;
+    int wE = 0;
+    int wS = 0;
+    int wW= 0;
+    public int probE(){
+        if(windX==0) return 1;
+        else if(windX>0) {
+            if (wE * wE + Math.abs(windY)/6 > windX) {
+                wE = 0;
+                return 0;
+            } else
+                wE += wE;
+                return 1;
+        }
+        else {
+            if(wE*wE - Math.abs(windY)/2 < (windX)){
+                wE += wE;
+                return 0;
+            } else
+                wE = 0;
+                return 1;
+        }
+    }
+    public int probW(){
+        if(windX==0) return 1;
+        else if(windX<0) {
+            if (wW * wW + Math.abs(windY)/6 > -windX) {
+                wW = 0;
+                return 0;
+            } else
+                wW += wW;
+            return 1;
+        }
+        else {
+            if(wW*wW - Math.abs(windY)/2 < -(windX)){
+                wW += wW;
+                return 0;
+            } else
+                wW = 0;
+            return 1;
+        }
+    }
+    public int probN(){
+        if(windY==0) return 1;
+        else if(windY>0) {
+            if (wN * wN + Math.abs(windX)/6 > windY) {
+                wN = 0;
+                return 0;
+            } else
+                wN += wN;
+            return 1;
+        }
+        else {
+            if(wN*wN - Math.abs(windX)/2 < (windY)){
+                wN += wN;
+                return 0;
+            } else
+                wN = 0;
+            return 1;
+        }
+    }
+    public int probS(){
+        if(windY==0) return 1;
+        else if(windY<0) {
+            if (wS * wS + Math.abs(windX)/6 > -windY) {
+                wS = 0;
+                return 0;
+            } else
+                wS += wS;
+            return 1;
+        }
+        else {
+            if(wS*wS - Math.abs(windX)/2 < -(windY)){
+                wS += wS;
+                return 0;
+            } else
+                wS = 0;
+            return 1;
+        }
+    }
+    long start;
+    long stop;
     public void burn(int x, int y){
         running = true;
-        gBurn.setColor(new Color(255,0,0));
+        gBurn.setColor(new Color(255,0,0,180));
         blockBurn(x,y);
+        int a = 0;
 
         while(running){
+            start = System.currentTimeMillis();
             ArrayList<int[]> burningCache = (ArrayList<int[]>)burning.clone();
             for(int[] block: burningCache){
-                if(block[0]>0 && Grid.getBlock(block[0]-1,block[1]).unburnt) {blockBurn(block[0] - 1, block[1]);
+                if(block[0]>0 && BlockGrid.getBlock(block[0]-1,block[1]).unburnt) {blockBurn(block[0] - probW(), block[1]);
                 }
-                if(block[1]>0 && Grid.getBlock(block[0],block[1]-1).unburnt){blockBurn(block[0], block[1] - 1);
+                if(block[1]>0 && BlockGrid.getBlock(block[0],block[1]-1).unburnt){blockBurn(block[0], block[1] - probN());
                 }
-                if(block[0]<dimX-1 && Grid.getBlock(block[0]+1,block[1]).unburnt){
-                    blockBurn(block[0] + 1, block[1]);
+                if(block[0]<dimX-1 && BlockGrid.getBlock(block[0]+1,block[1]).unburnt){
+                    blockBurn(block[0] + probE(), block[1]);
                 }
-                if(block[1]<dimY-1 && Grid.getBlock(block[0],block[1]+1).unburnt){
-                    blockBurn(block[0], block[1] + 1);
+                if(block[1]<dimY-1 && BlockGrid.getBlock(block[0],block[1]+1).unburnt){
+                    blockBurn(block[0], block[1] + probS());
+                }
+                //CHECK DIAGONAL CASE
+                if(a==5) {
+                    if (block[0] > 0 && block[1]>0 && BlockGrid.getBlock(block[0] - 1, block[1] - 1).unburnt) {
+                        blockBurn(block[0] - probW(), block[1] - probN());
+                    }
+                    if (block[0] < dimX - 1 && block[1] > 0 && BlockGrid.getBlock(block[0] + 1, block[1] - 1).unburnt) {
+                        blockBurn(block[0] + probE(), block[1] - probN());
+                    }
+                    if (block[0] < dimX - 1 && block[1] < dimY - 1 && BlockGrid.getBlock(block[0] + 1, block[1] + 1).unburnt) {
+                        blockBurn(block[0] + probE(), block[1] + probS());
+                    }
+                    if (block[0] > 0 && block[1] < dimY - 1 && BlockGrid.getBlock(block[0] - 1, block[1] + 1).unburnt) {
+                        blockBurn(block[0] - probW(), block[1] + probS());
+                    }
+                    a = 0;
                 }
                 burning.remove(block);
+                a++;
             }
+            stop = System.currentTimeMillis();
+            try{ this.sleep(80 - stop + start);}
+            catch(Exception e) {}
         }
         double start = System.nanoTime();
         double stop = System.nanoTime();

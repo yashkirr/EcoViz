@@ -19,6 +19,8 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
+import java.util.Objects;
+import javax.naming.ldap.Control;
 import javax.swing.*;
 
 public class VizPanel extends JPanel implements MouseWheelListener, MouseListener, MouseMotionListener {
@@ -68,6 +70,9 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     private boolean simRunning;
     private double viewingThreshold = 0.001;// if plants are less than 1% of VizPanel, don't render until in view. Default.
     private int terrainRenderType = 1;
+    int plantWithinRadVal;
+    private Point location;
+    private Ellipse2D.Float circle;
 
     // private HashMap<Point,Plant> canopyMap;
    // private HashMap<Point,Plant> undergrowthMap;
@@ -107,11 +112,14 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         simStartX = -1;
         simStartY = -1;
         simRunning = false;
+        plantWithinRadVal = -1;
+        plantWithinRadVal = 0;
+        circle = new Ellipse2D.Float();
         addMouseListeners();
     }
     public void setPlants(){
-        canopyList = FileLoader.getCanopy();
-        undergrowthList = FileLoader.getUnder();
+        this.canopyList = FileLoader.getCanopy();
+        this.undergrowthList = FileLoader.getUnder();
     }
 
     public void addMouseListeners(){
@@ -140,8 +148,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
             Graphics2D g2 = (Graphics2D) g;
             if (!simRunning) {
+
                 if (zoomer) {
-                    setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
                     //System.out.println("Zooming");
                     at = new AffineTransform();
                     double xRel = 0.0;
@@ -185,22 +193,15 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
                     }
 
-                }
-
-            else {
+                } else {
                     g2.transform(at);
                 }
 
                 drawBackground(g2);
                 try {
                     if (true) {
-                        filterHeightAndCanopyRadius(heightMinSliderValue,heightSliderValue,
-                                canopyMinSliderValue,canopyMaxSliderValue, g2);
-                        if(false){//RHDrag) {
-                            g2.setColor(Color.BLACK);
-                            g2.fillOval(dragX,dragY,30,30);
-                            RHDrag = false;
-                        }
+                        filterHeightAndCanopyRadiusAndMore(heightMinSliderValue,heightSliderValue,
+                                canopyMinSliderValue,canopyMaxSliderValue,plantWithinRadVal, g2);
 
                     } else {
                         int s = 2;//drawPlantLayer(g2); //for drawing plants over terrain
@@ -249,23 +250,17 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                     getHeight(),
                     Image.SCALE_SMOOTH);
             g.drawImage(vizscaled,0,0,null);
-            //this.terrainLayer = vizscaled; //UNUSED
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-//    public void mouseDraw(Graphics2D g){
-//        g.fillOval(dragX-10, dragY-10, 20, 20);
-//        draw = false;
-//    }
     int dragX = 0;
     int dragY = 0;
 
 
 
-    public void filterHeightAndCanopyRadius(int HeightValMin,int HeightValMax, int RadValMin, int RadValMax, Graphics2D g) throws IOException{
-        //System.out.println(sliderValMin);
-        //System.out.println(sliderValMax);
+    public void filterHeightAndCanopyRadiusAndMore(int HeightValMin,int HeightValMax, int RadValMin,
+                                                   int RadValMax, int withinRad, Graphics2D g) throws IOException{
         double x = at.getScaleX();
         double a;
         double b;
@@ -282,6 +277,10 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         Iterator j;
         int count = 0;
         int count2 = 0;
+
+        if (withinRad<0){
+            withinRad = 0;
+        }
             if (undergrowthCHB) {
                 if (HeightValMin < HeightValMax && RadValMin<RadValMax) {
                     while (i.hasNext()) {
@@ -297,11 +296,14 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                                 z = x * 2 * plant.getRad();
                                 a = x * plant.getRectX() + at.getTranslateX(); //x transform
                                 b = x * plant.getRectY() + at.getTranslateY(); //y transform
-                                c = x * plant.getRad() / getWidth();    // ratio scaled radius to vizpanel
+                                c = x * plant.getRad() / getWidth();// ratio scaled radius to vizpanel
+                                //System.out.println(circle.getX());
+                                //System.out.println(circle.getY());
                                 if (HeightValMin <= plant.getHeight() && HeightValMax >= plant.getHeight() && RadValMin<=plant.getCanopyRadius()
-                                        && RadValMax>=plant.getCanopyRadius() && a + z >= 0 && a <= getWidth() && b + z >= 0 && b <= getHeight()) {
+                                        && RadValMax>=plant.getCanopyRadius() && withinRadius(plant,withinRad) && a + z >= 0 && a <= getWidth() && b + z >= 0 && b <= getHeight()) {
                                     if (c > viewingThreshold) {                //draw large
                                         g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
+
 //
                                     }
                                 }
@@ -342,8 +344,10 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                                 a = x * plant.getRectX() + at.getTranslateX(); //x transform
                                 b = x * plant.getRectY() + at.getTranslateY(); //y transform
                                 c = x * plant.getRad() / getWidth();    // ratio scaled radius to vizpanel
-                                if (HeightValMin <= plant.getHeight() && HeightValMax >= plant.getHeight() && RadValMin<=plant.getCanopyRadius()
-                                        && RadValMax>= plant.getCanopyRadius() && a + z >= 0 && a <= getWidth() && b + z >= 0 && b <= getHeight()) {
+                                if (HeightValMin <= plant.getHeight() && HeightValMax >= plant.getHeight()
+                                        && RadValMin<=plant.getCanopyRadius() && RadValMax>= plant.getCanopyRadius()
+                                        && withinRadius(plant,withinRad) && a + z >= 0 &&
+                                        a <= getWidth() && b + z >= 0 && b <= getHeight()) {
 
                                     if (c > viewingThreshold) {
                                         //draw large
@@ -366,6 +370,24 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
     }
 
+    public boolean withinRadius(Plant plant, int rad){
+
+        if (rad ==0) {
+            return true;
+        }
+        else if (location!=null) {
+
+            //System.out.println(location.getX());
+            double distanceSq = ((float)plant.getRectX() +plant.getRad())*((float)plant.getRectX() +plant.getRad())
+                    +
+                    ((float)plant.getRectY()+plant.getRad())*((float)plant.getRectY()+plant.getRad());
+            if (distanceSq <= rad*rad){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     /**
      * Returns details of the plants intersecting the clicked point
@@ -376,38 +398,52 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     public void mouseClicked(MouseEvent mouseEvent) {
 
         simStartX = mouseEvent.getX();
-        //System.out.println(simStartX);
-        //System.out.println(simStartY);
+
         simStartY = mouseEvent.getY();
-        if(fire!=null) {
+        if(startFireClicked) {
             fire.setStartX(simStartX);
             fire.setStartY(simStartY);
         }
 
-        Point location = mouseEvent.getPoint();
+        location = mouseEvent.getPoint();
+        circle.setFrame(location.getX(), location.getY(), plantWithinRadVal*2, plantWithinRadVal*2);
         double x = (location.getX()-at.getTranslateX())/at.getScaleX();
         double y = (location.getY()-at.getTranslateY())/at.getScaleY();
 
-        ArrayList<Plant> theChosenOnes = new ArrayList<>();
+        try{
+            ArrayList<Plant> theChosenOnes = new ArrayList<>();
 
-        for(ArrayList<Plant> alist : undergrowthList){
-            for(Plant plant : alist){
-                if (plant.getShape().contains(x,y)) {
-                    theChosenOnes.add(plant);
+            for(ArrayList<Plant> alist : undergrowthList){
+                for(Plant plant : alist){
+                    if (plant.getShape().contains(x,y)) {
+                        theChosenOnes.add(plant);
+                        if(!Objects.requireNonNull(UserView.chbControlsList.getSelectedItem()).toString().equals("Simulation")){
+                            UserView.localController.changeMenu("Plant Detail");
+                        }
+
+
+                    }
                 }
             }
-        }
 
-        for(ArrayList<Plant> alist : canopyList) {
-            for (Plant plant : alist) {
-                if (plant.getShape().contains(x, y)) {
-                    theChosenOnes.add(plant);
+            for(ArrayList<Plant> alist : canopyList) {
+                for (Plant plant : alist) {
+                    if (plant.getShape().contains(x, y)) {
+                        theChosenOnes.add(plant);
+                        if(!Objects.requireNonNull(UserView.chbControlsList.getSelectedItem()).toString().equals("Simulation")){
+                            UserView.localController.changeMenu("Plant Detail");
+                        }
+
+                    }
                 }
             }
+
+            Controller.updatePlantDetailText(theChosenOnes);
+        }catch(NullPointerException e){
+            // Do nothing, EcoViz has not been loaded.
         }
 
 
-        Controller.updatePlantDetailText(theChosenOnes);
 
     }
 
@@ -445,7 +481,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     public void mouseExited(MouseEvent mouseEvent) {
 
     }
-    int r = 25;
+    int r = 10;
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
         if(SwingUtilities.isLeftMouseButton(mouseEvent)) {
@@ -463,22 +499,23 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             float y = (float)((mouseEvent.getY()-r-at.getTranslateY())/at.getScaleY());
             dragX = (int) x;
             dragY = (int) y;
+            int X = Math.round(x/fire.scale);
+            int Y = Math.round(y/fire.scale);
 
-            ArrayList<ArrayList<Plant>> copy = canopyList;
             for(int i = 0; i< canopyList.size(); i++){//<Plant> alist : undergrowthList) {
-                for (int j = 0; j< copy.get(i).size(); j++){// plant : alist) {
+                for (int j = 0; j< canopyList.get(i).size(); j++){// plant : alist) {
                     if (canopyList.get(i).get(j).getShape().intersects(x,y,r+r,r+r)){
-
-                        canopyList.get(i).remove(canopyList.get(i).get(j));
-                        j--;
+                        canopyList.get(i).get(j).hide = true;
+                        canopyList.get(i).remove(j);
+                        j--;            //compensate for list reduction
                     }
                 }
             }
-            ArrayList<ArrayList<Plant>> copy2 = undergrowthList;
             for(int i = 0; i< undergrowthList.size(); i++){//<Plant> alist : undergrowthList) {
-                for (int j = 0; j< copy2.get(i).size(); j++){// plant : alist) {
+                for (int j = 0; j< undergrowthList.get(i).size(); j++){// plant : alist) {
                     if (undergrowthList.get(i).get(j).getShape().intersects(x,y,r+r,r+r)){
-                        undergrowthList.get(i).remove(undergrowthList.get(i).get(j));
+                        undergrowthList.get(i).get(j).hide = true;
+                        undergrowthList.get(i).remove(j);
                         j--;
                     }
                 }
@@ -544,7 +581,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     }
 
     public void setViewingThreshold(int value) {
-        this.viewingThreshold = value/100.0;
+        this.viewingThreshold = value/1000.0;
     }
 
     public int getTerrainRenderType() {

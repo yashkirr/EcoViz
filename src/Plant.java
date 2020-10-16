@@ -37,6 +37,7 @@ public class Plant extends Species {
     private boolean draw = true;
     public AffineTransform at;
     private String latinName;
+    volatile boolean hide = false;
 
     /**
     *default constructor
