@@ -18,6 +18,19 @@ public class BlockGrid extends Grid{
     
     public static Block getBlock(int x, int y){ return grid[x][y];}
 
+    public static void setPlant(){
+        for(Block[] B: grid){
+            for(Block b: B){
+                for(Plant plant: b.canopy){
+                    if(!plant.hide){ b.foliage += 3;}
+                }
+                for(Plant plant: b.undergrowth){
+                    if(!plant.hide){ b.foliage += 1;}
+                }
+            }
+        }
+    }
+
     public static void windSlope(int windX, int windY){
         int a;
         if(windX==0) a = 1;

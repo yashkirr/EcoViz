@@ -24,15 +24,18 @@ public class Block {
 
     public void setToRed(){
         for(Plant plant: canopy){
-            plant.setColor(Color.red);
+            plant.burnt = true;
         }
         for(Plant plant: undergrowth){
-            plant.setColor(Color.red);
+            plant.burnt = true;
         }
     }
 
-    public float chance(){
-        this.foliage = canopy.size()*2 + undergrowth.size();
-        return 1;
+    public boolean alight(){
+        if(!unburnt){return false;}
+        double a = Math.random()*20;
+        float chance = (windSlope*foliage + 2*intensity);
+        intensity++;
+        return (a<chance);
     }
 }

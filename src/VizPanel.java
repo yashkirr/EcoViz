@@ -213,6 +213,13 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                     e.printStackTrace();
                 }
             }
+            else {
+                if (startFireClicked) {
+
+                    startFireClicked = false;
+                }
+                g.drawImage(Fire.fireLayer,0,0,this);
+            }
 
 
             if (false){//startFireClicked){
@@ -304,7 +311,9 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                                 if (HeightValMin <= plant.getHeight() && HeightValMax >= plant.getHeight() && RadValMin<=plant.getCanopyRadius()
                                         && RadValMax>=plant.getCanopyRadius() && withinRadius(plant,withinRad) && a + z >= 0 && a <= getWidth() && b + z >= 0 && b <= getHeight()) {
                                     if (c > viewingThreshold) {
+                                        //if(plant.burnt){ g.setColor(Color.red);}
                                         g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
+
 
 //
                                     }
@@ -415,7 +424,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             Fire.running = true;
             fire.setStartX(simStartX);
             fire.setStartY(simStartY);
-            startFireClicked = false;
+
         }
 
         location = mouseEvent.getPoint();

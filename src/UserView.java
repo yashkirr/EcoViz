@@ -1469,6 +1469,7 @@ public class UserView extends JFrame{
         pnlVizualizer.fire.setWindX(UserView.getWindSpeed(),UserView.getWindDirection());
         pnlVizualizer.fire.setWindY(UserView.getWindSpeed(),UserView.getWindDirection());
         BlockGrid.windSlope(pnlVizualizer.fire.windX, pnlVizualizer.fire.windY);
+        BlockGrid.setPlant();
 
         pnlVizualizer.startFireClicked=true;
         fire.start();

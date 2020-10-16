@@ -38,6 +38,7 @@ public class Plant extends Species {
     public AffineTransform at;
     private String latinName;
     volatile boolean hide = false;
+    volatile boolean burnt = false;
 
     /**
     *default constructor
