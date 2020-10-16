@@ -497,7 +497,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     }
 
     public void setViewingThreshold(int value) {
-        this.viewingThreshold = value/100.0;
+        this.viewingThreshold = value/1000.0;
     }
 
     public int getTerrainRenderType() {
