@@ -311,7 +311,6 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                                 if (HeightValMin <= plant.getHeight() && HeightValMax >= plant.getHeight() && RadValMin<=plant.getCanopyRadius()
                                         && RadValMax>=plant.getCanopyRadius() && a + z >= 0 && a <= getWidth() && b + z >= 0 && b <= getHeight()) {
                                     if (c > viewingThreshold) {
-                                        //if(plant.burnt){ g.setColor(Color.red);}
                                         g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
 
                                     }
@@ -358,8 +357,12 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
                                     if (c > viewingThreshold) {
                                         //draw large
+                                        if(UserView.viewingPlantsWithinRadius){
+                                            circle.setFrame(mcX,mcY,withinRad*2,withinRad*2);
+                                            g.fill(circle);
+                                            UserView.viewingPlantsWithinRadius = false;
+                                        }
                                         g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
-
                                     }
                                 }
 
@@ -371,25 +374,6 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                         count++;
                         count2 = 0;
                     }
-
-                    if(UserView.viewingPlantsWithinRadius){
-                        //viewingThreshold = 0.005;
-                        circle = new Ellipse2D.Float();
-                        Graphics2D g2 = (Graphics2D) g;
-                        double newX = mcX - (withinRad*2) / 2.0;
-                        double newY = mcY - (withinRad*2) / 2.0;
-                        g2.setColor(Color.red);
-                        circle.setFrame(newX,newY,withinRad*2,withinRad*2);
-                        g2.setStroke(new BasicStroke(2));
-                        g2.draw(circle);
-                        if(UserView.resetFlag){
-                            UserView.viewingPlantsWithinRadius = false;
-                            UserView.resetFlag = false;
-                            g2.dispose();
-                        }
-
-
-                    }
                 } else {
                     UserView.setFilterLabel("<html>OH NO!<br>Your selected slider values overlap.<br>Please reselect an appropriate value.");
                 }
@@ -399,6 +383,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
     public boolean withinRadius(Plant plant, int rad){
         withinRadiusCalled = true;
+        circle = new Ellipse2D.Float();
 
 
         //repaint();
@@ -436,7 +421,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             Fire.running = true;
             fire.setStartX(simStartX);
             fire.setStartY(simStartY);
-
+            startFireClicked = false;
         }
 
         location = mouseEvent.getPoint();
@@ -517,7 +502,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     public void mouseExited(MouseEvent mouseEvent) {
 
     }
-    int r = 10;
+    int r = 20;
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
         if(SwingUtilities.isLeftMouseButton(mouseEvent)) {

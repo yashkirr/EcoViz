@@ -310,7 +310,7 @@ public Fire(int pnlWidth,int pnlHeight, int sx, int sy, int wS, int wD, ArrayLis
                 a++;
             }
             stop = System.currentTimeMillis();
-            try{ this.sleep(80 - stop + start);}
+            try{ this.sleep(140 - stop + start);}
             catch(Exception e) {}
         }
         double start = System.nanoTime();
