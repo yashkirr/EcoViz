@@ -336,11 +336,17 @@ public class UserView extends JFrame{
 
     private void btnViewPlantsWithinRadiusActionPeformed(ActionEvent actionEvent) {
         viewingPlantsWithinRadius = true;
+        pnlVizualizer.plantWithinRadVal = Integer.valueOf(txtRadius.getText());
+        jButton1.setEnabled(true);
+        localController.updateView();
     }
 
     private void jButton1ActionPerformed(ActionEvent actionEvent) {
         viewingPlantsWithinRadius = false;
+        txtRadius.setText("0");
+        pnlVizualizer.plantWithinRadVal = 0;
         jButton1.setEnabled(false);
+        localController.updateView();
     }
 
 
@@ -455,6 +461,7 @@ public class UserView extends JFrame{
         pnlPlantDetail = new javax.swing.JPanel();
         pnlPlantDetailControls = new javax.swing.JPanel();
         txtRadius = new javax.swing.JTextField();
+        txtRadius.setText("0");
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         btnViewPlantsWithinRadius = new javax.swing.JButton();

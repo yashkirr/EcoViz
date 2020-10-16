@@ -1,5 +1,6 @@
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -68,6 +69,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     private boolean simRunning;
     private double viewingThreshold = 0.001;// if plants are less than 1% of VizPanel, don't render until in view. Default.
     private int terrainRenderType = 1;
+    int plantWithinRadVal;
+    private Point location;
 
     // private HashMap<Point,Plant> canopyMap;
    // private HashMap<Point,Plant> undergrowthMap;
@@ -107,6 +110,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         simStartX = -1;
         simStartY = -1;
         simRunning = false;
+        plantWithinRadVal = -1;
+        plantWithinRadVal = 0;
         addMouseListeners();
     }
     public void setPlants(){
@@ -191,8 +196,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                 drawBackground(g2);
                 try {
                     if (true) {
-                        filterHeightAndCanopyRadius(heightMinSliderValue,heightSliderValue,
-                                canopyMinSliderValue,canopyMaxSliderValue, g2);
+                        filterHeightAndCanopyRadiusAndMore(heightMinSliderValue,heightSliderValue,
+                                canopyMinSliderValue,canopyMaxSliderValue,plantWithinRadVal, g2);
 
                     } else {
                         int s = 2;//drawPlantLayer(g2); //for drawing plants over terrain
@@ -246,7 +251,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         }
     }
 
-    public void filterHeightAndCanopyRadius(int HeightValMin,int HeightValMax, int RadValMin, int RadValMax, Graphics2D g) throws IOException{
+    public void filterHeightAndCanopyRadiusAndMore(int HeightValMin,int HeightValMax, int RadValMin,
+                                                   int RadValMax, int withinRad, Graphics2D g) throws IOException{
         double x = at.getScaleX();
         double a;
         double b;
@@ -263,6 +269,10 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         Iterator j;
         int count = 0;
         int count2 = 0;
+
+        if (withinRad<0){
+            withinRad = 0;
+        }
             if (undergrowthCHB) {
                 if (HeightValMin < HeightValMax && RadValMin<RadValMax) {
                     while (i.hasNext()) {
@@ -280,7 +290,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                                 b = x * plant.getRectY() + at.getTranslateY(); //y transform
                                 c = x * plant.getRad() / getWidth();    // ratio scaled radius to vizpanel
                                 if (HeightValMin <= plant.getHeight() && HeightValMax >= plant.getHeight() && RadValMin<=plant.getCanopyRadius()
-                                        && RadValMax>=plant.getCanopyRadius() && a + z >= 0 && a <= getWidth() && b + z >= 0 && b <= getHeight()) {
+                                        && RadValMax>=plant.getCanopyRadius() && withinRadius(plant,withinRad) && a + z >= 0 && a <= getWidth() && b + z >= 0 && b <= getHeight()) {
                                     if (c > viewingThreshold) {                //draw large
                                         g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
 //
@@ -324,7 +334,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                                 b = x * plant.getRectY() + at.getTranslateY(); //y transform
                                 c = x * plant.getRad() / getWidth();    // ratio scaled radius to vizpanel
                                 if (HeightValMin <= plant.getHeight() && HeightValMax >= plant.getHeight() && RadValMin<=plant.getCanopyRadius()
-                                        && RadValMax>= plant.getCanopyRadius() && a + z >= 0 && a <= getWidth() && b + z >= 0 && b <= getHeight()) {
+                                        && RadValMax>= plant.getCanopyRadius() && withinRadius(plant,withinRad) && a + z >= 0 && a <= getWidth() && b + z >= 0 && b <= getHeight()) {
 
                                     if (c > viewingThreshold) {
                                         //draw large
@@ -347,6 +357,23 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
     }
 
+    public boolean withinRadius(Plant plant, int rad){
+        Ellipse2D circle = new Ellipse2D.Float();
+        if (rad ==0) {
+            return true;
+        }
+        else if (location!=null) {
+            circle.setFrame(location.getX(), location.getY(), rad*2, rad*2);
+            double distanceSq = ((float)plant.getPos().get(0) +plant.getRad() )*((float)plant.getPos().get(0) +plant.getRad())
+                    + ((float)plant.getPos().get(1)+plant.getRad())*((float)plant.getPos().get(1)+plant.getRad());
+            if (distanceSq <= rad*rad){
+                return true;
+            }
+        }
+        //UserView.viewingPlantsWithinRadius = false;
+        return false;
+    }
+
 
     /**
      * Returns details of the plants intersecting the clicked point
@@ -365,7 +392,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             fire.setStartY(simStartY);
         }
 
-        Point location = mouseEvent.getPoint();
+        location = mouseEvent.getPoint();
         double x = (location.getX()-at.getTranslateX())/at.getScaleX();
         double y = (location.getY()-at.getTranslateY())/at.getScaleY();
 
