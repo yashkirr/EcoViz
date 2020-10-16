@@ -364,8 +364,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         }
         else if (location!=null) {
             circle.setFrame(location.getX(), location.getY(), rad*2, rad*2);
-            double distanceSq = ((float)plant.getPos().get(0) +plant.getRad() )*((float)plant.getPos().get(0) +plant.getRad())
-                    + ((float)plant.getPos().get(1)+plant.getRad())*((float)plant.getPos().get(1)+plant.getRad());
+            double distanceSq = ((float)plant.getRectX() +plant.getRad() )*((float)plant.getRectX() +plant.getRad())
+                    + ((float)plant.getRectY()+plant.getRad())*((float)plant.getRectY()+plant.getRad());
             if (distanceSq <= rad*rad){
                 return true;
             }
