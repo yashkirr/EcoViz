@@ -18,7 +18,7 @@ import java.util.Objects;
 import java.util.Vector;
 
 /**
- *
+ * Controller class for EcoViz, used to facilitate important information between View, VizPanel, and Stored Memory
  * @author yashkir
  */
 public class Controller {
@@ -32,12 +32,17 @@ public class Controller {
         this.localUserView = localUserView;
     }
     /**
-     * Constructor for classes which need utiltiy methods
+     * Constructor for classes which need utility methods
      */
     public Controller() {
 
     }
 
+    /**
+     * Recieves list of plants and formats it into information text for displaying on Userview
+     * plant on-demand detail
+     * @param theChosenOnes Arraylist<Plant>
+     */
     public static void updatePlantDetailText(ArrayList<Plant> theChosenOnes) {
         String finalList ="";
         for (Plant plant:
@@ -72,30 +77,10 @@ public class Controller {
         UserView.setLblPlantDetails("<html>"+finalList);
     }
 
-    /**
-    * Connects FileLoader to FileLoaderDialog
-    */
-    public void loadFile(String path, String fileType) {
-        if (fileType.equals("elv")) {
-            FileLoader.readELV(path);
-        } else if (fileType.equals("spc")) {
-            FileLoader.readSPC(path);
-        } else if (fileType.equals("pdb")) {
-            if (path.contains("undergrowth")) {
-                FileLoader.readPdbUnder(path);
-
-            }
-            else if (path.contains("canopy")){
-                FileLoader.readPdbCan(path);
-               ;
-            }
-        }
-        System.gc(); //clean arbitrary trash to optimise performance
-
-    }
 
     /**
-     * Disables control panel and settings menu on start to restrict the user to only entering files or exiting
+     * Disables control panel and settings menu to restrict the user to only entering files or exiting
+     * @author Yashkir Ramsamy
      */
     public void restrictControls(boolean restricted){
         UserView.chbControlsList.setEnabled(!restricted);
@@ -103,48 +88,9 @@ public class Controller {
     }
 
     /**
-    * Used in determining whether EcoViz has been opened for the first time
-    * Setter for initialized boolean
-    */
-    public static void setInitialization(boolean value){
-        initialized = value;
-    }
-    /**
-    * Used in determining whether EcoViz has been opened for the first time
-    * Getter for initialized boolean
-    */
-    public static boolean checkInitialization(){
-        return initialized;
-    }
-
-
-    /**
-     * Displays a loading screen window
-     * @param parentFrame
-     */
-    public void showLoadingScreen(java.awt.Frame parentFrame) throws IOException {
-        JDialog loadingDialog = new JDialog(parentFrame, "Initializing EcoViz");
-
-        JLabel info = new JLabel("<html>" +
-                "<b>Initializing EcoViz</b>" +
-                "<br>Loading files, please wait...");
-        loadingDialog.setLayout(new GridBagLayout());
-        //loadingDialog.add((Component) UIManager.getIcon("OptionPane.informationIcon"));
-        loadingDialog.add(info);
-        loadingDialog.setSize(250, 150);
-        loadingDialog.setLocationRelativeTo(null);
-        loadingDialog.setUndecorated(true);
-        loadingDialog.setResizable(false);
-        loadingDialog.setVisible(true);
-
-
-        //JOptionPane.showOptionDialog(parentFrame, "Loading files, please wait...","Initializing EcoViz", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE, null, new Object[]{}, null);
-        //initializeTerrainGrid();
-    }
-
-    /**
      *Utility method for detecting if dialog is open that is needed to be closed.
-     *Creates a new timer thread to emulate loading time
+     *Used for closing loading dialog
+     * @Author Yashkir Ramsamy
      */
     public static void closeLoadingScreen() {
         //  ActionListener close = (ActionEvent e) -> {
@@ -158,7 +104,6 @@ public class Controller {
                 }
             }
         }
-        // };
 
     }
 
@@ -168,11 +113,11 @@ public class Controller {
     }
 
     /**
-     * Generates the terrain visualisation and embeds it in a JLabel
+     * Generates the terrain visualisation and EcoViz menu settings
+     * @Author Calley Ramcharan, Victor Bantchovski, Yashkir Ramsamy
      * @throws IOException
      */
     public void initializeTerrainGrid() throws IOException {
-        print("initializeTerrainGrid");
         restrictControls(false);
         generateKey(FileLoader.getMinElevation(),FileLoader.getMaxElevation());
         UserView.pnlVizualizer.setGrid(new Grid(FileLoader.getDimx(),FileLoader.getDimy(),FileLoader.getSpacing(),FileLoader.getLatitude(), FileLoader.getTerrain()));
@@ -181,6 +126,12 @@ public class Controller {
         UserView.pnlVizualizer.setPlants();
     }
 
+    /**
+     * Used to generate key on legend menu panel
+     * @author Yashkir Ramsamy
+     * @param minElevation minimum elevation of terrain
+     * @param maxElevation maximum elevation of terrain
+     */
     private void generateKey(double minElevation, double maxElevation) {
         UserView.lblElevationHeightMin.setText(String.format("%.2fm",minElevation));
         UserView.lblElevationHeightMax.setText(String.format("%.2fm",maxElevation));
@@ -228,13 +179,21 @@ public class Controller {
         UserView.getlistFilterGenus().setModel(listModel);
     }
 
+    /**
+     * Used for changing cursor icons at runtime
+     * @author Yashkir Ramsamy
+     * @param handCursor handCursor int
+     */
     public void setVisualizerCursor(int handCursor) {
         UserView.pnlVizualizer.setCursor(Cursor.getPredefinedCursor(handCursor));
     }
 
 
+    /**
+     * Used to update EcoViz whenever critical repaint has to occur
+     * @Author Yashkir Ramsamy
+     */
     public void updateView(){
-        //print("updateView");
         if(!initialized){
             UserView.setPlantHeightSliderValues(FileLoader.getMinPlantHeight(),FileLoader.getMaxPlantHeight());
             UserView.setCanopyRadiusSliderValues(FileLoader.getMinCanopyRadius(),FileLoader.getMaxCanopyRadius());
@@ -248,6 +207,11 @@ public class Controller {
 
     }
 
+    /**
+     * Used to changed to different menus given a menu item string
+     * @author Yashkir Ramsamy
+     * @param menu Drop-down Menu String
+     */
     public void changeMenu(String menu){
         CardLayout card = (CardLayout) UserView.pnlControls.getLayout();
         switch (menu) {
@@ -287,6 +251,13 @@ public class Controller {
 
     }
 
+    /**
+     * Takes file paths of data files and loads it in FileLoader
+     * @param s .elv
+     * @param s1 .spc
+     * @param s2 .pdb (canopy)
+     * @param s3 .pdb (undergrowth)
+     */
     public static void loadFile(String s, String s1, String s2, String s3) {
        /* 0: .elv
         1: .spc
@@ -308,45 +279,21 @@ public class Controller {
 
             service.awaitTermination(1, TimeUnit.MINUTES);*/
 
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
+
                 FileLoader.readELV(s);
-            }
-        });
-        t.start();
-        Thread t1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
+
+
                 FileLoader.readSPC(s1);
-            }
-        });
-        t1.start();
-        Thread t2 = new Thread(new Runnable() {
-            @Override
-            public void run() {
+
+
                 FileLoader.readPdbCan(s2);
                 FileLoader.convertTo1DCan();
-            }
-        });
-        t2.start();
-        Thread t3 = new Thread(new Runnable() {
-            @Override
-            public void run() {
+
+
                 FileLoader.readPdbUnder(s3);
                 FileLoader.convertTo1DUnder();
-            }
-        });
-        t3.start();
 
-        try {
-            t1.join();
-            t2.join();
-            t3.join();
-            t.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
 
     }
 }
