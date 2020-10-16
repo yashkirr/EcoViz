@@ -231,9 +231,10 @@ public class FileLoader {
                             if(t>=0 && t<pnlWidth && n>=0 && n<pnlHeight) {
                                 if (n + t >= r && n * n + t * t < r * r) {
                                     BlockGrid.getBlock(t+X, n+Y).canopy.add(plant);
-
+                                    BlockGrid.getBlock(t+X, n+Y).foliage += radius;
                                 } else if (n + t < r) {
                                     BlockGrid.getBlock(t+X, n+Y).canopy.add(plant);
+                                    BlockGrid.getBlock(t+X, n+Y).foliage += radius;
                                 }
                             }
                         }
@@ -308,9 +309,10 @@ public class FileLoader {
                             if(t>=0 && t<pnlWidth && n>=0 && n<pnlHeight) {
                                 if (n + t >= r && n * n + t * t < r * r) {
                                     BlockGrid.getBlock(t+X, n+Y).undergrowth.add(plant);
-
+                                    BlockGrid.getBlock(t+X, n+Y).foliage += radius;
                                 } else if (n + t < r) {
                                     BlockGrid.getBlock(t+X, n+Y).undergrowth.add(plant);
+                                    BlockGrid.getBlock(t+X, n+Y).foliage += radius;
                                 }
                             }
                         }

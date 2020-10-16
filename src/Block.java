@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Block {
@@ -6,7 +7,6 @@ public class Block {
     ArrayList<Plant> undergrowth = new ArrayList<>();
     float foliage=0;
     float intensity=0;
-    float openAir=1;
     float windSlope=0;
     float slope = 0;
     int x;
@@ -20,5 +20,19 @@ public class Block {
         this.elv = elv;
         this.x = x;
         this.y = y;
+    }
+
+    public void setToRed(){
+        for(Plant plant: canopy){
+            plant.setColor(Color.red);
+        }
+        for(Plant plant: undergrowth){
+            plant.setColor(Color.red);
+        }
+    }
+
+    public float chance(){
+        this.foliage = canopy.size()*2 + undergrowth.size();
+        return 1;
     }
 }
