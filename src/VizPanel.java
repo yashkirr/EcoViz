@@ -302,8 +302,15 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                                 b = x * plant.getRectY() + at.getTranslateY(); //y transform
                                 c = x * plant.getRad() / getWidth();    // ratio scaled radius to vizpanel
                                 if (HeightValMin <= plant.getHeight() && HeightValMax >= plant.getHeight() && RadValMin<=plant.getCanopyRadius()
-                                        && RadValMax>=plant.getCanopyRadius() && withinRadius(plant,withinRad) && a + z >= 0 && a <= getWidth() && b + z >= 0 && b <= getHeight()) {
+                                        && RadValMax>=plant.getCanopyRadius() && a + z >= 0 && a <= getWidth() && b + z >= 0 && b <= getHeight()) {
                                     if (c > viewingThreshold) {
+                                        if(UserView.viewingPlantsWithinRadius){
+                                            circle = new Ellipse2D.Float();
+
+                                            circle.setFrame(mcX,mcY,withinRad*2,withinRad*2);
+                                            g.fill(circle);
+                                            UserView.viewingPlantsWithinRadius = false;
+                                        }
                                         g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
 
 //
@@ -352,6 +359,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                                     if (c > viewingThreshold) {
                                         //draw large
                                         if(UserView.viewingPlantsWithinRadius){
+                                            circle = new Ellipse2D.Float();
+
                                             circle.setFrame(mcX,mcY,withinRad*2,withinRad*2);
                                             g.fill(circle);
                                             UserView.viewingPlantsWithinRadius = false;
@@ -377,7 +386,6 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
     public boolean withinRadius(Plant plant, int rad){
         withinRadiusCalled = true;
-        circle = new Ellipse2D.Float();
 
 
         //repaint();
