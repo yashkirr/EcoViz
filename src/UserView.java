@@ -1466,9 +1466,10 @@ public class UserView extends JFrame{
         String plantHeightMin = Integer.toString(sldPlantHeightMin.getValue());
         String canopyRadiusMin = Integer.toString(sldMinCanopyRadius.getValue());
         String canopyRadiusMax = Integer.toString(sldMaxCanopyRadius.getValue());
-        String[] list = {plantHeightMax,plantHeightMin,canopyRadiusMax,canopyRadiusMin};
+        String[] list = {plantHeightMin,plantHeightMax,canopyRadiusMin,canopyRadiusMax};
         for(int i = 0; i<4;i++){
-            if(list[i].equals("-1")){
+
+            if(list[i].equals("-1")|| list[i].equals("0")){
                 list[i] = "None";
             }
         }
@@ -1476,11 +1477,12 @@ public class UserView extends JFrame{
                 "<p>Min: %1$s</p>\n" +
                 "<p>Max: %2$s</p>\n" +
                 "<p><b>Range:</b> %1$s - %2$s</p>\n"+
+                "<br>\n"+
                 "<p><strong>Canopy Radius:</strong>&nbsp;</p>\n" +
                 "<p><b>Min</b>: %3$s</p>\n" +
                 "<p><b>Max</b>: %4$s</p>"+
                 "<p><b>Range:</b> %3$s - %4$s</p>\n";
-        lblPlantHeightValue.setText(String.format(label,plantHeightMin,plantHeightMax,canopyRadiusMin,canopyRadiusMax));
+        lblPlantHeightValue.setText(String.format(label,list[0],list[1],list[2],list[3]));
     }
 
     public static void setFilterLabel(String s){
