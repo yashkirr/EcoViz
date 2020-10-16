@@ -306,16 +306,19 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                                     if (c > viewingThreshold) {
                                         g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
                                         if(UserView.viewingPlantsWithinRadius){
+                                            viewingThreshold = 0.005;
                                             circle = new Ellipse2D.Float();
+                                            Graphics2D g2 = (Graphics2D) g;
                                             double newX = mcX - (withinRad*2) / 2.0;
                                             double newY = mcY - (withinRad*2) / 2.0;
-                                            g.setColor(Color.red);
+                                            g2.setColor(Color.red);
                                             circle.setFrame(newX,newY,withinRad*2,withinRad*2);
-                                            g.setStroke(new BasicStroke(2));
-                                            g.draw(circle);
+                                            g2.setStroke(new BasicStroke(2));
+                                            g2.draw(circle);
                                             if(UserView.resetFlag){
                                                 UserView.viewingPlantsWithinRadius = false;
                                                 UserView.resetFlag = false;
+                                                g2.dispose();
                                             }
 
                                         }
@@ -368,17 +371,22 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                                         //draw large
                                         g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
                                         if(UserView.viewingPlantsWithinRadius){
+                                            viewingThreshold = 0.005;
                                             circle = new Ellipse2D.Float();
+                                            Graphics2D g2 = (Graphics2D) g;
                                             double newX = mcX - (withinRad*2) / 2.0;
                                             double newY = mcY - (withinRad*2) / 2.0;
-                                            g.setColor(Color.red);
+                                            g2.setColor(Color.red);
                                             circle.setFrame(newX,newY,withinRad*2,withinRad*2);
-                                            g.setStroke(new BasicStroke(2));
-                                            g.draw(circle);
+                                            g2.setStroke(new BasicStroke(2));
+                                            g2.draw(circle);
                                             if(UserView.resetFlag){
                                                 UserView.viewingPlantsWithinRadius = false;
                                                 UserView.resetFlag = false;
+                                                g2.dispose();
                                             }
+
+
                                         }
 
                                     }

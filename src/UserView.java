@@ -338,7 +338,7 @@ public class UserView extends JFrame{
 
     private void btnViewPlantsWithinRadiusActionPeformed(ActionEvent actionEvent) {
         viewingPlantsWithinRadius = true;
-        pnlVizualizer.plantWithinRadVal = Integer.valueOf(txtRadius.getText());
+        pnlVizualizer.plantWithinRadVal = Integer.parseInt(txtRadius.getText());
         jButton1.setEnabled(true);
         localController.updateView();
     }
@@ -349,7 +349,7 @@ public class UserView extends JFrame{
         pnlVizualizer.plantWithinRadVal = 0;
         jButton1.setEnabled(false);
         resetFlag = true;
-        localController.updateView();
+        //localController.updateView();
     }
 
 
