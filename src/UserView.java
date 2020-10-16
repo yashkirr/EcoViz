@@ -125,7 +125,7 @@ public class UserView extends JFrame{
     private static int windSpeed;
     private static int windDirection;
     private ArrayList<String> selectedVisibilityPlants;
-    private boolean viewingPlantsWithinRadius;
+    public static boolean viewingPlantsWithinRadius;
 
 
     //Enum Types
