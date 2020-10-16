@@ -19,13 +19,17 @@ public class BlockGrid extends Grid{
     public static Block getBlock(int x, int y){ return grid[x][y];}
 
     public static void windSlope(int windX, int windY){
-        int a = Math.abs(windX)/windX;      //wind unit vectors
-        int b = Math.abs(windY)/windY;
+        int a;
+        if(windX==0) a = 1;
+        else a = Math.abs(windX)/windX;      //wind unit vectors
+        int b;
+        if(windY==0) b = 1;
+        else b = Math.abs(windY)/windY;
         float n = (float)Math.sqrt(2*FileLoader.getSpacing());
         float speed = (float)Math.sqrt(windX*windX+windY*windY);
         float steep;
-        for(int x = 0; x<dimx; x++){
-            for(int y = 0; y<dimy; y++){
+        for(int x = 1; x<dimx-1; x++){
+            for(int y = 1; y<dimy-1; y++){
                 grid[x][y].slope = (grid[x][y+b].elv + grid[x+a][y].elv - 2*grid[x][y].elv)/n;
                 if(grid[x][y].slope<-1.5){ grid[x][y].windSlope = 0;}
                 else if(grid[x][y].slope<-0.2){ grid[x][y].windSlope = -speed/(10*grid[x][y].slope);}

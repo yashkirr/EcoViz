@@ -17,9 +17,9 @@ public class Fire extends Thread{
     int windY;
     int startX;
     int startY;
-    public volatile boolean paused;
-    public volatile  boolean stopped;
-    public volatile boolean running;
+    public static volatile boolean paused = false;
+    public static volatile  boolean stopped = false;
+    public static volatile boolean running = false;
     private ArrayList<Plant> undergrowth;
     private ArrayList<Plant> canopy;
     static Graphics gBurn;
@@ -243,12 +243,22 @@ public Fire(int pnlWidth,int pnlHeight, int sx, int sy, int wS, int wD, ArrayLis
     long start;
     long stop;
     public void burn(int x, int y){
-        running = true;
         gBurn.setColor(new Color(255,0,0,180));
         blockBurn(x,y);
         int a = 0;
 
         while(running){
+            if(paused){
+                while(paused){
+                    try {this.sleep(200);}
+                    catch (Exception e) {}
+                }
+            }
+            if(stopped){
+                running = false;
+                stopped = false;
+                this.interrupt();
+            }
             start = System.currentTimeMillis();
             ArrayList<int[]> burningCache = (ArrayList<int[]>)burning.clone();
             for(int[] block: burningCache){

@@ -1398,39 +1398,31 @@ public class UserView extends JFrame{
                                 //pnlVizualizer.startFireClicked = true;
                                 JButton pauseButton = new JButton("Pause");
                                 JButton playButton = new JButton("Play");
-                                JButton resetButton = new JButton("Reset");
                                 JButton stopButton = new JButton("Stop");
 
                                 pauseButton.addActionListener(new ActionListener() {
                                     @Override
                                     public void actionPerformed(ActionEvent e) {
-                                        pnlVizualizer.fire.paused = true;
-                                        pnlVizualizer.fire.stopped = false;
+                                        Fire.paused = true;
+                                        Fire.stopped = false;
                                     }
                                 });
 
                                 playButton.addActionListener(new ActionListener() {
                                     @Override
                                     public void actionPerformed(ActionEvent e) {
-                                        pnlVizualizer.fire.paused = false;
-                                        pnlVizualizer.fire.stopped = false;
-                                    }
-                                });
+                                        Fire.running = true;
+                                        Fire.paused = false;
+                                        Fire.stopped = false;
 
-                                resetButton.addActionListener(new ActionListener() {
-                                    @Override
-                                    public void actionPerformed(ActionEvent e) {
-                                        pnlVizualizer.fire.paused = false;
-                                        pnlVizualizer.fire.stopped = true;
-                                        pnlVizualizer.fire.resetFireLayer();
                                     }
                                 });
 
                                 stopButton.addActionListener(new ActionListener() {
                                     @Override
                                     public void actionPerformed(ActionEvent e) {
-                                        pnlVizualizer.fire.paused = false;
-                                        pnlVizualizer.fire.stopped = true;
+                                        Fire.paused = false;
+                                        Fire.stopped = true;
                                     }
                                 });
                                 if(!simOpenedOnce){

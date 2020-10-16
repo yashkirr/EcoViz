@@ -67,7 +67,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     public int simStartY;
     public Fire fire;
 
-    private boolean simRunning;
+    volatile boolean simRunning = false;
     private double viewingThreshold = 0.001;// if plants are less than 1% of VizPanel, don't render until in view. Default.
     private int terrainRenderType = 1;
     int plantWithinRadVal;
@@ -151,7 +151,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         if (initialized) {
 
             Graphics2D g2 = (Graphics2D) g;
-            if (!simRunning) {
+            if (!Fire.running) {
                 if (zoomer) {
                     //System.out.println("Zooming");
                     at = new AffineTransform();
@@ -215,8 +215,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             }
 
 
-            if (startFireClicked){
-                simRunning = true;
+            if (false){//startFireClicked){
+                //simRunning = true;
                 //System.out.println("CHECK");
 //                this.printAll(gCache);
 //                g2.drawImage(cache,0,0,this);
@@ -412,8 +412,10 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
         simStartY = mouseEvent.getY();
         if(startFireClicked) {
+            Fire.running = true;
             fire.setStartX(simStartX);
             fire.setStartY(simStartY);
+            startFireClicked = false;
         }
 
         location = mouseEvent.getPoint();
