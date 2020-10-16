@@ -126,6 +126,7 @@ public class UserView extends JFrame{
     private static int windDirection;
     private ArrayList<String> selectedVisibilityPlants;
     public static boolean viewingPlantsWithinRadius;
+    private boolean simOpenedOnce;
 
 
     //Enum Types
@@ -1373,6 +1374,7 @@ public class UserView extends JFrame{
         {
             case "None":
                 selectedSimType = false;
+                simOpenedOnce = false;
                 for (Component component: pnlSimControls.getComponents()) {
                     if(component instanceof JButton){
                         pnlSimControls.remove(component);
@@ -1390,60 +1392,65 @@ public class UserView extends JFrame{
                     btnWind.setAlignmentX(Component.CENTER_ALIGNMENT);
                     btnStartFire.setAlignmentX(Component.CENTER_ALIGNMENT);
                     btnStartFire.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent actionEvent) {
-                            //pnlVizualizer.startFireClicked = true;
-                            JButton pauseButton = new JButton("Pause");
-                            JButton playButton = new JButton("Play");
-                            JButton resetButton = new JButton("Reset");
-                            JButton stopButton = new JButton("Stop");
 
-                            pauseButton.addActionListener(new ActionListener() {
-                                @Override
-                                public void actionPerformed(ActionEvent e) {
-                                    pnlVizualizer.fire.paused = true;
-                                    pnlVizualizer.fire.stopped = false;
+                            @Override
+                            public void actionPerformed(ActionEvent actionEvent) {
+                                //pnlVizualizer.startFireClicked = true;
+                                JButton pauseButton = new JButton("Pause");
+                                JButton playButton = new JButton("Play");
+                                JButton resetButton = new JButton("Reset");
+                                JButton stopButton = new JButton("Stop");
+
+                                pauseButton.addActionListener(new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(ActionEvent e) {
+                                        pnlVizualizer.fire.paused = true;
+                                        pnlVizualizer.fire.stopped = false;
+                                    }
+                                });
+
+                                playButton.addActionListener(new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(ActionEvent e) {
+                                        pnlVizualizer.fire.paused = false;
+                                        pnlVizualizer.fire.stopped = false;
+                                    }
+                                });
+
+                                resetButton.addActionListener(new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(ActionEvent e) {
+                                        pnlVizualizer.fire.paused = false;
+                                        pnlVizualizer.fire.stopped = true;
+                                        pnlVizualizer.fire.resetFireLayer();
+                                    }
+                                });
+
+                                stopButton.addActionListener(new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(ActionEvent e) {
+                                        pnlVizualizer.fire.paused = false;
+                                        pnlVizualizer.fire.stopped = true;
+                                    }
+                                });
+                                if(!simOpenedOnce){
+                                    pnlSimControls.add(playButton);
+                                    pnlSimControls.add(pauseButton);
+                                    //pnlSimControls.add(resetButton);
+                                    pnlSimControls.add(stopButton);
+                                    simOpenedOnce = true;
                                 }
-                            });
 
-                            playButton.addActionListener(new ActionListener() {
-                                @Override
-                                public void actionPerformed(ActionEvent e) {
-                                    pnlVizualizer.fire.paused = false;
-                                    pnlVizualizer.fire.stopped = false;
-                                }
-                            });
+                                pnlSimControls.revalidate();
+                                pnlSimControls.repaint();
 
-                            resetButton.addActionListener(new ActionListener() {
-                                @Override
-                                public void actionPerformed(ActionEvent e) {
-                                    pnlVizualizer.fire.paused = false;
-                                    pnlVizualizer.fire.stopped = true;
-                                    pnlVizualizer.fire.resetFireLayer();
-                                }
-                            });
-
-                            stopButton.addActionListener(new ActionListener() {
-                                @Override
-                                public void actionPerformed(ActionEvent e) {
-                                    pnlVizualizer.fire.paused = false;
-                                    pnlVizualizer.fire.stopped = true;
-                                }
-                            });
-
-                            pnlSimControls.add(playButton);
-                            pnlSimControls.add(pauseButton);
-                            //pnlSimControls.add(resetButton);
-                            pnlSimControls.add(stopButton);
-
-                            pnlSimControls.revalidate();
-                            pnlSimControls.repaint();
-
-                            //playButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-                            //pauseButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-                            //pauseButton.setVisible(true);
-                            startFireSim();
+                                //playButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                                //pauseButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                                //pauseButton.setVisible(true);
+                                startFireSim();
                         }
+
+
                     });
                     btnWind.addActionListener(actionEvent -> {
                         WindSetDialog dialog = new WindSetDialog(UserView.this,rootPaneCheckingEnabled);
@@ -1473,6 +1480,7 @@ public class UserView extends JFrame{
         fire.start();
 
     }
+
 
     public static int getWindSpeed(){
         return windSpeed;
