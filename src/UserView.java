@@ -127,6 +127,7 @@ public class UserView extends JFrame{
     private ArrayList<String> selectedVisibilityPlants;
     public static boolean viewingPlantsWithinRadius;
     private boolean simOpenedOnce;
+    protected static boolean resetFlag;
 
 
     //Enum Types
@@ -347,6 +348,7 @@ public class UserView extends JFrame{
         txtRadius.setText("0");
         pnlVizualizer.plantWithinRadVal = 0;
         jButton1.setEnabled(false);
+        resetFlag = true;
         localController.updateView();
     }
 

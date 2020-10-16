@@ -311,8 +311,13 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                                             double newY = mcY - (withinRad*2) / 2.0;
                                             g.setColor(Color.red);
                                             circle.setFrame(newX,newY,withinRad*2,withinRad*2);
-                                            g.fill(circle);
-                                            UserView.viewingPlantsWithinRadius = false;
+                                            g.setStroke(new BasicStroke(2));
+                                            g.draw(circle);
+                                            if(UserView.resetFlag){
+                                                UserView.viewingPlantsWithinRadius = false;
+                                                UserView.resetFlag = false;
+                                            }
+
                                         }
 
 
@@ -368,8 +373,12 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                                             double newY = mcY - (withinRad*2) / 2.0;
                                             g.setColor(Color.red);
                                             circle.setFrame(newX,newY,withinRad*2,withinRad*2);
-                                            g.fill(circle);
-                                            UserView.viewingPlantsWithinRadius = false;
+                                            g.setStroke(new BasicStroke(2));
+                                            g.draw(circle);
+                                            if(UserView.resetFlag){
+                                                UserView.viewingPlantsWithinRadius = false;
+                                                UserView.resetFlag = false;
+                                            }
                                         }
 
                                     }
