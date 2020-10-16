@@ -1,5 +1,6 @@
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -53,6 +54,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     private boolean one = false;
     private AffineTransform at = new AffineTransform();
     private boolean zoomWithButton;
+    private boolean RHDrag = false;
 
     public boolean canopyCHB;
     public boolean undergrowthCHB;
@@ -108,8 +110,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         addMouseListeners();
     }
     public void setPlants(){
-        this.canopyList = FileLoader.getCanopy();
-        this.undergrowthList = FileLoader.getUnder();
+        canopyList = FileLoader.getCanopy();
+        undergrowthList = FileLoader.getUnder();
     }
 
     public void addMouseListeners(){
@@ -132,7 +134,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
     @Override
     protected void paintComponent(Graphics g) {
-        //super.paintComponent(g);
+        super.paintComponent(g);
         /* If files have been loaded, set initialized to true and enable these features*/
         if (initialized) {
 
@@ -183,7 +185,9 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
                     }
 
-                } else {
+                }
+
+            else {
                     g2.transform(at);
                 }
 
@@ -192,6 +196,11 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                     if (true) {
                         filterHeightAndCanopyRadius(heightMinSliderValue,heightSliderValue,
                                 canopyMinSliderValue,canopyMaxSliderValue, g2);
+                        if(false){//RHDrag) {
+                            g2.setColor(Color.BLACK);
+                            g2.fillOval(dragX,dragY,30,30);
+                            RHDrag = false;
+                        }
 
                     } else {
                         int s = 2;//drawPlantLayer(g2); //for drawing plants over terrain
@@ -245,6 +254,14 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             e.printStackTrace();
         }
     }
+//    public void mouseDraw(Graphics2D g){
+//        g.fillOval(dragX-10, dragY-10, 20, 20);
+//        draw = false;
+//    }
+    int dragX = 0;
+    int dragY = 0;
+
+
 
     public void filterHeightAndCanopyRadius(int HeightValMin,int HeightValMax, int RadValMin, int RadValMax, Graphics2D g) throws IOException{
         //System.out.println(sliderValMin);
@@ -389,6 +406,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             }
         }
 
+
         Controller.updatePlantDetailText(theChosenOnes);
 
     }
@@ -427,15 +445,52 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     public void mouseExited(MouseEvent mouseEvent) {
 
     }
-
+    int r = 25;
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
-        Point curPoint = mouseEvent.getLocationOnScreen();
-        xDiff = curPoint.x - startPoint.x;
-        yDiff = curPoint.y - startPoint.y;
+        if(SwingUtilities.isLeftMouseButton(mouseEvent)) {
+            Point curPoint = mouseEvent.getLocationOnScreen();
+            xDiff = curPoint.x - startPoint.x;
+            yDiff = curPoint.y - startPoint.y;
 
-        dragger = true;
-        repaint();
+            dragger = true;
+            repaint();
+        }
+        if(SwingUtilities.isRightMouseButton(mouseEvent)){
+
+            RHDrag = true;
+            float x = (float)((mouseEvent.getX()-r-at.getTranslateX())/at.getScaleX());
+            float y = (float)((mouseEvent.getY()-r-at.getTranslateY())/at.getScaleY());
+            dragX = (int) x;
+            dragY = (int) y;
+
+            ArrayList<ArrayList<Plant>> copy = canopyList;
+            for(int i = 0; i< canopyList.size(); i++){//<Plant> alist : undergrowthList) {
+                for (int j = 0; j< copy.get(i).size(); j++){// plant : alist) {
+                    if (canopyList.get(i).get(j).getShape().intersects(x,y,r+r,r+r)){
+
+                        canopyList.get(i).remove(canopyList.get(i).get(j));
+                        j--;
+                    }
+                }
+            }
+            ArrayList<ArrayList<Plant>> copy2 = undergrowthList;
+            for(int i = 0; i< undergrowthList.size(); i++){//<Plant> alist : undergrowthList) {
+                for (int j = 0; j< copy2.get(i).size(); j++){// plant : alist) {
+                    if (undergrowthList.get(i).get(j).getShape().intersects(x,y,r+r,r+r)){
+                        undergrowthList.get(i).remove(undergrowthList.get(i).get(j));
+                        j--;
+                    }
+                }
+            }
+            repaint();
+//            int x = (int)Math.round(((mouseEvent.getX()-at.getTranslateX())/at.getScaleX())/fire.scale);
+//            int y = (int)Math.round(((mouseEvent.getY()-at.getTranslateY())/at.getScaleY())/fire.scale);
+//            for(Plant plant: Grid.getBlock(x,y).canopy) {
+//                System.out.println("DELETE");
+//                plant = null;
+//            }
+        }
     }
 
     @Override

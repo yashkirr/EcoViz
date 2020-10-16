@@ -248,8 +248,14 @@ public class Controller {
         service.shutdown();
 
             service.awaitTermination(1, TimeUnit.MINUTES);*/
+        FileLoader.readELV(s);
+        FileLoader.readSPC(s1);
+        FileLoader.readPdbCan(s2);
+        FileLoader.convertTo1DCan();
+        FileLoader.readPdbUnder(s3);
+        FileLoader.convertTo1DUnder();
 
-        Thread t = new Thread(new Runnable() {
+     /*   Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
                 FileLoader.readELV(s);
@@ -287,7 +293,7 @@ public class Controller {
             t.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
 
     }
 }

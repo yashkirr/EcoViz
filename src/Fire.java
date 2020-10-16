@@ -1,15 +1,17 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Fire extends Thread{
     boolean[][] isBurning;
-    int dimX;
-    int dimY;
+    static int dimX;
+    static int dimY;
     static BufferedImage fireLayer;
     int windX;
     int windY;
@@ -17,17 +19,23 @@ public class Fire extends Thread{
     int startY;
     public volatile boolean paused;
     public volatile  boolean stopped;
+    public volatile boolean running;
     private ArrayList<Plant> undergrowth;
     private ArrayList<Plant> canopy;
-    static Graphics2D gBurn;
+    static Graphics gBurn;
+    int pnlWidth;
+    int pnlHeight;
+    float scale;
+    int scaleInt;
 
-    public Fire(int dimx,int dimy, int sx, int sy, int wS, int wD, ArrayList<Plant> undergrowth, ArrayList<Plant> canopy){
+    ArrayList<int[]> burnt = new ArrayList<>();
+    ArrayList<int[]> burning = new ArrayList<>();
+
+public Fire(int pnlWidth,int pnlHeight, int sx, int sy, int wS, int wD, ArrayList<Plant> undergrowth, ArrayList<Plant> canopy){
         windX = (int) Math.round(wS*Math.cos(wD));; ;
         windY = (int) Math.round(wS*Math.sin(wD));;
         startX = sx;
         startY = sy;
-        dimX = dimx;
-        dimY = dimy;
         this.undergrowth = undergrowth;
         this.canopy = canopy;
         isBurning = new boolean[dimX][dimY];
@@ -39,16 +47,14 @@ public class Fire extends Thread{
         fireLayer = new BufferedImage(dimX,dimY,BufferedImage.TYPE_INT_ARGB);
         paused = true;
         stopped = false;
+        this.pnlWidth = pnlWidth;
+        this.pnlHeight = pnlHeight;
+        scale = (float)pnlWidth/(float)dimX;
+        scaleInt = Math.round(scale);
     }
 
     public void setFire(int x, int y, boolean burning){
-        //if ((x<0||y<0||x>dimX||y>dimY)) {
-         //   System.out.println("out of bounds");
-       // }
-        //else{
-//            System.out.println("FIRE  "+x+"   "+y);
-            isBurning[x][y] = burning;
-       // }
+        isBurning[x][y] = burning;
     }
 
     public int getDimX(){
@@ -58,9 +64,7 @@ public class Fire extends Thread{
     public int getDimY(){
         return dimY;
     }
-    public void pixel(int x, int y){
-        fireLayer.setRGB(x,y,Color.red.getRGB());
-    }
+
     public BufferedImage getImage(){
         for (int x = 0; x<dimX; x++){
             for (int y=0; y<dimY; y++){
@@ -138,35 +142,64 @@ public class Fire extends Thread{
     }
 
     public void simulateOverGrid(Graphics g,Controller ctrl) throws IOException {
-        this.gBurn = (Graphics2D)g;
-        System.out.println("TRY0");
-
-        burn(startX,startY);
+        this.gBurn = g;
+        System.out.println("Width: "+pnlWidth+ " Dimx"+dimX+" scale: "+scale+" startX: "+startX);
+        int x = Math.round(startX/scale);
+        int y = Math.round(startY/scale);  //x and y to correspond with grid
+        System.out.println(x+"  "+y);
+        burn(x,y);
 //        Burn burn = new Burn(startX,startY);
 //        burn.start();
     }
+    public void blockBurn(int x, int y){
+        burning.add(new int[]{x,y});
+        Grid.getBlock(x,y).unburnt = false;
+        gBurn.fillRect(Math.round(x*scale),Math.round(y*scale),scaleInt,scaleInt);
+        //fireLayer.setRGB(x,y,Color.red.getRGB());
+
+    }
     public void burn(int x, int y){
+        running = true;
         gBurn.setColor(new Color(255,0,0));
+        blockBurn(x,y);
+
+        while(running){
+            ArrayList<int[]> burningCache = (ArrayList<int[]>)burning.clone();
+            for(int[] block: burningCache){
+                if(block[0]>0 && Grid.getBlock(block[0]-1,block[1]).unburnt) {blockBurn(block[0] - 1, block[1]);
+                }
+                if(block[1]>0 && Grid.getBlock(block[0],block[1]-1).unburnt){blockBurn(block[0], block[1] - 1);
+                }
+                if(block[0]<dimX-1 && Grid.getBlock(block[0]+1,block[1]).unburnt){
+                    blockBurn(block[0] + 1, block[1]);
+                }
+                if(block[1]<dimY-1 && Grid.getBlock(block[0],block[1]+1).unburnt){
+                    blockBurn(block[0], block[1] + 1);
+                }
+                burning.remove(block);
+            }
+        }
         double start = System.nanoTime();
         double stop = System.nanoTime();
 
 //        pixel(x,y);
 //        gBurn.drawImage(getImage(), 0, 0, null);
-        for(int r=0; r<200; r++) {
-            start = System.nanoTime();
-            gBurn.drawOval(x-r,y-r,2*r,2*r);
-            stop = System.nanoTime();
-            System.out.println("stop-start");
-//            for(int xPix = -r; xPix<=r; xPix++) {
-//                for(int yPix = -r; yPix<=r; yPix++) {
-//                    if ((int) Math.sqrt(xPix*xPix + yPix*yPix) == r) {
-////                        fireLayer.setRGB(x+xPix, y+yPix, Color.red.getRGB());
-////                        gBurn.drawImage(Fire.fireLayer, 0, 0, null);
-//                        gBurn.drawLine(x+xPix,y+yPix,x+xPix,y+yPix);
+//        for(int r=0; r<500; r++) {
+////            start = System.nanoTime();
+////            gBurn.fillOval(x-r,y-r,2*r,2*r);
+////            stop = System.nanoTime();
+////            System.out.println(stop-start);
+//            for(int xPix = -r; xPix<=r; xPix=xPix+1*windX) {
+//                for(int yPix = -r; yPix<=r; yPix=yPix+1*windY) {
+//                    pixelBurn(xPix,yPix);
+////                    if ((int) Math.sqrt(xPix*xPix + yPix*yPix) == r) {
+//                        fireLayer.setRGB(x+xPix, y+yPix, Color.red.getRGB());
+//                        gBurn.drawImage(Fire.fireLayer, 0, 0, null);
+////                        gBurn.drawOval(x+xPix,y+yPix,x+xPix,y+yPix);
 //                    }
 //                }
-//            }
-        }
+////           }
+//        }
     }
 
     public void simulateOverGrid2(Graphics g,Controller ctrl) throws IOException {

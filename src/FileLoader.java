@@ -94,11 +94,15 @@ public class FileLoader {
             spacing = elvScanner.nextFloat();
             latitude = elvScanner.nextFloat();
             terrain = new float[dimx][dimy];
+            Grid.setBlockDIm(dimx,dimy);
+            Fire.dimX = dimx;
+            Fire.dimY = dimy;
             finder = new ArrayList[(int)(dimx*spacing*10)][(int)spacing*dimy*10];
             while (elvScanner.hasNext()){
                 for (int y = 0;y<dimx;y++){
                     for (int x = 0; x<dimy;x++){
                         terrain[y][x] = elvScanner.nextFloat();
+                        Grid.getGrid()[x][y] = new Block(terrain[y][x], x, y);
                     }
                 }
             }
@@ -209,6 +213,16 @@ public class FileLoader {
                     plant.setEnglishName(spcKey[plant.getID()][0]);
                     plant.setLatinName(spcKey[plant.getID()][1]);
                     plantList.add(plant);
+                    int r = (int)Math.ceil(radius);
+                    for(int t = 1-r; t<r; t++){
+                        for(int n = 1-r; n<r; n++){
+                            if(n+t>=r && n*n+t*t<r*r){
+                                Grid.getBlock(t,n).canopy.add(plant);
+                            }
+                            else if(n+t<r){Grid.getBlock(t,n).canopy.add(plant);}
+                        }
+                    }
+                    //Grid.getBlock(Math.round(x), Math.round(y)).canopy.add(plant);
                     totalCan++;
                 }
                 speciesListCan.add(plantList);
@@ -270,6 +284,16 @@ public class FileLoader {
                     plant.setEnglishName(spcKey[plant.getID()][0]);
                     plant.setLatinName(spcKey[plant.getID()][1]);
                     plantList.add(plant);
+                    int r = (int)Math.ceil(radius);
+                    for(int t = 1-r; t<r; t++){
+                        for(int n = 1-r; n<r; n++){
+                            if(n+t>=r && n*n+t*t<r*r){
+                                Grid.getBlock(t,n).undergrowth.add(plant);
+                            }
+                            else if(n+t<r){Grid.getBlock(t,n).undergrowth.add(plant);}
+                        }
+                    }
+                    //Grid.getBlock(Math.round(x), Math.round(y)).undergrowth.add(plant);
                     totalUnder++;
                 }
                 speciesListUnder.add(plantList);

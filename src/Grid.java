@@ -16,6 +16,7 @@ public class Grid {
     private static double latitude;
     private static float[][] terrain;
     private static float[][] gradient;
+    private static Block[][] grid;
     private static BufferedImage greyscale;
 
     /** default Constructor
@@ -50,6 +51,13 @@ public class Grid {
     //    int part = Math.round(val*255);
     //    return part*0x10101;
     //}
+    public static void setBlockDIm(int x, int y){
+        grid = new Block[x][y];
+    }
+    public static Block getBlock(int x, int y){ return grid[x][y];}
+    public static Block[][] getGrid(){ return grid;}
+
+    //public static void fillBlock()
 
     public BufferedImage getGreyscale(int renderType) throws IOException {
         if (renderType==1){
@@ -69,6 +77,7 @@ public class Grid {
 
         for (int yComp = 0; yComp<dimy ; yComp++){
              for (int xComp = 0 ; xComp<dimx ; xComp++){
+                 grid[xComp][yComp] = new Block(terrain[yComp][xComp], xComp, yComp);
                  if (terrain[yComp][xComp]>maxElv){
                     maxElv = terrain[yComp][xComp];
                  }
@@ -115,6 +124,7 @@ public class Grid {
         }
         return greyscale;
     }
+
 
 
     public int getDimx() {
