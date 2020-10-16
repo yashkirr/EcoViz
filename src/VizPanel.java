@@ -369,34 +369,39 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         double x = (location.getX()-at.getTranslateX())/at.getScaleX();
         double y = (location.getY()-at.getTranslateY())/at.getScaleY();
 
-        ArrayList<Plant> theChosenOnes = new ArrayList<>();
+        try{
+            ArrayList<Plant> theChosenOnes = new ArrayList<>();
 
-        for(ArrayList<Plant> alist : undergrowthList){
-            for(Plant plant : alist){
-                if (plant.getShape().contains(x,y)) {
-                    theChosenOnes.add(plant);
-                    if(!Objects.requireNonNull(UserView.chbControlsList.getSelectedItem()).toString().equals("Simulation")){
-                        UserView.localController.changeMenu("Plant Detail");
+            for(ArrayList<Plant> alist : undergrowthList){
+                for(Plant plant : alist){
+                    if (plant.getShape().contains(x,y)) {
+                        theChosenOnes.add(plant);
+                        if(!Objects.requireNonNull(UserView.chbControlsList.getSelectedItem()).toString().equals("Simulation")){
+                            UserView.localController.changeMenu("Plant Detail");
+                        }
+
+
                     }
-
-
                 }
             }
-        }
 
-        for(ArrayList<Plant> alist : canopyList) {
-            for (Plant plant : alist) {
-                if (plant.getShape().contains(x, y)) {
-                    theChosenOnes.add(plant);
-                    if(!Objects.requireNonNull(UserView.chbControlsList.getSelectedItem()).toString().equals("Simulation")){
-                        UserView.localController.changeMenu("Plant Detail");
+            for(ArrayList<Plant> alist : canopyList) {
+                for (Plant plant : alist) {
+                    if (plant.getShape().contains(x, y)) {
+                        theChosenOnes.add(plant);
+                        if(!Objects.requireNonNull(UserView.chbControlsList.getSelectedItem()).toString().equals("Simulation")){
+                            UserView.localController.changeMenu("Plant Detail");
+                        }
+
                     }
-
                 }
             }
+
+            Controller.updatePlantDetailText(theChosenOnes);
+        }catch(NullPointerException e){
+            // Do nothing, EcoViz has not been loaded.
         }
 
-        Controller.updatePlantDetailText(theChosenOnes);
 
 
     }

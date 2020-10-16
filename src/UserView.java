@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.TableHeaderUI;
 
 /**
  *
@@ -124,7 +125,7 @@ public class UserView extends JFrame{
     private static int windSpeed;
     private static int windDirection;
     private ArrayList<String> selectedVisibilityPlants;
-
+    private boolean viewingPlantsWithinRadius;
 
 
     //Enum Types
@@ -156,8 +157,12 @@ public class UserView extends JFrame{
                 component.setBackground(new Color(56,60,74));
                 component.setForeground(new Color(255,255,255));
             }
-        }else{
-
+        }else if(theme == Theme.LIGHT_MODE){
+            for (Component component:
+                    components) {
+                component.setBackground(new Color(242,242,242));
+                component.setForeground(new Color(0,0,0));
+            }
         }
 
     }
@@ -254,6 +259,20 @@ public class UserView extends JFrame{
             }
         });
 
+        jButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                jButton1ActionPerformed(actionEvent);
+            }
+        });
+
+        btnViewPlantsWithinRadius.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                btnViewPlantsWithinRadiusActionPeformed(actionEvent);
+            }
+        });
+
         /* ComboBox */
 
         chbControlsList.addActionListener(new ActionListener() {
@@ -313,6 +332,15 @@ public class UserView extends JFrame{
             }
         });*/
 
+    }
+
+    private void btnViewPlantsWithinRadiusActionPeformed(ActionEvent actionEvent) {
+        viewingPlantsWithinRadius = true;
+    }
+
+    private void jButton1ActionPerformed(ActionEvent actionEvent) {
+        viewingPlantsWithinRadius = false;
+        jButton1.setEnabled(false);
     }
 
 
@@ -1131,8 +1159,31 @@ public class UserView extends JFrame{
         pnlControls.add(pnlZoom, "pnlZoom");
 
         menuBar.setName(""); // NOI18N
-
+        JMenu mbPreferencesOption = new JMenu();
+        mbPreferencesOption.setText("Preferences");
+        JMenu miTheme = new JMenu();
+        miTheme.setText("Theme");
+        mbPreferencesOption.add(miTheme);
+        JMenuItem darkMode = new JMenuItem();
+        darkMode.setText("Dark");
+        JMenuItem lightMode = new JMenuItem();
+        lightMode.setText("Light");
+        miTheme.add(darkMode);
+        miTheme.add(lightMode);
+        darkMode.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                setTheme(Theme.DARK_MODE);
+            }
+        });
+        lightMode.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                setTheme(Theme.LIGHT_MODE);
+            }
+        });
         mbFIleOption.setText("File");
+
 
         miLoadFIles.setText("Load Files");
         miLoadFIles.addActionListener(new java.awt.event.ActionListener() {
@@ -1159,7 +1210,7 @@ public class UserView extends JFrame{
         mbFIleOption.add(miExit);
 
         menuBar.add(mbFIleOption);
-
+        menuBar.add(mbPreferencesOption);
         setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
