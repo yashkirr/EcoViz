@@ -72,6 +72,10 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     private int terrainRenderType = 1;
     int plantWithinRadVal;
     private Point location;
+    private boolean withinRadiusCalled = false;
+    private double mcX;
+    private double mcY;
+    private ArrayList<Point> points;
     private Ellipse2D.Float circle;
 
     // private HashMap<Point,Plant> canopyMap;
@@ -98,6 +102,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     public VizPanel() {
         super();
         complete = false;
+        points = new ArrayList<Point>();
         heightSliderValue = UserView.getPlantHeightMax();
         heightMinSliderValue = UserView.getPlantHeightMin();
         canopyMinSliderValue = UserView.getCanopyRadiusMin();
@@ -114,7 +119,6 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         simRunning = false;
         plantWithinRadVal = -1;
         plantWithinRadVal = 0;
-        circle = new Ellipse2D.Float();
         addMouseListeners();
     }
     public void setPlants(){
@@ -148,7 +152,6 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
             Graphics2D g2 = (Graphics2D) g;
             if (!simRunning) {
-
                 if (zoomer) {
                     //System.out.println("Zooming");
                     at = new AffineTransform();
@@ -210,6 +213,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                     e.printStackTrace();
                 }
             }
+
 
             if (startFireClicked){
                 simRunning = true;
@@ -296,12 +300,10 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                                 z = x * 2 * plant.getRad();
                                 a = x * plant.getRectX() + at.getTranslateX(); //x transform
                                 b = x * plant.getRectY() + at.getTranslateY(); //y transform
-                                c = x * plant.getRad() / getWidth();// ratio scaled radius to vizpanel
-                                //System.out.println(circle.getX());
-                                //System.out.println(circle.getY());
+                                c = x * plant.getRad() / getWidth();    // ratio scaled radius to vizpanel
                                 if (HeightValMin <= plant.getHeight() && HeightValMax >= plant.getHeight() && RadValMin<=plant.getCanopyRadius()
                                         && RadValMax>=plant.getCanopyRadius() && withinRadius(plant,withinRad) && a + z >= 0 && a <= getWidth() && b + z >= 0 && b <= getHeight()) {
-                                    if (c > viewingThreshold) {                //draw large
+                                    if (c > viewingThreshold) {
                                         g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
 
 //
@@ -344,13 +346,16 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                                 a = x * plant.getRectX() + at.getTranslateX(); //x transform
                                 b = x * plant.getRectY() + at.getTranslateY(); //y transform
                                 c = x * plant.getRad() / getWidth();    // ratio scaled radius to vizpanel
-                                if (HeightValMin <= plant.getHeight() && HeightValMax >= plant.getHeight()
-                                        && RadValMin<=plant.getCanopyRadius() && RadValMax>= plant.getCanopyRadius()
-                                        && withinRadius(plant,withinRad) && a + z >= 0 &&
-                                        a <= getWidth() && b + z >= 0 && b <= getHeight()) {
+                                if (HeightValMin <= plant.getHeight() && HeightValMax >= plant.getHeight() && RadValMin<=plant.getCanopyRadius()
+                                        && RadValMax>= plant.getCanopyRadius() && a + z >= 0 && a <= getWidth() && b + z >= 0 && b <= getHeight()) {
 
                                     if (c > viewingThreshold) {
                                         //draw large
+                                        if(UserView.viewingPlantsWithinRadius){
+                                            circle.setFrame(mcX,mcY,withinRad*2,withinRad*2);
+                                            g.fill(circle);
+                                            UserView.viewingPlantsWithinRadius = false;
+                                        }
                                         g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
                                     }
                                 }
@@ -371,20 +376,26 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     }
 
     public boolean withinRadius(Plant plant, int rad){
+        withinRadiusCalled = true;
+        circle = new Ellipse2D.Float();
 
+
+        //repaint();
         if (rad ==0) {
             return true;
         }
         else if (location!=null) {
+            //System.out.println(mcX+mcY);
 
-            //System.out.println(location.getX());
-            double distanceSq = ((float)plant.getRectX() +plant.getRad())*((float)plant.getRectX() +plant.getRad())
-                    +
-                    ((float)plant.getRectY()+plant.getRad())*((float)plant.getRectY()+plant.getRad());
+
+
+            double distanceSq = ((float)plant.getRectX() +plant.getRad() )*((float)plant.getRectX() +plant.getRad())
+                    + ((float)plant.getRectY()+plant.getRad())*((float)plant.getRectY()+plant.getRad());
             if (distanceSq <= rad*rad){
                 return true;
             }
         }
+        //UserView.viewingPlantsWithinRadius = false;
         return false;
     }
 
@@ -406,10 +417,12 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         }
 
         location = mouseEvent.getPoint();
-        circle.setFrame(location.getX(), location.getY(), plantWithinRadVal*2, plantWithinRadVal*2);
         double x = (location.getX()-at.getTranslateX())/at.getScaleX();
+        mcX = x;
         double y = (location.getY()-at.getTranslateY())/at.getScaleY();
-
+        mcY = y;
+        //points.add(new Point((int)mcX, (int)mcY));
+       // System.out.println(mcX+mcY);
         try{
             ArrayList<Plant> theChosenOnes = new ArrayList<>();
 
