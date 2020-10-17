@@ -31,7 +31,7 @@ public class BlockGrid extends Grid{
                 for(Plant plant: b.undergrowth){
                     if(!plant.hide){ b.foliage += 1;}
                 }
-                b.fuel = b.canopy.size()*40 + (int)Math.ceil(b.undergrowth.size()*5);
+                b.fuel = b.canopy.size()*20 + (int)Math.ceil(b.undergrowth.size()*5);
             }
         }
     }
@@ -52,7 +52,7 @@ public class BlockGrid extends Grid{
                 if(grid[x][y].slope<-1.5){ grid[x][y].windSlope = 0;}
                 else if(grid[x][y].slope<-0.2){ grid[x][y].windSlope = -speed/(10*grid[x][y].slope);}
                 else if(grid[x][y].slope<0.2){ grid[x][y].windSlope = speed*(float)0.9;}
-                else if(grid[x][y].slope<0.7) { grid[x][y].windSlope = speed*(float)1.1;}
+                else if(grid[x][y].slope<1.8) { grid[x][y].windSlope = speed*(float)1.1;}
                 else { grid[x][y].windSlope = speed*2;}
             }
         }
