@@ -1493,7 +1493,7 @@ public class UserView extends JFrame{
     */
     private void miRestartActionPerformed(ActionEvent evt) {//GEN-FIRST:event_miRestartActionPerformed
           if(JOptionPane.showConfirmDialog(null, "Are you sure you want to save?") == JOptionPane.YES_OPTION){
-              FileSaver.savePDB(FileLoader.getCanopy(), FileLoader.getUnder());
+              FileLoader.savePDB();
           }
         
     }//GEN-LAST:event_miRestartActionPerformed
