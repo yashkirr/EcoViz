@@ -22,11 +22,14 @@ public class BlockGrid extends Grid{
         for(Block[] B: grid){
             for(Block b: B){
                 for(Plant plant: b.canopy){
-                    if(!plant.hide){ b.foliage += 3;}
+                    if(!plant.hide){
+                        b.foliage += 3;
+                    }
                 }
                 for(Plant plant: b.undergrowth){
                     if(!plant.hide){ b.foliage += 1;}
                 }
+                b.fuel = b.canopy.size()*40 + (int)Math.ceil(b.undergrowth.size()*5);
             }
         }
     }

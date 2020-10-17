@@ -517,7 +517,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
     public void mouseExited(MouseEvent mouseEvent) {
 
     }
-    int r = 10;
+    int r =20;
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
         if(SwingUtilities.isLeftMouseButton(mouseEvent)) {

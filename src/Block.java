@@ -15,6 +15,7 @@ public class Block {
     volatile boolean burning = false;
     volatile boolean burnt = false;
     static Block[][] grid;
+    public int fuel;
 
     Block(float elv, int x, int y){
         this.elv = elv;
@@ -32,9 +33,9 @@ public class Block {
     }
 
     public boolean alight(){
-        if(!unburnt){return false;}
+        if(!unburnt || foliage==0){return false;}
         double a = Math.random()*20;
-        float chance = (windSlope*foliage + 2*intensity);
+        float chance = (windSlope*foliage);// + intensity/4);
         intensity++;
         return (a<chance);
     }
