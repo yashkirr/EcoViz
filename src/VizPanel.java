@@ -283,7 +283,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         double stop;
         ArrayList<ArrayList<Plant>> pdbCan = FileLoader.getSpeciesListCan();
         ArrayList<ArrayList<Plant>> pdbUnder = FileLoader.getSpeciesListUnder();
-        g.setColor(Color.red);
+        g.setColor(new Color(200,50,50,180));
 
         Iterator i = pdbUnder.iterator();
         Iterator j;
@@ -316,8 +316,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                                             g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
                                         }
                                         else{
-                                            g.drawOval((int)plant.getRectX(),(int)plant.getRectY(),
-                                                    (int)plant.getRad(), (int)plant.getRad());
+                                            g.fillOval((int)plant.getRectX(),(int)plant.getRectY(),
+                                                    (int)plant.getRad()*2, (int)plant.getRad()*2);
                                         }
                                     }
                                     else if((plant.getRectX()+plant.getRad()-mcX)*(plant.getRectX()+plant.getRad()-mcX)+
@@ -349,11 +349,6 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                         int id = FileLoader.getSpeciesCan()[count].getID();//get id of present species
                         if (FileLoader.getSpcDraw()[id]) {                //check if Species ID should be drawn
                             j = pdbCan.get(count).iterator();
-                            if (pdbUnder.get(count).get(count2).getBurnt() == false) {
-                                g.setColor(pdbUnder.get(count).get(count2).getColor());
-                            } else {
-                                g.setColor(new Color(1.0f, 1.0f, 1.0f, 0.3f));
-                            }
                             //if(this.heightSliderValue!=sliderVal){break; }
                             while (j.hasNext()) {
                                 Plant plant = pdbCan.get(count).get(count2);
@@ -371,8 +366,8 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                                             g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
                                         }
                                         else{
-                                            g.drawOval((int)plant.getRectX(),(int)plant.getRectY(),
-                                                    (int)plant.getRad(), (int)plant.getRad());
+                                            g.fillOval((int)plant.getRectX(),(int)plant.getRectY(),
+                                                    (int)plant.getRad()*2, (int)plant.getRad()*2);
                                         }
                                     }
                                     else if((plant.getRectX()+plant.getRad()-mcX)*(plant.getRectX()+plant.getRad()-mcX)+

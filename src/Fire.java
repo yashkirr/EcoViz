@@ -13,8 +13,8 @@ public class Fire extends Thread{
     static int dimX;
     static int dimY;
     static BufferedImage fireLayer;
-    int windX;
-    int windY;
+    int windX = 0;
+    int windY = 0;
     int startX;
     int startY;
     public static volatile boolean paused = false;
@@ -139,12 +139,10 @@ public Fire(int pnlWidth,int pnlHeight, int sx, int sy, int wS, int wD, ArrayLis
 
     public void setWindY(int wS, int wD){
         windY = (int) -Math.round(wS*Math.cos(Math.toRadians(wD)));
-        System.out.println("Speed: "+wS+" Direction "+wD+"Y vector: "+windY);
     }
 
     public void setWindX(int wS, int wD){
         windX = (int) Math.round(wS*Math.sin(Math.toRadians(wD)));
-        System.out.println("Speed: "+wS+" Direction "+wD+"X vector: "+windX);
     }
 
     public void setStartY(int sy){
@@ -169,7 +167,7 @@ public Fire(int pnlWidth,int pnlHeight, int sx, int sy, int wS, int wD, ArrayLis
         gBurn.fillRect(Math.round(x*scale),Math.round(y*scale),scaleInt,scaleInt);
     }
     Color red = new Color(255,0,0,150);
-    Color brown = new Color(100,70,10,150);
+    Color brown = new Color(100,40,30,150);
     public void burnt(int x, int y){
         gBurn.setColor(brown);
         gBurn.fillRect(Math.round(x*scale),Math.round(y*scale),scaleInt,scaleInt);
@@ -187,13 +185,14 @@ public Fire(int pnlWidth,int pnlHeight, int sx, int sy, int wS, int wD, ArrayLis
         while(running){
             if(paused){
                 while(paused){
-                    try {this.sleep(200);}
+                    try {this.sleep(300);}
                     catch (Exception e) {}
                 }
             }
             if(stopped){
                 running = false;
                 stopped = false;
+                //burning.clear();
                 UserView.localController.updateView();
                 this.interrupt();
             }

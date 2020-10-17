@@ -34,8 +34,8 @@ public class Block {
 
     public boolean alight(){
         if(!unburnt || foliage==0){return false;}
-        double a = Math.random()*20;
-        float chance = (windSlope*foliage);// + intensity/4);
+        double a = Math.random()*60;
+        float chance = (windSlope)*foliage;
         intensity++;
         return (a<chance);
     }

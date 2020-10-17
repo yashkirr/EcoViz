@@ -1398,9 +1398,10 @@ public class UserView extends JFrame{
                             @Override
                             public void actionPerformed(ActionEvent actionEvent) {
                                 //pnlVizualizer.startFireClicked = true;
+                                System.out.println("Clicked");
                                 JButton pauseButton = new JButton("Pause");
                                 JButton playButton = new JButton("Play");
-                                JButton stopButton = new JButton("Stop");
+                                JButton stopButton = new JButton("Reset");
 
                                 pauseButton.addActionListener(new ActionListener() {
                                     @Override
@@ -1413,7 +1414,7 @@ public class UserView extends JFrame{
                                 playButton.addActionListener(new ActionListener() {
                                     @Override
                                     public void actionPerformed(ActionEvent e) {
-                                        Fire.running = true;
+                                        //Fire.running = true;
                                         Fire.paused = false;
                                         Fire.stopped = false;
 
@@ -1425,6 +1426,10 @@ public class UserView extends JFrame{
                                     public void actionPerformed(ActionEvent e) {
                                         Fire.paused = false;
                                         Fire.stopped = true;
+                                        btnStartFire.getParent().remove(playButton);
+                                        btnStartFire.getParent().remove(pauseButton);
+                                        btnStartFire.getParent().remove(stopButton);
+                                        simOpenedOnce = false;
                                     }
                                 });
                                 if(!simOpenedOnce){

@@ -169,11 +169,17 @@ public class WindSetDialog extends javax.swing.JDialog {
     }
 
     public int getwindSpeed(){
-        return Integer.valueOf(txtWindSpeed.getText());
+        if(!txtWindSpeed.getText().equals("")) {
+            return Integer.valueOf(txtWindSpeed.getText());
+        }else
+            return 0;
     }
 
     public int getwindDirection(){
-        return Integer.valueOf(txtWindDirection.getText());
+        if(!txtWindDirection.getText().equals("")) {
+            return Integer.valueOf(txtWindDirection.getText());
+        }else
+            return 0;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

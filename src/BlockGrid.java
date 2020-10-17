@@ -53,7 +53,19 @@ public class BlockGrid extends Grid{
                 else if(grid[x][y].slope<-0.2){ grid[x][y].windSlope = -speed/(10*grid[x][y].slope);}
                 else if(grid[x][y].slope<0.2){ grid[x][y].windSlope = speed*(float)0.9;}
                 else if(grid[x][y].slope<0.7) { grid[x][y].windSlope = speed*(float)1.1;}
-                else { grid[x][y].windSlope = speed/(15*grid[x][y].slope);}
+                else { grid[x][y].windSlope = speed*2;}
+            }
+        }
+    }
+    public static void resetPlants(){
+        for(Block[] B: grid){
+            for(Block b: B){
+                for(Plant plant: b.canopy){
+                    plant.burnt = false;
+                }
+                for(Plant plant: b.undergrowth){
+                    plant.burnt = false;
+                }
             }
         }
     }
