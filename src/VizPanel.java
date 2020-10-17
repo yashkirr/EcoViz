@@ -310,10 +310,13 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                                 c = x * plant.getRad() / getWidth();    // ratio scaled radius to vizpanel
                                 if (HeightValMin <= plant.getHeight() && HeightValMax >= plant.getHeight() && RadValMin<=plant.getCanopyRadius()
                                         && RadValMax>=plant.getCanopyRadius() && a + z >= 0 && a <= getWidth() && b + z >= 0 && b <= getHeight()) {
-                                    if (c > viewingThreshold) {
-                                        //if(plant.burnt){ g.setColor(Color.red);}
+                                    if (c > viewingThreshold && !UserView.viewingPlantsWithinRadius) {
+                                        //draw large
                                         g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
-
+                                    }
+                                    else if((plant.getRectX()+plant.getRad()-mcX)*(plant.getRectX()+plant.getRad()-mcX)+
+                                            (plant.getRectY()+plant.getRad()-mcY)*(plant.getRectY()+plant.getRad()-mcY) <= withinRad*withinRad){
+                                        g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
                                     }
                                 }
                                 j.next();
@@ -356,10 +359,13 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                                 if (HeightValMin <= plant.getHeight() && HeightValMax >= plant.getHeight() && RadValMin<=plant.getCanopyRadius()
                                         && RadValMax>= plant.getCanopyRadius() && a + z >= 0 && a <= getWidth() && b + z >= 0 && b <= getHeight()) {
 
-                                    if (c > viewingThreshold) {
+                                    if (c > viewingThreshold && !UserView.viewingPlantsWithinRadius) {
                                         //draw large
                                         g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
-
+                                    }
+                                    else if((plant.getRectX()+plant.getRad()-mcX)*(plant.getRectX()+plant.getRad()-mcX)+
+                                            (plant.getRectY()+plant.getRad()-mcY)*(plant.getRectY()+plant.getRad()-mcY) <= withinRad*withinRad){
+                                        g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
                                     }
                                 }
 
@@ -436,7 +442,6 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
             Fire.running = true;
             fire.setStartX(simStartX);
             fire.setStartY(simStartY);
-
         }
 
         location = mouseEvent.getPoint();
