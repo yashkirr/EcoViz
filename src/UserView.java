@@ -1488,11 +1488,11 @@ public class UserView extends JFrame{
     }
     /**
     * onClickEventListener for "Restart" menu item
-    * Restarts application 
+    * Restarts application
     * @param evt
     */
     private void miRestartActionPerformed(ActionEvent evt) {//GEN-FIRST:event_miRestartActionPerformed
-          if(JOptionPane.showConfirmDialog(null, "Are you sure you want to restart?") == JOptionPane.YES_OPTION){
+          if(JOptionPane.showConfirmDialog(null, "Are you sure you want to save?") == JOptionPane.YES_OPTION){
               FileSaver.savePDB(FileLoader.getCanopy(), FileLoader.getUnder());
           }
         
