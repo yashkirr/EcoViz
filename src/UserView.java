@@ -1203,7 +1203,7 @@ public class UserView extends JFrame{
         });
         mbFIleOption.add(miLoadFIles);
 
-        miRestart.setText("Restart");
+        miRestart.setText("Save");
         miRestart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 miRestartActionPerformed(evt);
@@ -1493,7 +1493,7 @@ public class UserView extends JFrame{
     */
     private void miRestartActionPerformed(ActionEvent evt) {//GEN-FIRST:event_miRestartActionPerformed
           if(JOptionPane.showConfirmDialog(null, "Are you sure you want to restart?") == JOptionPane.YES_OPTION){
-              // TODO: Write clear program code here
+              FileSaver.savePDB(FileLoader.getCanopy(), FileLoader.getUnder());
           }
         
     }//GEN-LAST:event_miRestartActionPerformed

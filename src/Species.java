@@ -15,8 +15,8 @@ import java.util.HashMap;
 public class Species {
     private int ID;
     private Color color;
-    private double minHeight;
-    private double maxHeight;
+    private float minHeight;
+    private float maxHeight;
     private double avgCanopyHeightRatio;
     private int count;
 
@@ -27,8 +27,8 @@ public class Species {
         ID=0;
         count = 0;
         color = null;
-        minHeight=0.0;
-        maxHeight=0.0;
+        minHeight=0;
+        maxHeight=0;
         avgCanopyHeightRatio = 0.0;
 
     }
@@ -67,5 +67,8 @@ public class Species {
         return mapDetail;
 
     }
+    public float getMax(){return maxHeight;}
+
+    public float getMin(){ return minHeight;}
 
 }

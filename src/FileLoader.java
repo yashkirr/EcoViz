@@ -395,6 +395,14 @@ public class FileLoader {
         return Math.min(minPlantHeightCanopy,minPlantHeightUndergrowth);
     }
 
+    public static float getMaxCanopyHeight(int i) { return speciesCan[i].getMax();}
+
+    public static float getMinCanopyHeight(int i) { return speciesCan[i].getMin();}
+
+    public static float getMaxUndergrowthHeight(int i) { return speciesUnder[i].getMax();}
+
+    public static float getMinUndergrowthHeight(int i) { return speciesUnder[i].getMin();}
+
     public static int getDimx(){ return dimx;}
 
     public static int getDimy(){return dimy;}
@@ -420,6 +428,10 @@ public class FileLoader {
     public static ArrayList<ArrayList<Plant>> getSpeciesListUnder(){
         return speciesListUnder;
     }
+
+    public static int getNumCanopy(){ return numSpeciesCan;}
+
+    public static int getNumUndergrowth(){ return numSpeciesUnder;}
 
 
 

@@ -15,6 +15,8 @@ public class BlockGrid extends Grid{
         dimy = y;
         grid = new Block[x][y];
     }
+    public static int getDimX(){ return dimx;}
+    public static int getDimY(){ return dimy;}
     
     public static Block getBlock(int x, int y){ return grid[x][y];}
 
