@@ -267,6 +267,7 @@ public class Controller {
         }
 
     }
+    public boolean getInit(){ return initialized;}
 }
 
 

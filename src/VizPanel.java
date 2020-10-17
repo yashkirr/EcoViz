@@ -283,6 +283,7 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
         double stop;
         ArrayList<ArrayList<Plant>> pdbCan = FileLoader.getSpeciesListCan();
         ArrayList<ArrayList<Plant>> pdbUnder = FileLoader.getSpeciesListUnder();
+        g.setColor(Color.red);
 
         Iterator i = pdbUnder.iterator();
         Iterator j;
@@ -299,7 +300,6 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                         if (FileLoader.getSpcDraw()[id]) {
 
                             j = pdbUnder.get(count).iterator();
-                            g.setColor(pdbUnder.get(count).get(0).getColor());
                             //if(heightSliderValue!=sliderVal){break;}
                             while (j.hasNext()) {
                                 Plant plant = pdbUnder.get(count).get(count2);
@@ -312,7 +312,13 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
                                         && RadValMax>=plant.getCanopyRadius() && a + z >= 0 && a <= getWidth() && b + z >= 0 && b <= getHeight()) {
                                     if (c > viewingThreshold && !UserView.viewingPlantsWithinRadius) {
                                         //draw large
-                                        g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
+                                        if(!plant.burnt) {
+                                            g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
+                                        }
+                                        else{
+                                            g.drawOval((int)plant.getRectX(),(int)plant.getRectY(),
+                                                    (int)plant.getRad(), (int)plant.getRad());
+                                        }
                                     }
                                     else if((plant.getRectX()+plant.getRad()-mcX)*(plant.getRectX()+plant.getRad()-mcX)+
                                             (plant.getRectY()+plant.getRad()-mcY)*(plant.getRectY()+plant.getRad()-mcY) <= withinRad*withinRad){
@@ -361,7 +367,13 @@ public class VizPanel extends JPanel implements MouseWheelListener, MouseListene
 
                                     if (c > viewingThreshold && !UserView.viewingPlantsWithinRadius) {
                                         //draw large
-                                        g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
+                                        if(!plant.burnt) {
+                                            g.drawImage(FileLoader.getIMG(plant.getID()), plant.at, this);
+                                        }
+                                        else{
+                                            g.drawOval((int)plant.getRectX(),(int)plant.getRectY(),
+                                                    (int)plant.getRad(), (int)plant.getRad());
+                                        }
                                     }
                                     else if((plant.getRectX()+plant.getRad()-mcX)*(plant.getRectX()+plant.getRad()-mcX)+
                                             (plant.getRectY()+plant.getRad()-mcY)*(plant.getRectY()+plant.getRad()-mcY) <= withinRad*withinRad){
